@@ -50,6 +50,21 @@ services:
             retries: 3
             timeout: 5s
 
+    frontend:
+        build:
+            context: ../frontend
+            dockerfile: Dockerfile
+        ports:
+            - "5174:5174"
+        depends_on:
+            - laravel.test
+        environment:
+            API_URL: http://localhost/api 
+        # volumes:
+        #     - node_modules:/usr/src/app/node_modules
+        networks:
+            - sail
+
     # frontend:
     #     build:
     #         context: ./../frontend

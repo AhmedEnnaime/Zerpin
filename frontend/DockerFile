@@ -1,4 +1,4 @@
-FROM node
+FROM node:19-alpine
 
 WORKDIR /app/Frontend
 
@@ -6,8 +6,12 @@ COPY package.json .
 
 RUN npm i
 
+RUN npm install -D tailwindcss postcss autoprefixer
+
+RUN npx tailwindcss init -p
+
 COPY . .
 
-EXPOSE 5173
+EXPOSE 5174
 
 CMD ["npm", "run", "dev"]
