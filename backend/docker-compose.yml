@@ -60,10 +60,10 @@ services:
             - laravel.test
         environment:
             API_URL: http://localhost/api 
-        # volumes:
-            # - node_modules:/usr/src/app/node_modules
-            # - ../frontend:/app/frontend
-           
+        volumes:
+            - ../frontend:/app/frontend
+            - /app/frontend/node_modules
+        # command: npm run dev
         networks:
             - sail
 
