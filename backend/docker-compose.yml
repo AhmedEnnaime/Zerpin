@@ -61,25 +61,13 @@ services:
         environment:
             API_URL: http://localhost/api 
         # volumes:
-        #     - node_modules:/usr/src/app/node_modules
+            # - node_modules:/usr/src/app/node_modules
+            # - ../frontend:/app/frontend
+           
         networks:
             - sail
 
-    # frontend:
-    #     build:
-    #         context: ./../frontend
-    #         dockerfile: Dockerfile
-    #     ports:
-    #         - "5173:5173"
-    #     environment:
-    #         REACT_APP_BACKEND_URL: http://laravel.test:80 # Use the laravel.test service name to refer to the backend container
-    #     volumes:
-    #         - "../frontend:/usr/src/app"
-    #         - "/usr/src/app/node_modules" # Use a named volume to persist the node_modules folder and speed up builds
-    #     networks:
-    #         - sail
-    #     depends_on:
-    #         - laravel.test
+   
 networks:
     sail:
         driver: bridge
