@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\UserController;
+use App\Http\Controllers\API\RecrutmentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,4 +28,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('userAuth', [UserController::class, 'getAuthUser']);
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
+    Route::resource('recrutments', RecrutmentController::class);
 });

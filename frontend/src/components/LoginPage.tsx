@@ -1,3 +1,5 @@
+import logo from "../assets/logo.png";
+
 const LoginPage = () => {
   return (
     <div className="h-full w-full py-16 px-4">
@@ -7,7 +9,7 @@ const LoginPage = () => {
             Login to your account
           </h1>
           <div className="flex justify-center pb-8">
-            <img className=" w-24 h-24" src="../assets/logo.png" alt="logo" />
+            <img className="w-24 h-24" src={logo} alt="logo" />
           </div>
 
           <div>

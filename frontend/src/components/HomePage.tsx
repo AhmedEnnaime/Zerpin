@@ -1,10 +1,11 @@
 import Module from "./Module";
+import logo from "../assets/logo.png";
 
 const HomePage: React.FC = () => {
   return (
     <div className="h-screen overflow-y-hidden">
       <div className="flex justify-center mt-8">
-        <img className="h-24 w-32" src="../assets/logo.png" alt="logo" />
+        <img className="h-36 w-36" src={logo} alt="logo" />
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
         <Module
@@ -37,7 +38,7 @@ const HomePage: React.FC = () => {
           icon={<i className="fa-sharp fa-solid fa-cash-register"></i>}
         />
       </div>
-      <div className="mt-12 flex justify-end px-12">
+      <div className="flex justify-end px-12">
         <button
           type="button"
           className="inline-flex items-center p-4 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
