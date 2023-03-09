@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string("cv");
             $table->unsignedBigInteger('recrutment_id');
             $table->foreign('recrutment_id')->references('id')->on('recrutments')->onDelete('cascade')->onUpdate('cascade');
-            $table->enum('recrutment_state', ['REJECTED', 'WAITING', 'ACCEPTED'])->default('WAITING');
+            $table->enum('recrutment_state', ['EVALUATION', 'INTERVIEW', 'NEGOTIATIONS'])->default('EVALUATION');
             $table->timestamps();
         });
     }

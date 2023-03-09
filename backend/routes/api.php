@@ -21,8 +21,10 @@ Route::controller(UserController::class)->group(function () {
     Route::post('login', 'login');
 });
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::get('userAuth', [UserController::class, 'getAuthUser']);
+    Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
 });

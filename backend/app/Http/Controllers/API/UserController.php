@@ -76,4 +76,11 @@ class UserController extends BaseController
         $user = Auth::user();
         return $this->sendResponse($user, 'Authenticated user.', 200);
     }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return $this->sendResponse([], 'User deleted successfully.', 202);
+    }
 }
