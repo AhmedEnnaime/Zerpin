@@ -17,4 +17,9 @@ class Recrutment extends Model
         'user_id',
         'department_id',
     ];
+
+    public function candidates()
+    {
+        return $this->hasMany(Candidate::class);
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +11,11 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
+    public function index()
+    {
+        $users = User::all();
+        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.', 200);
+    }
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -21,13 +27,13 @@ class UserController extends BaseController
             'email' => 'required|email',
             'password' => 'required|min:6',
             'img' => 'required|image',
+            'role' => 'required',
             'department_id' => 'required',
         ]);
 
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-        $role = "ADMIN";
 
         $image_path = $request->file('img')->store('image', 'public');
 
@@ -40,7 +46,7 @@ class UserController extends BaseController
             "email" => $request->email,
             "password" => bcrypt($request->password),
             "img" => $image_path,
-            "role" => $role,
+            "role" => $request->role,
             "department_id" => $request->department_id,
         ]);
 

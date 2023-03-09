@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Rule extends Model
 {
     use HasFactory;
+
+    public function contracts()
+    {
+        return $this->belongsToMany(Contract::class);
+    }
 }

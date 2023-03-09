@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string("phone")->unique();
             $table->string("email")->unique();
             $table->string("cv");
+            $table->string("img");
             $table->unsignedBigInteger('recrutment_id');
             $table->foreign('recrutment_id')->references('id')->on('recrutments')->onDelete('cascade')->onUpdate('cascade');
             $table->enum('recrutment_state', ['EVALUATION', 'INTERVIEW', 'NEGOTIATIONS'])->default('EVALUATION');

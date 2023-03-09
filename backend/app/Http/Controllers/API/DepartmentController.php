@@ -6,6 +6,7 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\DepartmentResource;
 use App\Models\Department;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends BaseController
@@ -27,10 +28,12 @@ class DepartmentController extends BaseController
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
-
-        $department = Department::create($input);
-
-        return $this->sendResponse(new DepartmentResource($department), 'Department created successfully.', 201);
+        if (Auth::user()->role == "ADMIN") {
+            $department = Department::create($input);
+            return $this->sendResponse(new DepartmentResource($department), 'Department created successfully.', 201);
+        } else {
+            return $this->sendResponse([], 'Not allowed.', 404);
+        }
     }
 
     public function show($id)
@@ -71,8 +74,11 @@ class DepartmentController extends BaseController
 
     public function destroy(Department $department)
     {
-        $department->delete();
-
-        return $this->sendResponse([], 'Department deleted successfully.', 202);
+        if (Auth::user()->role == "ADMIN") {
+            $department->delete();
+            return $this->sendResponse([], 'Department deleted successfully.', 202);
+        } else {
+            return $this->sendResponse([], 'Not allowed.', 404);
+        }
     }
 }

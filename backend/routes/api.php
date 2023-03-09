@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RecrutmentController;
@@ -25,8 +26,11 @@ Route::controller(UserController::class)->group(function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
+    Route::get('users', [UserController::class, 'index']);
     Route::get('userAuth', [UserController::class, 'getAuthUser']);
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
     Route::resource('recrutments', RecrutmentController::class);
+    Route::resource('candidates', CandidateController::class);
+    Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
 });

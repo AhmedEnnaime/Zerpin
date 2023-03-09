@@ -99,7 +99,11 @@ class RecrutmentController extends BaseController
 
     public function destroy(Recrutment $recrutment)
     {
-        $recrutment->delete();
-        return $this->sendResponse([], 'Recrutment deleted successfully.', 202);
+        if (Auth::user()->role == "ADMIN") {
+            $recrutment->delete();
+            return $this->sendResponse([], 'Recrutment deleted successfully.', 202);
+        } else {
+            return $this->sendResponse([], 'Not allowed.', 404);
+        }
     }
 }
