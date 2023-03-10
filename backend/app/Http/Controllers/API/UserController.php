@@ -8,6 +8,9 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountCreated;
+
 
 class UserController extends BaseController
 {
@@ -49,6 +52,8 @@ class UserController extends BaseController
             "role" => $request->role,
             "department_id" => $request->department_id,
         ]);
+
+        Mail::to($user->email)->send(new AccountCreated($user));
 
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
         $success['lname'] =  $user->lname;
