@@ -3,6 +3,7 @@
 namespace App\Mail;
 
 use App\Models\User;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -28,6 +29,7 @@ class AccountCreated extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address('Trinonix@gmail.com', 'Trionix'),
             subject: 'Account Created',
         );
     }
@@ -38,7 +40,8 @@ class AccountCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'emails.index',
+            text: "Congratulations on making it to Trionix. Welcome aboard. This is your account's password" . $this->user->password
         );
     }
 
