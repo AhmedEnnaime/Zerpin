@@ -27,7 +27,7 @@ class RecrutmentController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-
+        $link = "https://www.google.com/";
         $validator = Validator::make($input, [
             'title' => 'required',
             'position' => 'required',
@@ -58,7 +58,7 @@ class RecrutmentController extends BaseController
                 'specificContent' => [
                     'com.linkedin.ugc.ShareContent' => [
                         'shareCommentary' => [
-                            'text' => $recrutment->description,
+                            'text' => "New job opening!\n\n " . $recrutment->title . "\nPosition: " . $recrutment->position . "\n " . $recrutment->description . "\nNumber of Openings: " . $recrutment->number . "\n\nApply now at:\n\n " . $link . "",
                         ],
                         'shareMediaCategory' => 'IMAGE',
                         'media' => [
@@ -67,7 +67,7 @@ class RecrutmentController extends BaseController
                                 'description' => [
                                     'text' => 'Center stage!'
                                 ],
-                                'media' => 'urn:li:digitalmediaAsset:C5622AQH14eL6Y_9jdA',
+                                'media' => 'urn:li:digitalmediaAsset:C5622AQEf0adXRQ19LA',
                                 'title' => [
                                     'text' => 'LinkedIn Talent Connect 2021'
                                 ]
