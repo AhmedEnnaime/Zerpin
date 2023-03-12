@@ -142,7 +142,7 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
                   <button
                     type="submit"
                     onClick={handleSubmit}
-                    className="px-6 py-3 bg-indigo-700 hover:bg-opacity-80 shadow rounded text-sm text-white"
+                    className="px-6 py-3 bg-blue-400 hover:bg-opacity-80 shadow rounded text-sm"
                   >
                     Add Recruitment
                   </button>

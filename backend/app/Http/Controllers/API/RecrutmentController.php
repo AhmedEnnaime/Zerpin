@@ -67,7 +67,7 @@ class RecrutmentController extends BaseController
                                 'description' => [
                                     'text' => 'Center stage!'
                                 ],
-                                'media' => 'urn:li:digitalmediaAsset:C5622AQEf0adXRQ19LA',
+                                'media' => 'urn:li:digitalmediaAsset:C5622AQFYH9NHFgwGzw',
                                 'title' => [
                                     'text' => 'LinkedIn Talent Connect 2021'
                                 ]
@@ -84,12 +84,21 @@ class RecrutmentController extends BaseController
             $response = Http::withToken('AQXWnDt1Hqg-R_g_4Sg_0sTpAfUDn_CA1By8L3oZGfkx4_PwU-eIA-IFFox3-PnPP8ftZxma5lralJ-StGHfojndMGfFOxfGy4NscqwG1QNusQL3dTlaQzKSWtfUy2XEbMBWqlHiR-rZyja3lD_XVsRmzSTA2j0U8ABhbFQEfY7pOB2OXjyE7jQGSzuQKolTMtNxzavWFHXwuC6PFzGOOgxvSCcu9Jpl-SdhrXXiXNaL3oIcVLNxybbKzuVPPWVRh2jjh_LtrQG2D6Yu9jqwf_Kad6a5Xb72IUY43wzBCn4yDPJUTlNqVPvdgEQ7k-xvKipmDYABGOTDkHM5S9UOlsID2SCwmw')
                 ->post('https://api.linkedin.com/v2/ugcPosts', $ugcPostData);
 
-            // Check for errors
             if ($response->failed()) {
                 return $this->sendError('UGC post creation failed.', $response->json());
             }
 
-            return $this->sendResponse(new RecrutmentResource($recrutment), 'Recrutment created successfully.', 201);
+            // Get the post URN
+            $postUrn = $response['id'];
+
+            // Update the Recruitment object with the post URN
+            $recrutment->post_urn = $postUrn;
+            $recrutment->save();
+
+            return $this->sendResponse([
+                'recrutment' => new RecrutmentResource($recrutment),
+                'post_urn' => $postUrn
+            ], 'Recrutment created and shared on LinkedIn successfully.', 201);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
         }
@@ -142,13 +151,31 @@ class RecrutmentController extends BaseController
         }
     }
 
-    public function destroy(Recrutment $recrutment)
+    public function destroy($id)
     {
-        if (Auth::user()->role == "ADMIN") {
-            $recrutment->delete();
-            return $this->sendResponse([], 'Recrutment deleted successfully.', 202);
-        } else {
-            return $this->sendResponse([], 'Not allowed.', 404);
+        $recruitment = Recrutment::find($id);
+
+        if (!$recruitment) {
+            return $this->sendError('Recruitment not found.', [], 404);
         }
+
+        if (Auth::user()->id != $recruitment->user_id) {
+            return $this->sendError('Not authorized.', [], 401);
+        }
+
+        $postUrn = $recruitment->post_urn;
+
+        // Delete post from LinkedIn
+        $response = Http::withToken('AQXWnDt1Hqg-R_g_4Sg_0sTpAfUDn_CA1By8L3oZGfkx4_PwU-eIA-IFFox3-PnPP8ftZxma5lralJ-StGHfojndMGfFOxfGy4NscqwG1QNusQL3dTlaQzKSWtfUy2XEbMBWqlHiR-rZyja3lD_XVsRmzSTA2j0U8ABhbFQEfY7pOB2OXjyE7jQGSzuQKolTMtNxzavWFHXwuC6PFzGOOgxvSCcu9Jpl-SdhrXXiXNaL3oIcVLNxybbKzuVPPWVRh2jjh_LtrQG2D6Yu9jqwf_Kad6a5Xb72IUY43wzBCn4yDPJUTlNqVPvdgEQ7k-xvKipmDYABGOTDkHM5S9UOlsID2SCwmw')
+            ->delete("https://api.linkedin.com/v2/ugcPosts/{$postUrn}");
+
+        if ($response->failed()) {
+            return $this->sendError('Failed to delete post from LinkedIn.', $response->json(), 500);
+        }
+
+        // Delete recruitment from database
+        $recruitment->delete();
+
+        return $this->sendResponse([], 'Recruitment deleted successfully.', 202);
     }
 }

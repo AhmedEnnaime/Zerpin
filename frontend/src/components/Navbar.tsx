@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import avatar from "../assets/ennaime.jpeg";
 
@@ -9,11 +9,7 @@ function classNames(...classes: any) {
 }
 
 const Navbar: React.FC = () => {
-  const navigation = [
-    { name: "Home", href: "/" },
-    { name: "Films", href: "/availableFilms" },
-    { name: "Contact", href: "/contact" },
-  ];
+  const navigate = useNavigate();
   return (
     <Disclosure as="nav" className="bg-gray-200">
       {({ open }) => (
@@ -23,12 +19,18 @@ const Navbar: React.FC = () => {
               <div className="flex flex-1 items-center justify-between sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
                   <img
-                    className="block h-16 w-auto lg:hidden"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    className="block h-16 w-auto lg:hidden cursor-pointer"
                     src={logo}
                     alt="Your Company"
                   />
                   <img
-                    className="hidden h-16 w-auto lg:block"
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    className="hidden h-16 w-auto lg:block cursor-pointer"
                     src={logo}
                     alt="Your Company"
                   />
