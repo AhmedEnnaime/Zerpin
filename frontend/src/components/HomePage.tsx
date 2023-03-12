@@ -1,5 +1,6 @@
 import Module from "./Module";
 import logo from "../assets/logo.png";
+import { Link } from "react-router-dom";
 
 const HomePage: React.FC = () => {
   return (
@@ -8,20 +9,24 @@ const HomePage: React.FC = () => {
         <img className="h-36 w-36" src={logo} alt="logo" />
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
-        <Module
-          title="Employees"
-          icon={<i className="fa-sharp fa-solid fa-user-tie"></i>}
-        />
+        <Link to={"/"}>
+          <Module
+            title="Employees"
+            icon={<i className="fa-sharp fa-solid fa-user-tie"></i>}
+          />
+        </Link>
 
         <Module
           title="Contracts"
           icon={<i className="fa-sharp fa-solid fa-file-contract"></i>}
         />
 
-        <Module
-          title="Recrutment"
-          icon={<i className="fa-sharp fa-solid fa-user-plus"></i>}
-        />
+        <Link to={"/recruitment"}>
+          <Module
+            title="Recruitment"
+            icon={<i className="fa-sharp fa-solid fa-user-plus"></i>}
+          />
+        </Link>
 
         <Module
           title="Departments"
