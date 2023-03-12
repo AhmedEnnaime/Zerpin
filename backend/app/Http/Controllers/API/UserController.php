@@ -84,7 +84,7 @@ class UserController extends BaseController
 
     public function getAuthUser()
     {
-        $user = Auth::user();
+        $user = User::with('department')->findOrFail(Auth::id());
         return $this->sendResponse($user, 'Authenticated user.', 200);
     }
 

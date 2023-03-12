@@ -13,7 +13,11 @@ class DepartmentController extends BaseController
 {
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::whereHas('users', function ($query) {
+            $query->where('role', 'CHEF');
+        })->with(['users' => function ($query) {
+            $query->where('role', 'CHEF');
+        }])->get();
         return $this->sendResponse(DepartmentResource::collection($departments), 'Departments retrieved successfully.', 200);
     }
 
