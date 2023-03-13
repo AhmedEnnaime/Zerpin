@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ContractController extends BaseController
 {
-    public $final_salary;
+
     public function index()
     {
         $contracts = Contract::with("user", "rules")->get();
@@ -68,14 +68,16 @@ class ContractController extends BaseController
         $reference = 'REF-' . uniqid();
         $irRate = $this->calculateIR($request->base_salary);
 
-        $rule = Rule::find($request->rule_id);
-        die(print_r($rule->first()->name));
-        if (strcmp($rule->rule_type, "AUGMENTATION") == 0 && strcmp($rule->name, "TRANSPORT") == 0) {
-            $this->final_salary = $request->base_salary + $rule->rate;
-        } else if (strcmp($rule->rule_type, "AUGMENTATION") == 0) {
-            $this->final_salary = $request->base_salary + ($request->base_salary * $rule->rate);
-        } else if (strcmp($rule->rule_type, "DISCOUNT") == 0) {
-            $this->final_salary = $request->base_salary - ($request->base_salary * $rule->rate);
+        $rules = Rule::find($request->rule_id);
+
+        $final_salary = $request->base_salary;
+
+        foreach ($rules as $rule) {
+            if (strcmp($rule->rule_type, "AUGMENTATION") == 0) {
+                $final_salary += $rule->rate;
+            } else if (strcmp($rule->rule_type, "DISCOUNT") == 0) {
+                $final_salary -= ($request->base_salary * $rule->rate);
+            }
         }
 
         if (Auth::user()->role == "ADMIN") {
@@ -93,14 +95,16 @@ class ContractController extends BaseController
                 "role" => $request->role,
                 "department_id" => $request->department_id,
             ]);
+            $employee = User::orderBy('id', 'desc')->first();
+
             $contract = Contract::create([
                 'ref' => $reference,
                 'position' => $request->position,
                 'debut_date' => $request->debut_date,
                 'final_date' => $request->final_date,
                 'base_salary' => $request->base_salary,
-                'user_id' => $user->id,
-                'final_salary' => $this->final_salary - ($request->base_salary * $irRate),
+                'user_id' => $employee->id,
+                'final_salary' => $final_salary - ($request->base_salary * $irRate),
             ]);
 
             $contract->rules()->attach($rule);

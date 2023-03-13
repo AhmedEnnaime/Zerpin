@@ -9,6 +9,17 @@ class Contract extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ref',
+        'position',
+        'debut_date',
+        'final_date',
+        'base_salary',
+        'final_salary',
+        'user_id',
+        'department_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
