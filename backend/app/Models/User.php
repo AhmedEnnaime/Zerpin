@@ -34,6 +34,11 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Department::class);
     }
+
+    public function contract()
+    {
+        return $this->hasOne(Contract::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
