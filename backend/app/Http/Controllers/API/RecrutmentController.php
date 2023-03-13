@@ -14,15 +14,11 @@ class RecrutmentController extends BaseController
 {
     public function index()
     {
-        $recrutments = Recrutment::all();
+        $recrutments = Recrutment::with("candidates")->get();
         return $this->sendResponse(RecrutmentResource::collection($recrutments), 'Recrutments retrieved successfully.', 200);
     }
 
     // URN : ZBQGkOE1ZR
-
-    public function shareOnLinkedin()
-    {
-    }
 
     public function store(Request $request)
     {
@@ -67,7 +63,7 @@ class RecrutmentController extends BaseController
                                 'description' => [
                                     'text' => 'Center stage!'
                                 ],
-                                'media' => 'urn:li:digitalmediaAsset:C5622AQFYH9NHFgwGzw',
+                                'media' => 'urn:li:digitalmediaAsset:C5622AQHQK3xPD5qWpg',
                                 'title' => [
                                     'text' => 'LinkedIn Talent Connect 2021'
                                 ]
@@ -76,7 +72,7 @@ class RecrutmentController extends BaseController
                     ]
                 ],
                 'visibility' => [
-                    'com.linkedin.ugc.MemberNetworkVisibility' => 'PUBLIC'
+                    'com.linkedin.ugc.MemberNetworkVisibility' => 'CONNECTIONS'
                 ]
             ];
 

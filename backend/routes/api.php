@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RecrutmentController;
+use App\Http\Controllers\API\RulesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,4 +34,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('recrutments', RecrutmentController::class);
     Route::resource('candidates', CandidateController::class);
     Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
+    Route::resource('rules', RulesController::class);
 });
