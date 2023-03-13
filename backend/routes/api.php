@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CandidateController;
+use App\Http\Controllers\API\ContractController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RecrutmentController;
@@ -35,4 +36,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('candidates', CandidateController::class);
     Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
     Route::resource('rules', RulesController::class);
+    Route::resource('contracts', ContractController::class);
 });

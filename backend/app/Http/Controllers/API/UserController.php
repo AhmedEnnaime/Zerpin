@@ -16,7 +16,7 @@ class UserController extends BaseController
 {
     public function index()
     {
-        $users = User::with("department")->get();
+        $users = User::with("department", "contract")->get();
         return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.', 200);
     }
     public function register(Request $request)
