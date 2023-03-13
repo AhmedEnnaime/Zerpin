@@ -16,7 +16,7 @@ class ContractController extends BaseController
 
     public function index()
     {
-        $contracts = Contract::with("user", "rules")->get();
+        $contracts = Contract::with("user", "rules")->orderBy('created_at', 'desc')->get();
         return $this->sendResponse(ContractResource::collection($contracts), 'Contracts retrieved successfully.', 200);
     }
 
@@ -107,9 +107,99 @@ class ContractController extends BaseController
                 'final_salary' => $final_salary - ($request->base_salary * $irRate),
             ]);
 
-            $contract->rules()->attach($rule);
+            $contract->rules()->attach($rules);
 
             return $this->sendResponse(new ContractResource($contract), 'Contract created successfully.', 201);
+        } else {
+            return $this->sendResponse([], 'Not allowed.', 404);
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'fname' => 'required',
+            'lname' => 'required',
+            'birthday' => 'required|date',
+            'cin' => 'required',
+            'phone' => 'required|min:10',
+            'email' => 'required|email',
+            'password' => 'required|min:6',
+            'img' => 'required|image',
+            'role' => 'required',
+            'department_id' => 'required',
+            'position' => 'required',
+            'debut_date' => 'required|date',
+            'base_salary' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $reference = 'REF-' . uniqid();
+        $irRate = $this->calculateIR($request->base_salary);
+
+        $rules = Rule::find($request->rule_id);
+
+        $final_salary = $request->base_salary;
+
+        foreach ($rules as $rule) {
+            if (strcmp($rule->rule_type, "AUGMENTATION") == 0) {
+                $final_salary += $rule->rate;
+            } else if (strcmp($rule->rule_type, "DISCOUNT") == 0) {
+                $final_salary -= ($request->base_salary * $rule->rate);
+            }
+        }
+
+        $contract = Contract::find($id);
+
+        if ($contract) {
+
+            if (Auth::user()->role == "ADMIN") {
+
+                $image_path = $request->file('img')->store('image', 'public');
+                $user = User::find($contract->user_id);
+                $user->update([
+                    "fname" => $request->fname,
+                    "lname" => $request->lname,
+                    "birthday" => $request->birthday,
+                    "cin" => $request->cin,
+                    "phone" => $request->phone,
+                    "email" => $request->email,
+                    "password" => bcrypt($request->password),
+                    "img" => $image_path,
+                    "role" => $request->role,
+                    "department_id" => $request->department_id,
+                ]);
+
+                $contract->update([
+                    'ref' => $reference,
+                    'position' => $request->position,
+                    'debut_date' => $request->debut_date,
+                    'final_date' => $request->final_date,
+                    'base_salary' => $request->base_salary,
+                    'final_salary' => $final_salary - ($request->base_salary * $irRate),
+                ]);
+
+                $contract->rules()->sync($rules);
+
+                return $this->sendResponse(new ContractResource($contract), 'Contract updated successfully.', 200);
+            } else {
+                return $this->sendResponse([], 'Not allowed.', 404);
+            }
+        } else {
+            return $this->sendError('Contract not found.');
+        }
+    }
+
+    public function destroy(Contract $contract)
+    {
+        if (Auth::user()->role == "ADMIN") {
+            $contract->delete();
+            return $this->sendResponse([], 'Contract deleted successfully.', 202);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
         }
