@@ -81,6 +81,7 @@ class HolidayController extends BaseController
         if (Auth::user()->role == "ADMIN" || (Auth::user()->role == "CHEF" && Auth::user()->department_id == $user->department_id)) {
             $holiday->state = 'VALIDATED';
             $holiday->save();
+            // SENT EMAIL
             return $this->sendResponse(new HolidayResource($holiday), 'Holiday VALIDATED successfully.', 200);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
@@ -98,6 +99,7 @@ class HolidayController extends BaseController
         if (Auth::user()->role == "ADMIN" || (Auth::user()->role == "CHEF" && Auth::user()->department_id == $user->department_id)) {
             $holiday->state = 'REJECTED';
             $holiday->save();
+            // SENT EMAIL
             return $this->sendResponse(new HolidayResource($holiday), 'Holiday VALIDATED successfully.', 200);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
