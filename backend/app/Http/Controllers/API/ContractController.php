@@ -109,6 +109,8 @@ class ContractController extends BaseController
 
             $contract->rules()->attach($rules);
 
+            // SEND EMAIL
+
             return $this->sendResponse(new ContractResource($contract), 'Contract created successfully.', 201);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);

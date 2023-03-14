@@ -13,7 +13,7 @@ class CandidateController extends BaseController
 {
     public function index()
     {
-        $candidates = Candidate::all();
+        $candidates = Candidate::with("recrutment")->get();
         return $this->sendResponse(CandidateResource::collection($candidates), 'Candidates retrieved successfully.', 200);
     }
 
