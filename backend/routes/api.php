@@ -4,6 +4,7 @@ use App\Http\Controllers\API\CandidateController;
 use App\Http\Controllers\API\ContractController;
 use App\Http\Controllers\API\DepartmentController;
 use App\Http\Controllers\API\HolidayController;
+use App\Http\Controllers\API\PayslipController;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\RecrutmentController;
 use App\Http\Controllers\API\RulesController;
@@ -41,6 +42,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('contracts', ContractController::class);
     Route::resource('holidays', HolidayController::class);
     Route::patch('validateHoliday/{id}', [HolidayController::class, 'validateHoliday']);
-    Route::resource('payslips', HolidayController::class);
-    Route::post('createPayslip/{id}', [HolidayController::class, 'createPayslip']);
+    Route::resource('payslips', PayslipController::class);
+    Route::post('createPayslip/{id}', [PayslipController::class, 'createPayslip']);
 });

@@ -9,6 +9,11 @@ class Payslip extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'ref',
+        'contract_id',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -6,14 +6,13 @@ use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\PayslipResource;
 use App\Models\Contract;
 use App\Models\Payslip;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class PayslipController extends BaseController
 {
     public function index()
     {
-        $payslips = Payslip::with("contract")->get();
+        $payslips = Payslip::with("contract.rules")->get();
         return $this->sendResponse(PayslipResource::collection($payslips), 'Payslips retrieved successfully.', 200);
     }
 
