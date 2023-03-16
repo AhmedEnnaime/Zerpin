@@ -2,9 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\CheckContractExpiration;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
@@ -13,10 +13,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        /*$schedule->call(function () {
-            DB::table('contracts')->where('id', 17)->delete();
-        })->everyTwoMinutes();*/
-        // $schedule->command('inspire')->hourly();
+        $schedule->job(new CheckContractExpiration)->everyTwoHours();;
     }
 
     /**
