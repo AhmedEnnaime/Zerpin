@@ -29,4 +29,9 @@ class Contract extends Model
     {
         return $this->belongsToMany(Rule::class);
     }
+
+    public function payslips()
+    {
+        return $this->hasMany(Payslip::class);
+    }
 }

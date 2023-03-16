@@ -41,4 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('contracts', ContractController::class);
     Route::resource('holidays', HolidayController::class);
     Route::patch('validateHoliday/{id}', [HolidayController::class, 'validateHoliday']);
+    Route::resource('payslips', HolidayController::class);
+    Route::post('createPayslip/{id}', [HolidayController::class, 'createPayslip']);
 });

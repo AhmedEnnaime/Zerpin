@@ -75,6 +75,7 @@ class CandidateController extends BaseController
 
         if (Auth::user()->role == "ADMIN") {
             $candidate->save();
+            // SEND EMAIL
             return $this->sendResponse(new CandidateResource($candidate), 'Candidate updated successfully.', 200);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);

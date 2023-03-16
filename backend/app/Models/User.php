@@ -44,6 +44,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Holiday::class);
     }
+
+    public function payslips()
+    {
+        return $this->hasMany(Payslip::class);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *
