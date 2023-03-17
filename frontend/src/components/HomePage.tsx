@@ -28,10 +28,12 @@ const HomePage: React.FC = () => {
           />
         </Link>
 
-        <Module
-          title="Departments"
-          icon={<i className="fa-sharp fa-solid fa-building"></i>}
-        />
+        <Link to={"/departments"}>
+          <Module
+            title="Departments"
+            icon={<i className="fa-sharp fa-solid fa-building"></i>}
+          />
+        </Link>
 
         <Module
           title="Holidays"
