@@ -11,7 +11,7 @@ function classNames(...classes: any) {
 const Navbar: React.FC = () => {
   const navigate = useNavigate();
   return (
-    <Disclosure as="nav" className="bg-gray-200">
+    <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
