@@ -10,6 +10,6 @@ interface IRecruitment {
   department_id: number;
   created_at?: string;
   updated_at?: string;
-  candidates: ICandidate[];
+  candidates?: ICandidate[];
 }
 export default IRecruitment;

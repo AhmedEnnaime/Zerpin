@@ -1,6 +1,7 @@
 import { RecruitmentModalProps } from "../../PropsTypes";
 import { useState } from "react";
 import IRecruitment from "../../Interfaces/Recruitment";
+import API from "../../utils/API";
 
 const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
   const [inputs, setInputs] = useState<IRecruitment>({
@@ -28,17 +29,16 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
     console.log(inputs);
     setOpen(false);
 
-    // await axios
-    //   .post<Film>(`${url}/films/addFilms`, inputs)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.status === 201) {
-    //       setOpen(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    await API.post<IRecruitment>(`/recrutments`, inputs)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 201) {
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
