@@ -46,28 +46,28 @@ const LoginPage = () => {
       console.log(loginData.data);
       dispatch(
         setUser({
-          lname: loginData.data[1].lname,
-          token: loginData.data[1].token,
+          lname: loginData[1].lname,
+          token: loginData[1].token,
         })
       );
-      dispatch(
-        getAuthUser({
-          fname: loginData.data[0].fname,
-          lname: loginData.data[0].lname,
-          birthday: loginData.data[0].birthday,
-          cin: loginData.data[0].cin,
-          phone: loginData.data[0].phone,
-          email: loginData.data[0].email,
-          password: loginData.data[0].password,
-          img: loginData.data[0].img,
-          role: loginData.data[0].role,
-          department_id: loginData.data[0].department_id,
-          created_at: loginData.data[0].created_at,
-          updated_at: loginData.data[0].updated_at,
-          department: loginData.data[0].department,
-          contract: loginData.data[0].contract,
-        })
-      );
+      // dispatch(
+      //   getAuthUser({
+      //     fname: loginData[0].fname,
+      //     lname: loginData[0].lname,
+      //     birthday: loginData[0].birthday,
+      //     cin: loginData[0].cin,
+      //     phone: loginData[0].phone,
+      //     email: loginData[0].email,
+      //     password: loginData[0].password,
+      //     img: loginData[0].img,
+      //     role: loginData[0].role,
+      //     department_id: loginData[0].department_id,
+      //     created_at: loginData[0].created_at,
+      //     updated_at: loginData[0].updated_at,
+      //     department: loginData[0].department,
+      //     contract: loginData[0].contract,
+      //   })
+      // );
       navigate("/");
     }
   }, [isLoginSuccess]);

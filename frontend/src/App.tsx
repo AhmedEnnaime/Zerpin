@@ -7,7 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useAppDispatch } from "./redux/hooks";
 import { useEffect } from "react";
-import { setUser } from "./redux/slices/authSlice";
+import { getAuthUser, setUser } from "./redux/slices/authSlice";
 import { useGetMeQuery } from "./services/authApi";
 
 const App = () => {
@@ -17,11 +17,11 @@ const App = () => {
   useEffect(() => {
     dispatch(setUser(user));
   }, []);
-  // useEffect(() => {
-  //   // Use the `data` returned from the `getMe` endpoint method
-
-  //   console.log("Token retrieved from sessionStorage:", user.token);
-  // }, [data]);
+  useEffect(() => {
+    if (data) {
+      dispatch(getAuthUser(data));
+    }
+  }, [isLoading]);
   return (
     <div className="App">
       <BrowserRouter>

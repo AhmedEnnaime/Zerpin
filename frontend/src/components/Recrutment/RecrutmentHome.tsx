@@ -2,15 +2,19 @@ import Navbar from "../Navbar";
 import RecruitmentModal from "./RecruitmentModal";
 import { useState } from "react";
 import RecruitmentCard from "./RecruitmentCard";
-// import SuccessNotification from "../../utils/SuccessNotification";
+import { useAppSelector } from "../../redux/hooks";
+import { selectAuth } from "../../redux/slices/authSlice";
 
 const RecruitmentHome = () => {
   const [open, setOpen] = useState(false);
+  const { user } = useAppSelector(selectAuth);
+
   return (
     <>
       <Navbar />
       <div className="flex justify-between p-8">
         <h1 className="text-4xl font-bold">Recruitment</h1>
+        <h1>{user?.department?.name}</h1>
         <div className="flex justify-end px-12">
           <button
             onClick={() => {

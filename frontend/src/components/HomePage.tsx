@@ -2,19 +2,26 @@ import Module from "./Module";
 import logo from "../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { logout, selectAuth } from "../redux/slices/authSlice";
+import { getAuthUser, logout, selectAuth } from "../redux/slices/authSlice";
 import { toast } from "react-toastify";
+import { useGetMeQuery } from "../services/authApi";
+import { useEffect } from "react";
 
 const HomePage: React.FC = () => {
   const { user } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { data, isLoading, isError } = useGetMeQuery(null);
   const handleLogout = async () => {
     dispatch(logout());
     toast.success("User logged out successfully");
     navigate("/login");
   };
-  console.log(user?.department?.name);
+  // useEffect(() => {
+  //   if (data) {
+  //     dispatch(getAuthUser(data));
+  //   }
+  // }, [isLoading]);
 
   return (
     <div className="h-screen overflow-y-hidden">
