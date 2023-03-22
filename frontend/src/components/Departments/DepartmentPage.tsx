@@ -21,7 +21,7 @@ const DepartmentPage: React.FC = () => {
 
   useEffect(() => {
     getDepartments();
-  }, []);
+  }, [open]);
 
   return (
     <>

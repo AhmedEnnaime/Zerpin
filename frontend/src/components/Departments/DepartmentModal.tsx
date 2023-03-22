@@ -1,8 +1,9 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import IDepartment from "../../Interfaces/Department";
 import { DepartmentModalProps } from "../../PropsTypes";
 import { toast } from "react-toastify";
+import API from "../../utils/API";
 
 const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
   const cancelButtonRef = useRef(null);
@@ -19,20 +20,18 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
 
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    console.log(inputs);
-    toast.success("kkbhhjgui");
-
-    // await axios
-    //   .post<Hall>(`${url}/halls/createHalls`, inputs)
-    //   .then((res) => {
-    //     if (res.status === 201) {
-    //       setOpen(false);
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    await API.post(`departments`, inputs)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success("Department created successfully");
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog

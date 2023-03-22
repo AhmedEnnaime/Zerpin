@@ -31,7 +31,7 @@ const Card = ({ department }: DepartmentCardProps) => {
                       </div>
                     </div>
 
-                    <OptionsButton />
+                    <OptionsButton department={department} />
                   </div>
                   <p className="mt-5 text-sm text-gray-600 dark:text-gray-400 font-normal">
                     {department.description}

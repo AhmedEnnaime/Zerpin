@@ -1,10 +1,26 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { DepartmentCardProps } from "../PropsTypes";
+import API from "./API";
+import { toast } from "react-toastify";
 
-const OptionsButton = () => {
+const OptionsButton = ({ department }: DepartmentCardProps) => {
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+
+  const deleteDepartment = async () => {
+    await API.delete(`departments/${department.id}`)
+      .then((res) => {
+        if (res.status === 202) {
+          toast.success("Department deleted successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="flex-shrink-0 self-center flex">
       <Menu as="div" className="relative z-30 inline-block text-left">
@@ -29,10 +45,10 @@ const OptionsButton = () => {
               <Menu.Item>
                 {({ active }) => (
                   <a
-                    href="#"
+                    onClick={deleteDepartment}
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "flex px-4 py-2 text-sm"
+                      "flex px-4 py-2 text-sm cursor-pointer"
                     )}
                   >
                     <i className="fa-sharp fa-solid fa-trash mr-3 h-5 w-5 text-red-600"></i>
