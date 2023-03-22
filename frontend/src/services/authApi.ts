@@ -1,11 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import IUser from "../Interfaces/User";
 
-interface User {
-  token: string;
-  // other properties of the user object
-}
-
 export const authApi = createApi({
   reducerPath: "authApi",
   baseQuery: fetchBaseQuery({
@@ -20,12 +15,6 @@ export const authApi = createApi({
           body,
         };
       },
-      // async onQueryStarted(args, { dispatch, queryFulfilled }) {
-      //   try {
-      //     await queryFulfilled;
-      //     await dispatch(userApi.endpoints.getMe.initiate(null));
-      //   } catch (error) {}
-      // },
     }),
     logoutUser: builder.mutation({
       query: () => {
@@ -43,7 +32,7 @@ export const authApi = createApi({
           method: "get",
           headers: {
             Authorization: `Bearer ${
-              (JSON.parse(sessionStorage.getItem("user") || "{}") as User).token
+              JSON.parse(sessionStorage.getItem("user") || "{}").token
             }`,
           },
         };
