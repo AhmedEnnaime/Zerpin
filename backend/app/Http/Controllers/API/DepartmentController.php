@@ -38,7 +38,7 @@ class DepartmentController extends BaseController
 
     public function show($id)
     {
-        $department = Department::find($id);
+        $department = Department::with('users')->find($id);
 
         if (is_null($department)) {
             return $this->sendError('Department not found.');

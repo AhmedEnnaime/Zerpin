@@ -2,13 +2,13 @@ import { DepartmentCardProps } from "../../PropsTypes";
 import OptionsButton from "../../utils/OptionsButton";
 
 const Card = ({ department }: DepartmentCardProps) => {
+  const chef = department.users?.find((user) => user.role === "CHEF");
+
   return (
     <>
       <div className="w-full py-10">
         <div className="container mx-auto px-6 flex items-start justify-center">
           <div className="w-full">
-            {/* Card is full width. Use in 12 col grid for best view. */}
-            {/* Card code block start */}
             <div className="mx-auto w-full p-5 lg:p-10 bg-white dark:bg-gray-800 shadow rounded">
               <div className="flex flex-col items-start">
                 <div className="w-full pr-0">
@@ -56,7 +56,7 @@ const Card = ({ department }: DepartmentCardProps) => {
                     </h2>
                     <div className="ml-2 text-gray-800 dark:text-gray-100 text-xl leading-5">
                       <>
-                        Ossaleh Mohamed
+                        {chef?.fname} {chef?.lname}
                         <p className="text-gray-600 dark:text-gray-400 text-xs font-normal">
                           Department Chef
                         </p>
@@ -71,48 +71,30 @@ const Card = ({ department }: DepartmentCardProps) => {
               </div>
               <div className="flex flex-col items-start">
                 <div className="flex items-center w-full justify-start">
-                  <div className="border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10">
-                    <img
-                      className="w-full h-full overflow-hidden object-cover rounded-full"
-                      src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card8.jpg"
-                      alt="avatar"
-                    />
-                  </div>
-                  <div className="-ml-4 border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10">
-                    <img
-                      className="w-full h-full overflow-hidden object-cover rounded-full"
-                      src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card9.jpg"
-                      alt="avatar"
-                    />
-                  </div>
-                  <div className="-ml-4 border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10">
-                    <img
-                      className="w-full h-full overflow-hidden object-cover rounded-full"
-                      src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card10.jpg"
-                      alt="avatar"
-                    />
-                  </div>
-                  <div className="-ml-4 border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10">
-                    <img
-                      className="w-full h-full overflow-hidden object-cover rounded-full"
-                      src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card11.jpg"
-                      alt="avatar"
-                    />
-                  </div>
-                  <div className="-ml-4 border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10">
-                    <img
-                      className="w-full h-full overflow-hidden object-cover rounded-full"
-                      src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card12.jpg"
-                      alt="avatar"
-                    />
-                  </div>
-                  <p className="text-white text-xs font-normal cursor-pointer hover:underline">
-                    +20 more
-                  </p>
+                  {department.users
+                    ? department.users?.slice(0, 4).map((user, key) => (
+                        <div
+                          key={key}
+                          className="border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10"
+                        >
+                          <img
+                            className="w-full h-full overflow-hidden object-cover rounded-full"
+                            src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card8.jpg"
+                            alt="avatar"
+                          />
+                        </div>
+                      ))
+                    : ""}
+                  {department.users && department.users?.length > 4 ? (
+                    <p className="text-white text-xs font-normal cursor-pointer hover:underline">
+                      +{department.users.length - 4} more
+                    </p>
+                  ) : (
+                    ""
+                  )}
                 </div>
               </div>
             </div>
-            {/* Card code block end */}
           </div>
         </div>
       </div>
