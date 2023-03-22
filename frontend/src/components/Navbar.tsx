@@ -12,7 +12,7 @@ function classNames(...classes: any) {
 }
 
 const Navbar: React.FC = () => {
-  const { lname } = useAppSelector(selectAuth);
+  const { user } = useAppSelector(selectAuth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -21,6 +21,10 @@ const Navbar: React.FC = () => {
     toast.success("User logged out successfully");
     navigate("/login");
   };
+  // const getUserImage = (fileName: any) => {
+  //   return "http://localhost:8000/storage/" + fileName;
+  // };
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (

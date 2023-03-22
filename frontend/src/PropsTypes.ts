@@ -1,3 +1,5 @@
+import IDepartment from "./Interfaces/Department";
+
 export type ModuleProps = {
   title: string;
   icon: JSX.Element;
@@ -11,4 +13,8 @@ export type RecruitmentModalProps = {
 export type DepartmentModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type DepartmentCardProps = {
+  department: IDepartment;
 };

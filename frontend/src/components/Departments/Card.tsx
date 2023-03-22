@@ -1,6 +1,7 @@
+import { DepartmentCardProps } from "../../PropsTypes";
 import OptionsButton from "../../utils/OptionsButton";
 
-const Card: React.FC = () => {
+const Card = ({ department }: DepartmentCardProps) => {
   return (
     <>
       <div className="w-full py-10">
@@ -22,10 +23,10 @@ const Card: React.FC = () => {
                       </div>
                       <div className="ml-2">
                         <h5 className="text-gray-800 dark:text-gray-100 font-medium text-base">
-                          Marketing
+                          {department.name}
                         </h5>
                         <p className="text-gray-600 dark:text-gray-400 text-xs font-normal">
-                          2023/12/04
+                          {department.created_at?.split("T")[0]}
                         </p>
                       </div>
                     </div>
@@ -33,15 +34,13 @@ const Card: React.FC = () => {
                     <OptionsButton />
                   </div>
                   <p className="mt-5 text-sm text-gray-600 dark:text-gray-400 font-normal">
-                    The web has witnessed mammoth advances; however a website’s
-                    success still depends on just one thing: how users interact
-                    with it.
+                    {department.description}
                   </p>
                 </div>
                 <div className="w-full flex flex-col items-start">
                   <div className="mr-12 flex items-center mt-5">
                     <h2 className="text-gray-600 dark:text-gray-400 font-bold text-xl leading-6 mb-1">
-                      24
+                      {department.users?.length}
                     </h2>
                     <p className="ml-2 text-gray-800 dark:text-gray-100 text-xl leading-5 text-center">
                       Employees
@@ -55,12 +54,14 @@ const Card: React.FC = () => {
                         alt="avatar"
                       />
                     </h2>
-                    <p className="ml-2 text-gray-800 dark:text-gray-100 text-xl leading-5">
-                      Ossaleh Mohamed
-                      <p className="text-gray-600 dark:text-gray-400 text-xs font-normal">
-                        Department Chef
-                      </p>
-                    </p>
+                    <div className="ml-2 text-gray-800 dark:text-gray-100 text-xl leading-5">
+                      <>
+                        Ossaleh Mohamed
+                        <p className="text-gray-600 dark:text-gray-400 text-xs font-normal">
+                          Department Chef
+                        </p>
+                      </>
+                    </div>
                   </div>
                 </div>
               </div>
