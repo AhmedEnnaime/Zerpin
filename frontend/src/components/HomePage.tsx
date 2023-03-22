@@ -14,11 +14,13 @@ const HomePage: React.FC = () => {
     toast.success("User logged out successfully");
     navigate("/login");
   };
+  console.log(user?.department?.name);
+
   return (
     <div className="h-screen overflow-y-hidden">
       <div className="flex justify-center mt-8">
         <img className="h-36 w-36" src={logo} alt="logo" />
-        <h1>{user?.role}</h1>
+        <h1>{user?.department?.name}</h1>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
         <Link to={"/"}>
