@@ -11,7 +11,11 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
     name: "",
     description: "",
   });
-  const handleAddChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleAddChange = (
+    e:
+      | React.ChangeEvent<HTMLInputElement>
+      | React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setInputs((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
@@ -20,6 +24,7 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
 
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
+
     await API.post(`departments`, inputs)
       .then((res) => {
         if (res.status === 201) {
@@ -108,13 +113,14 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
                           Description
                         </label>
                         <div className="mt-1">
-                          <input
-                            type="text"
+                          <textarea
+                            rows={4}
+                            cols={50}
                             name="description"
                             value={inputs?.description}
                             onChange={handleAddChange}
                             id="description"
-                            className="block w-full px-4 h-8 rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                            className="block w-full px-4 justify-center rounded-md border-2 border-gray-400 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                             placeholder="Enter description"
                           />
                         </div>
