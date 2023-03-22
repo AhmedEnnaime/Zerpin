@@ -1,6 +1,76 @@
 import logo from "../assets/logo.png";
+import { useState, useEffect } from "react";
+import Auth from "../Interfaces/Auth";
+import { useLoginUserMutation } from "../services/authApi";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../redux/hooks";
+import { getAuthUser, setUser } from "../redux/slices/authSlice";
 
 const LoginPage = () => {
+  const [credentials, setCredentials] = useState<Auth>({
+    email: "",
+    password: "",
+  });
+  const navigate = useNavigate();
+  const { email, password } = credentials;
+  const dispatch = useAppDispatch();
+  const [
+    loginUser,
+    {
+      data: loginData,
+      isSuccess: isLoginSuccess,
+      isError: isLoginError,
+      error: loginError,
+    },
+  ] = useLoginUserMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCredentials((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleLogin = async (e: React.FormEvent<EventTarget>) => {
+    if (email && password) {
+      await loginUser({ email, password });
+    } else {
+      toast.error("Please fill all fields");
+    }
+  };
+
+  useEffect(() => {
+    if (isLoginSuccess) {
+      toast.success("User logged successfully");
+      console.log(loginData.data);
+      dispatch(
+        setUser({
+          lname: loginData.data[1].lname,
+          token: loginData.data[1].token,
+        })
+      );
+      dispatch(
+        getAuthUser({
+          fname: loginData.data[0].fname,
+          lname: loginData.data[0].lname,
+          birthday: loginData.data[0].birthday,
+          cin: loginData.data[0].cin,
+          phone: loginData.data[0].phone,
+          email: loginData.data[0].email,
+          password: loginData.data[0].password,
+          img: loginData.data[0].img,
+          role: loginData.data[0].role,
+          department_id: loginData.data[0].department_id,
+          created_at: loginData.data[0].created_at,
+          updated_at: loginData.data[0].updated_at,
+          department: loginData.data[0].department,
+          contract: loginData.data[0].contract,
+        })
+      );
+      navigate("/");
+    }
+  }, [isLoginSuccess]);
   return (
     <div className="h-full w-full py-16 px-4">
       <div className="flex flex-col items-center justify-center">
@@ -20,6 +90,9 @@ const LoginPage = () => {
               aria-label="enter email adress"
               role="input"
               type="email"
+              name="email"
+              onChange={handleChange}
+              placeholder="Enter email"
               className="bg-gray-200 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
             />
           </div>
@@ -31,7 +104,10 @@ const LoginPage = () => {
               <input
                 aria-label="enter Password"
                 role="input"
+                onChange={handleChange}
+                placeholder="Enter password"
                 type="password"
+                name="password"
                 className="bg-gray-200 border rounded focus:outline-none text-xs font-medium leading-none text-gray-800 py-3 w-full pl-3 mt-2"
               />
               <div className="absolute right-0 mt-2 mr-3 cursor-pointer">
@@ -54,6 +130,7 @@ const LoginPage = () => {
             <button
               role="button"
               aria-label="create my account"
+              onClick={handleLogin}
               className="focus:ring-2 focus:ring-offset-2 focus:ring-indigo-700 text-sm font-semibold leading-none text-white focus:outline-none bg-indigo-700 border rounded hover:bg-indigo-600 py-4 w-full"
             >
               Login

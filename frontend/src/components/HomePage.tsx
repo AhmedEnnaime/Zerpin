@@ -1,12 +1,24 @@
 import Module from "./Module";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout, selectAuth } from "../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const HomePage: React.FC = () => {
+  const { user } = useAppSelector(selectAuth);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    dispatch(logout());
+    toast.success("User logged out successfully");
+    navigate("/login");
+  };
   return (
     <div className="h-screen overflow-y-hidden">
       <div className="flex justify-center mt-8">
         <img className="h-36 w-36" src={logo} alt="logo" />
+        <h1>{user?.role}</h1>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
         <Link to={"/"}>
@@ -48,6 +60,7 @@ const HomePage: React.FC = () => {
       <div className="flex justify-end px-12">
         <button
           type="button"
+          onClick={handleLogout}
           className="inline-flex items-center p-4 border border-transparent rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           <i

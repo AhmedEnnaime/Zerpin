@@ -3,13 +3,24 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import avatar from "../assets/ennaime.jpeg";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout, selectAuth } from "../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Navbar: React.FC = () => {
+  const { lname } = useAppSelector(selectAuth);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("User logged out successfully");
+    navigate("/login");
+  };
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -74,7 +85,7 @@ const Navbar: React.FC = () => {
                       <Menu.Item>
                         {({ active }) => (
                           <button
-                            //   onClick={logout}
+                            onClick={handleLogout}
                             className={classNames(
                               active ? "bg-gray-100 w-full" : "",
                               "flex justify-start w-full px-4 py-2 text-sm text-gray-700"

@@ -2,6 +2,7 @@ import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import IDepartment from "../../Interfaces/Department";
 import { DepartmentModalProps } from "../../PropsTypes";
+import { toast } from "react-toastify";
 
 const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
   const cancelButtonRef = useRef(null);
@@ -19,6 +20,7 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
   const handleAddSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     console.log(inputs);
+    toast.success("kkbhhjgui");
 
     // await axios
     //   .post<Hall>(`${url}/halls/createHalls`, inputs)
@@ -66,7 +68,7 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
                 <div>
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
                     <i
-                      className="fa-sharp fa-solid fa-building h-6 w-6 text-green-600"
+                      className="p-1 fa-sharp fa-solid fa-building h-6 w-6 text-green-600"
                       aria-hidden="true"
                     ></i>
                   </div>

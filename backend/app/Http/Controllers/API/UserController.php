@@ -70,7 +70,7 @@ class UserController extends BaseController
             $success['lname'] =  $user->lname;
             $success['id'] =  $user->id;
 
-            return $this->sendResponse($success, 'User login successfully.', 200);
+            return $this->sendResponse([$user,$success], 'User login successfully.', 200);
         } else {
             return $this->sendError('Invalid credentials.', ['error' => 'Email or password invalid']);
         }

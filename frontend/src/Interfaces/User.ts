@@ -12,11 +12,11 @@ interface IUser {
   password: string;
   img: string;
   role: "ADMIN" | "CHEF" | "EMPLOYEE";
-  department_id: number;
+  department_id: number | null;
   created_at?: string;
   updated_at?: string;
-  department?: IDepartment;
-  contract?: IContract;
+  department?: IDepartment | null;
+  contract?: IContract | null;
 }
 
 export default IUser;
