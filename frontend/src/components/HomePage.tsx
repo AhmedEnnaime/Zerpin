@@ -46,7 +46,7 @@ const HomePage: React.FC = () => {
           ""
         )}
 
-        {user?.role == "ADMIN" ? (
+        {user?.role == "ADMIN" || user?.role == "CHEF" ? (
           <Link to={"/recruitment"}>
             <Module
               title="Recruitment"

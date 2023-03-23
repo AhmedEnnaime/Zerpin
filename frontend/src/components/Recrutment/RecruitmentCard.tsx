@@ -1,8 +1,11 @@
 import { toast } from "react-toastify";
 import { RecruitmentCardProps } from "../../PropsTypes";
+import { useAppSelector } from "../../redux/hooks";
+import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
 
 const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
+  const { user } = useAppSelector(selectAuth);
   const deleteRecruitment = async (id: number) => {
     await API.delete(`recruitments/${id}`)
       .then((res) => {
@@ -30,9 +33,13 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
               {recruitment.number} Places
             </p>
             <div className="pt-4">
-              <button className="py-2 px-4 text-xs font-semibold leading-3 bg-blue-400 rounded hover:bg-blue-500 focus:outline-none">
-                View Candidates
-              </button>
+              {user?.role == "ADMIN" ? (
+                <button className="py-2 px-4 text-xs font-semibold leading-3 bg-blue-400 rounded hover:bg-blue-500 focus:outline-none">
+                  View Candidates
+                </button>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="px-3">

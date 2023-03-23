@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\CandidateResource;
+use App\Http\Resources\RecrutmentResource;
 use App\Models\Candidate;
+use App\Models\Recrutment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -91,5 +93,18 @@ class CandidateController extends BaseController
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
         }
+    }
+
+    public function show($id)
+    {
+        $recruitment = Recrutment::with('candidates')->find($id);
+
+        if (is_null($recruitment)) {
+            return $this->sendError('Recruitment not found.');
+        }
+        if(Auth::user()->role == "ADMIN"){
+            return $this->sendResponse(new RecrutmentResource($recruitment), 'Recruitment retrieved successfully.', 200);
+        }
+       
     }
 }
