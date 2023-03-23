@@ -15,6 +15,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const { email, password } = credentials;
   const dispatch = useAppDispatch();
+  const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
   const [
     loginUser,
     {
@@ -40,6 +41,11 @@ const LoginPage = () => {
     }
   };
 
+  useEffect(() => {
+    if (auth.token) {
+      navigate("/");
+    }
+  }, []);
   useEffect(() => {
     if (isLoginSuccess) {
       toast.success("User logged successfully");

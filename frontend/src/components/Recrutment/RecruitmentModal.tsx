@@ -1,7 +1,9 @@
 import { RecruitmentModalProps } from "../../PropsTypes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import IRecruitment from "../../Interfaces/Recruitment";
 import API from "../../utils/API";
+import IDepartment from "../../Interfaces/Department";
+import { toast } from "react-toastify";
 
 const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
   const [inputs, setInputs] = useState<IRecruitment>({
@@ -11,6 +13,18 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
     description: "",
     department_id: 0,
   });
+  const [departments, setDepartments] = useState<IDepartment[]>();
+
+  const getDepartments = async () => [
+    await API.get(`departments`)
+      .then((res) => {
+        console.log(res.data);
+        setDepartments(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      }),
+  ];
 
   const handleChange = (
     e:
@@ -26,20 +40,21 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    console.log(inputs);
-    setOpen(false);
-
-    await API.post<IRecruitment>(`/recrutments`, inputs)
+    await API.post<IRecruitment>(`recrutments`, inputs)
       .then((res) => {
-        console.log(res.data);
         if (res.status === 201) {
           setOpen(false);
+          toast.success("Recruitment added successfully");
         }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    getDepartments();
+  }, []);
 
   return (
     <div id="popup" className="z-50 fixed w-full flex justify-center inset-0">
@@ -115,8 +130,14 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
                       onChange={handleChange}
                       value={inputs.department_id}
                     >
-                      <option value="3">HR</option>
-                      <option value="4">Informatique</option>
+                      <option value="">Select department</option>
+                      {departments
+                        ? departments.map((department) => (
+                            <option key={department.id} value={department.id}>
+                              {department.name}
+                            </option>
+                          ))
+                        : ""}
                     </select>
                   </div>
                 </div>

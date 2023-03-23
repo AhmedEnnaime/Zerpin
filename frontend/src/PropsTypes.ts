@@ -1,4 +1,5 @@
 import IDepartment from "./Interfaces/Department";
+import IRecruitment from "./Interfaces/Recruitment";
 
 export type ModuleProps = {
   title: string;
@@ -17,4 +18,8 @@ export type DepartmentModalProps = {
 
 export type DepartmentCardProps = {
   department: IDepartment;
+};
+
+export type RecruitmentCardProps = {
+  recruitment: IRecruitment;
 };

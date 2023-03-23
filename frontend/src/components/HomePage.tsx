@@ -12,22 +12,23 @@ const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { data, isLoading, isError } = useGetMeQuery(null);
+  const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
   const handleLogout = async () => {
     dispatch(logout());
     toast.success("User logged out successfully");
     navigate("/login");
   };
-  // useEffect(() => {
-  //   if (data) {
-  //     dispatch(getAuthUser(data));
-  //   }
-  // }, [isLoading]);
+  useEffect(() => {
+    if (!auth.token) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <div className="h-screen overflow-y-hidden">
       <div className="flex justify-center mt-8">
         <img className="h-36 w-36" src={logo} alt="logo" />
-        <h1>{user?.department?.name}</h1>
+        <h1>{user?.fname}</h1>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
         <Link to={"/"}>
@@ -36,18 +37,25 @@ const HomePage: React.FC = () => {
             icon={<i className="fa-sharp fa-solid fa-user-tie"></i>}
           />
         </Link>
-
-        <Module
-          title="Contracts"
-          icon={<i className="fa-sharp fa-solid fa-file-contract"></i>}
-        />
-
-        <Link to={"/recruitment"}>
+        {user?.role == "ADMIN" ? (
           <Module
-            title="Recruitment"
-            icon={<i className="fa-sharp fa-solid fa-user-plus"></i>}
+            title="Contracts"
+            icon={<i className="fa-sharp fa-solid fa-file-contract"></i>}
           />
-        </Link>
+        ) : (
+          ""
+        )}
+
+        {user?.role == "ADMIN" ? (
+          <Link to={"/recruitment"}>
+            <Module
+              title="Recruitment"
+              icon={<i className="fa-sharp fa-solid fa-user-plus"></i>}
+            />
+          </Link>
+        ) : (
+          ""
+        )}
 
         <Link to={"/departments"}>
           <Module
@@ -60,11 +68,14 @@ const HomePage: React.FC = () => {
           title="Holidays"
           icon={<i className="fa-sharp fa-solid fa-gift"></i>}
         />
-
-        <Module
-          title="Payslips"
-          icon={<i className="fa-sharp fa-solid fa-cash-register"></i>}
-        />
+        {user?.role == "ADMIN" ? (
+          <Module
+            title="Payslips"
+            icon={<i className="fa-sharp fa-solid fa-cash-register"></i>}
+          />
+        ) : (
+          ""
+        )}
       </div>
       <div className="flex justify-end px-12">
         <button

@@ -1,13 +1,30 @@
 import Navbar from "../Navbar";
 import RecruitmentModal from "./RecruitmentModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RecruitmentCard from "./RecruitmentCard";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
+import API from "../../utils/API";
+import IRecruitment from "../../Interfaces/Recruitment";
 
 const RecruitmentHome = () => {
   const [open, setOpen] = useState(false);
   const { user } = useAppSelector(selectAuth);
+  const [recruitments, setRecruitments] = useState<IRecruitment[]>();
+
+  const getRecruitments = async () => {
+    await API.get(`recrutments`)
+      .then((res) => {
+        setRecruitments(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getRecruitments();
+  }, [open]);
 
   return (
     <>
@@ -31,11 +48,13 @@ const RecruitmentHome = () => {
         </div>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
-        <RecruitmentCard />
-        <RecruitmentCard />
-        <RecruitmentCard />
-        <RecruitmentCard />
-        <RecruitmentCard />
+        {recruitments ? (
+          recruitments.map((recruitment) => (
+            <RecruitmentCard key={recruitment.id} recruitment={recruitment} />
+          ))
+        ) : (
+          <h1>No recruitment available</h1>
+        )}
       </div>
       {open ? <RecruitmentModal open={open} setOpen={setOpen} /> : ""}
     </>
