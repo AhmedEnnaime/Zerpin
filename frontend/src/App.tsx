@@ -9,6 +9,7 @@ import { useAppDispatch } from "./redux/hooks";
 import { useEffect } from "react";
 import { getAuthUser, setUser } from "./redux/slices/authSlice";
 import { useGetMeQuery } from "./services/authApi";
+import ApplicationPage from "./components/Candidates/ApplicationPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/recruitment" element={<RecruitmentHome />}></Route>
           <Route path="/departments" element={<DepartmentPage />}></Route>
+          <Route path="/application" element={<ApplicationPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

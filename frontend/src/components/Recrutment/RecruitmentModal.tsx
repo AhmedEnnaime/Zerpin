@@ -18,7 +18,6 @@ const RecruitmentModal = ({ open, setOpen }: RecruitmentModalProps) => {
   const getDepartments = async () => [
     await API.get(`departments`)
       .then((res) => {
-        console.log(res.data);
         setDepartments(res.data);
       })
       .catch((err) => {

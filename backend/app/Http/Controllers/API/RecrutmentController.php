@@ -23,7 +23,7 @@ class RecrutmentController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $link = "https://www.google.com/";
+        $link = "http://localhost:5174/application";
         $validator = Validator::make($input, [
             'title' => 'required',
             'position' => 'required',

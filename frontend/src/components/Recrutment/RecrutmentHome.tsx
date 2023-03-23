@@ -33,18 +33,22 @@ const RecruitmentHome = () => {
         <h1 className="text-4xl font-bold">Recruitment</h1>
         <h1>{user?.department?.name}</h1>
         <div className="flex justify-end px-12">
-          <button
-            onClick={() => {
-              setOpen(true);
-            }}
-            type="button"
-            className="inline-flex items-center p-4 border border-transparent rounded-full shadow-sm text-white bg-blue-200 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          >
-            <i
-              className="fa-sharp fa-solid fa-plus text-black"
-              aria-hidden="true"
-            ></i>
-          </button>
+          {user?.role == "ADMIN" ? (
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+              type="button"
+              className="inline-flex items-center p-4 border border-transparent rounded-full shadow-sm text-white bg-blue-200 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            >
+              <i
+                className="fa-sharp fa-solid fa-plus text-black"
+                aria-hidden="true"
+              ></i>
+            </button>
+          ) : (
+            ""
+          )}
         </div>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">

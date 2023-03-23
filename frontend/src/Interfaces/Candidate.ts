@@ -10,8 +10,8 @@ interface ICandidate {
   email: string;
   cv: string;
   img: string;
-  recrutment_id: string;
-  recrutment_state: "EVALUATION" | "INTERVIEW" | "NEGOTIATIONS";
+  recrutment_id: number;
+  recrutment_state?: "EVALUATION" | "INTERVIEW" | "NEGOTIATIONS";
   recrutment?: IRecruitment;
   created_at?: string;
   updated_at?: string;
