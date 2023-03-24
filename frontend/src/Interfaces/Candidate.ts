@@ -10,7 +10,7 @@ interface ICandidate {
   email: string;
   cv: string;
   img: string;
-  recrutment_id: number;
+  recrutment_id: string | undefined;
   recrutment_state?: "EVALUATION" | "INTERVIEW" | "NEGOTIATIONS";
   recrutment?: IRecruitment;
   created_at?: string;

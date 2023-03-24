@@ -23,7 +23,7 @@ class RecrutmentController extends BaseController
     public function store(Request $request)
     {
         $input = $request->all();
-        $link = "http://localhost:5174/application";
+        
         $validator = Validator::make($input, [
             'title' => 'required',
             'position' => 'required',
@@ -47,6 +47,8 @@ class RecrutmentController extends BaseController
                 "user_id" => Auth::user()->id,
                 "department_id" => $request->department_id,
             ]);
+
+            $link = "http://localhost:5174/application/" . $recrutment->id;
 
             $ugcPostData = [
                 'author' => 'urn:li:person:ZBQGkOE1ZR',

@@ -86,7 +86,7 @@ const Card = ({ department }: DepartmentCardProps) => {
                       ))
                     : ""}
                   {department.users && department.users?.length > 4 ? (
-                    <p className="text-white text-xs font-normal cursor-pointer hover:underline">
+                    <p className="text-xs font-normal cursor-pointer hover:underline">
                       +{department.users.length - 4} more
                     </p>
                   ) : (

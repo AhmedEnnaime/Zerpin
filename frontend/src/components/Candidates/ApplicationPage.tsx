@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import ICandidate from "../../Interfaces/Candidate";
 import API from "../../utils/API";
 
 const ApplicationPage = () => {
+  let { id } = useParams();
   const [inputs, setInputs] = useState<ICandidate>({
     fname: "",
     lname: "",
@@ -14,7 +16,7 @@ const ApplicationPage = () => {
     email: "",
     cv: "",
     img: "",
-    recrutment_id: 0,
+    recrutment_id: id,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,17 +28,17 @@ const ApplicationPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    console.log(inputs);
-    // await API.post(`candidates`, inputs)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.status === 201) {
-    //       toast.success("Your application was sent successfully");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    //console.log(inputs);
+    await API.post(`candidates`, inputs)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 201) {
+          toast.success("Your application was sent successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (

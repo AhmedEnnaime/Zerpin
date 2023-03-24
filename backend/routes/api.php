@@ -28,6 +28,7 @@ Route::controller(UserController::class)->group(function () {
     Route::post('login', 'login');
 });
 
+Route::resource('candidates', CandidateController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
@@ -36,7 +37,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
     Route::resource('recrutments', RecrutmentController::class);
-    Route::resource('candidates', CandidateController::class);
     Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
     Route::resource('rules', RulesController::class);
     Route::resource('contracts', ContractController::class);

@@ -11,6 +11,7 @@ import { getAuthUser, setUser } from "./redux/slices/authSlice";
 import { useGetMeQuery } from "./services/authApi";
 import ApplicationPage from "./components/Candidates/ApplicationPage";
 import EmployeesPage from "./components/Employees/EmployeesPage";
+import DepartmentEmployees from "./components/Departments/DepartmentEmployees";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -33,8 +34,12 @@ const App = () => {
           <Route path="/login" element={<LoginPage />}></Route>
           <Route path="/recruitment" element={<RecruitmentHome />}></Route>
           <Route path="/departments" element={<DepartmentPage />}></Route>
-          <Route path="/application" element={<ApplicationPage />}></Route>
+          <Route path="/application/:id" element={<ApplicationPage />}></Route>
           <Route path="/employees" element={<EmployeesPage />}></Route>
+          <Route
+            path="/departmentEmployees"
+            element={<DepartmentEmployees />}
+          ></Route>
         </Routes>
       </BrowserRouter>
     </div>
