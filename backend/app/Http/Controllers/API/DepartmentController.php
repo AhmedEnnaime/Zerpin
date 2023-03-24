@@ -13,7 +13,7 @@ class DepartmentController extends BaseController
 {
     public function index()
     {
-        $departments = Department::with("users")->get();
+        $departments = Department::with("users.contract")->get();
         return $this->sendResponse(DepartmentResource::collection($departments), 'Departments retrieved successfully.', 200);
     }
 
@@ -38,7 +38,7 @@ class DepartmentController extends BaseController
 
     public function show($id)
     {
-        $department = Department::with('users')->find($id);
+        $department = Department::with('users.contract')->find($id);
 
         if (is_null($department)) {
             return $this->sendError('Department not found.');

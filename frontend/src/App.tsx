@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
-import RecruitmentHome from "./components/Recrutment/RecrutmentHome";
+import RecruitmentHome from "./components/Recruitment/RecruitmentHome";
 import DepartmentPage from "./components/Departments/DepartmentPage";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,6 +12,7 @@ import { useGetMeQuery } from "./services/authApi";
 import ApplicationPage from "./components/Candidates/ApplicationPage";
 import EmployeesPage from "./components/Employees/EmployeesPage";
 import DepartmentEmployees from "./components/Departments/DepartmentEmployees";
+import ContractsPage from "./components/Contracts/ContractsPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -40,6 +41,7 @@ const App = () => {
             path="/departmentEmployees"
             element={<DepartmentEmployees />}
           ></Route>
+          <Route path="/contracts" element={<ContractsPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>
