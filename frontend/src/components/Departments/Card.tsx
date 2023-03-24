@@ -1,8 +1,13 @@
 import { DepartmentCardProps } from "../../PropsTypes";
 import OptionsButton from "../../utils/OptionsButton";
+import { useAppDispatch } from "../../redux/hooks";
+import { setDepartment } from "../../redux/slices/departmentSlice";
+import { useNavigate } from "react-router-dom";
 
 const Card = ({ department }: DepartmentCardProps) => {
   const chef = department.users?.find((user) => user.role === "CHEF");
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   return (
     <>
@@ -70,7 +75,13 @@ const Card = ({ department }: DepartmentCardProps) => {
                 <hr className="absolute top-0 h-1 w-2/3 rounded bg-indigo-400" />
               </div>
               <div className="flex flex-col items-start">
-                <div className="flex items-center w-full justify-start">
+                <div
+                  onClick={() => {
+                    dispatch(setDepartment(department));
+                    navigate("/departmentEmployees");
+                  }}
+                  className="flex items-center w-full justify-start cursor-pointer"
+                >
                   {department.users
                     ? department.users?.slice(0, 4).map((user, key) => (
                         <div

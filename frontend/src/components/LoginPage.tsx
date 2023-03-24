@@ -56,24 +56,6 @@ const LoginPage = () => {
           token: loginData[1].token,
         })
       );
-      // dispatch(
-      //   getAuthUser({
-      //     fname: loginData[0].fname,
-      //     lname: loginData[0].lname,
-      //     birthday: loginData[0].birthday,
-      //     cin: loginData[0].cin,
-      //     phone: loginData[0].phone,
-      //     email: loginData[0].email,
-      //     password: loginData[0].password,
-      //     img: loginData[0].img,
-      //     role: loginData[0].role,
-      //     department_id: loginData[0].department_id,
-      //     created_at: loginData[0].created_at,
-      //     updated_at: loginData[0].updated_at,
-      //     department: loginData[0].department,
-      //     contract: loginData[0].contract,
-      //   })
-      // );
       navigate("/");
     }
   }, [isLoginSuccess]);

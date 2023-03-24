@@ -1,6 +1,8 @@
 import Navbar from "../Navbar";
-
+import { useAppSelector } from "../../redux/hooks";
+import { selectDepartment } from "../../redux/slices/departmentSlice";
 const DepartmentEmployees = () => {
+  const { department } = useAppSelector(selectDepartment);
   const people = [
     {
       name: "Lindsay Walton",
@@ -20,6 +22,7 @@ const DepartmentEmployees = () => {
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-xl font-semibold text-gray-900">Users</h1>
+            <h1>{department?.name}</h1>
           </div>
         </div>
         <div className="mt-8 flex flex-col">
