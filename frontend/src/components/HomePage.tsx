@@ -31,7 +31,7 @@ const HomePage: React.FC = () => {
         <h1>{user?.fname}</h1>
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
-        <Link to={"/"}>
+        <Link to={"/employees"}>
           <Module
             title="Employees"
             icon={<i className="fa-sharp fa-solid fa-user-tie"></i>}
