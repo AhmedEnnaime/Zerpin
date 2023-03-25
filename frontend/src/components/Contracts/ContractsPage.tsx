@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import IContract from "../../Interfaces/Contract";
+import IUser from "../../Interfaces/User";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
@@ -15,6 +16,17 @@ const ContractsPage = () => {
   const [contracts, setContracts] = useState<IContract[]>();
   const [rerender, setRerender] = useState(false);
   const [open, setOpen] = useState(false);
+  const [contract, setContract] = useState<IContract>({
+    ref: "",
+    position: "",
+    debut_date: "",
+    final_date: "",
+    base_salary: 0,
+    final_salary: 0,
+    user_id: 0,
+    state: "ONGOING",
+    user: {} as IUser,
+  });
 
   const getContracts = async () => {
     await API.get(`contracts`)
@@ -39,25 +51,23 @@ const ContractsPage = () => {
       });
   };
 
-  // const renewContract = async (id: number) => {
-  //   await API.post(`renewContract/${id}`)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       if (res.status === 200) {
-  //         toast.success("Contract renewed successfully");
-  //         setRerender(true);
-  //       }
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const getContract = async (id: number) => {
+    await API.get(`contracts/${id}`)
+      .then((res) => {
+        setContract(res.data);
+        setOpen(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     if (!auth.token || user?.role != "ADMIN") {
       navigate("/login");
     }
     getContracts();
-  }, [rerender]);
+  }, [rerender, open]);
 
   return (
     <>
@@ -178,7 +188,8 @@ const ContractsPage = () => {
                           <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <a
                               onClick={() => {
-                                setOpen(true);
+                                getContract(contract.id as number);
+                                //setOpen(true);
                               }}
                               className="text-indigo-600 hover:text-indigo-900 cursor-pointer"
                             >
@@ -202,17 +213,6 @@ const ContractsPage = () => {
                               </span>
                             </a>
                           </td>
-                          <td>
-                            {open ? (
-                              <ContractCard
-                                open={open}
-                                setOpen={setOpen}
-                                contract={contract}
-                              />
-                            ) : (
-                              ""
-                            )}
-                          </td>
                         </tr>
                       ))
                     ) : (
@@ -227,6 +227,16 @@ const ContractsPage = () => {
           </div>
         </div>
       </div>
+      {open ? (
+        <ContractCard
+          open={open}
+          setOpen={setOpen}
+          contract={contract as IContract}
+          setContract={setContract}
+        />
+      ) : (
+        ""
+      )}
     </>
   );
 };

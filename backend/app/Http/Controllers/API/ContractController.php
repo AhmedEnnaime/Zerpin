@@ -119,6 +119,17 @@ class ContractController extends BaseController
         }
     }
 
+    public function show($id)
+    {
+        $contract = Contract::with('user', "rules")->find($id);
+
+        if (is_null($contract)) {
+            return $this->sendError('Department not found.');
+        }
+
+        return $this->sendResponse(new ContractResource($contract), 'Contract retrieved successfully.', 200);
+    }
+
     public function updateContract(Request $request, $id)
     {
         $input = $request->all();

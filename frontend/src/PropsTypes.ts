@@ -34,4 +34,5 @@ export type ContractCardProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   contract: IContract;
+  setContract?: React.Dispatch<React.SetStateAction<IContract>>;
 };
