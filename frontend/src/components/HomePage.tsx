@@ -38,10 +38,12 @@ const HomePage: React.FC = () => {
           />
         </Link>
         {user?.role == "ADMIN" ? (
-          <Module
-            title="Contracts"
-            icon={<i className="fa-sharp fa-solid fa-file-contract"></i>}
-          />
+          <Link to={"/contracts"}>
+            <Module
+              title="Contracts"
+              icon={<i className="fa-sharp fa-solid fa-file-contract"></i>}
+            />
+          </Link>
         ) : (
           ""
         )}

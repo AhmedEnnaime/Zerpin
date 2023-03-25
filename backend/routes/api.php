@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
     Route::resource('rules', RulesController::class);
     Route::resource('contracts', ContractController::class);
+    Route::post('renewContract/{id}', [ContractController::class, 'updateContract']);
     Route::resource('holidays', HolidayController::class);
     Route::patch('validateHoliday/{id}', [HolidayController::class, 'validateHoliday']);
     Route::resource('payslips', PayslipController::class);

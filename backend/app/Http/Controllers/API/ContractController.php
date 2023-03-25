@@ -119,7 +119,7 @@ class ContractController extends BaseController
         }
     }
 
-    public function update(Request $request, $id)
+    public function updateContract(Request $request, $id)
     {
         $input = $request->all();
 

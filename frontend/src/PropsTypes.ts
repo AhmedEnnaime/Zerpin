@@ -1,3 +1,4 @@
+import IContract from "./Interfaces/Contract";
 import IDepartment from "./Interfaces/Department";
 import IRecruitment from "./Interfaces/Recruitment";
 import IUser from "./Interfaces/User";
@@ -27,4 +28,10 @@ export type RecruitmentCardProps = {
 
 export type EmployeeCardProps = {
   employee: IUser;
+};
+
+export type ContractCardProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  contract: IContract;
 };
