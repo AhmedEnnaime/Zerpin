@@ -4,11 +4,26 @@ import { selectDepartment } from "../../redux/slices/departmentSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { selectAuth } from "../../redux/slices/authSlice";
+import API from "../../utils/API";
+import { toast } from "react-toastify";
 const DepartmentEmployees = () => {
   const { department } = useAppSelector(selectDepartment);
   const { user } = useAppSelector(selectAuth);
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
   const navigate = useNavigate();
+
+  const printPayslip = async (contract_id: number) => {
+    await API.post(`createPayslip/${contract_id}`)
+      .then((res) => {
+        console.log(res.data);
+        if (res.status === 201) {
+          toast.success("Payslip created successfully you can download it now");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   useEffect(() => {
     if (!auth.token) {
       navigate("/login");
@@ -132,7 +147,12 @@ const DepartmentEmployees = () => {
                           </td>
                           {user?.role == "ADMIN" ? (
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <button className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                              <button
+                                onClick={() => {
+                                  printPayslip(employee.contract?.id as number);
+                                }}
+                                className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              >
                                 <i className="fa-sharp fa-solid fa-print pr-2"></i>
                                 Print Payslip
                                 <span className="sr-only">

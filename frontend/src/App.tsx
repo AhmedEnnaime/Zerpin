@@ -14,6 +14,7 @@ import EmployeesPage from "./components/Employees/EmployeesPage";
 import DepartmentEmployees from "./components/Departments/DepartmentEmployees";
 import ContractsPage from "./components/Contracts/ContractsPage";
 import CandidatesPage from "./components/Candidates/CandidatesPage";
+import PayslipsPage from "./components/Payslips/PayslipsPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -44,6 +45,7 @@ const App = () => {
           ></Route>
           <Route path="/contracts" element={<ContractsPage />}></Route>
           <Route path="/candidates" element={<CandidatesPage />}></Route>
+          <Route path="/payslips" element={<PayslipsPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

@@ -12,7 +12,7 @@ class PayslipController extends BaseController
 {
     public function index()
     {
-        $payslips = Payslip::with("contract.rules")->get();
+        $payslips = Payslip::with("contract.rules", "contract.user")->get();
         return $this->sendResponse(PayslipResource::collection($payslips), 'Payslips retrieved successfully.', 200);
     }
 

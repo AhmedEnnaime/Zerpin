@@ -71,10 +71,12 @@ const HomePage: React.FC = () => {
           icon={<i className="fa-sharp fa-solid fa-gift"></i>}
         />
         {user?.role == "ADMIN" ? (
-          <Module
-            title="Payslips"
-            icon={<i className="fa-sharp fa-solid fa-cash-register"></i>}
-          />
+          <Link to={"/payslips"}>
+            <Module
+              title="Payslips"
+              icon={<i className="fa-sharp fa-solid fa-cash-register"></i>}
+            />
+          </Link>
         ) : (
           ""
         )}
