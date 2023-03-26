@@ -1,7 +1,11 @@
 import { Card } from "flowbite-react";
+import { useState } from "react";
+import IContract from "../../Interfaces/Contract";
 import { EmployeeCardProps } from "../../PropsTypes";
+import ContractCard from "../Contracts/ContractCard";
 
 const EmployeeCard = ({ employee }: EmployeeCardProps) => {
+  const [open, setOpen] = useState(false);
   return (
     <div className="max-w-sm">
       <Card>
@@ -19,7 +23,12 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
             {employee.contract?.position}
           </span>
           <div className="mt-4 flex space-x-3 lg:mt-6">
-            <button className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <button
+              onClick={() => {
+                setOpen(true);
+              }}
+              className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            >
               View contract
             </button>
             <a
@@ -31,6 +40,15 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
           </div>
         </div>
       </Card>
+      {open ? (
+        <ContractCard
+          open={open}
+          setOpen={setOpen}
+          contract={employee.contract as IContract}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

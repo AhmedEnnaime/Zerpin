@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RecruitmentCardProps } from "../../PropsTypes";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
@@ -8,6 +9,8 @@ import API from "../../utils/API";
 const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
   const { user } = useAppSelector(selectAuth);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const deleteRecruitment = async (id: number) => {
     await API.delete(`recruitments/${id}`)
       .then((res) => {
@@ -39,6 +42,7 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
                 <button
                   onClick={() => {
                     dispatch(setRecruitment(recruitment));
+                    navigate("/candidates");
                   }}
                   className="py-2 px-4 text-xs font-semibold leading-3 bg-blue-400 rounded hover:bg-blue-500 focus:outline-none"
                 >

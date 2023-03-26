@@ -81,6 +81,7 @@ const ContractCard = ({
     //     console.log(err);
     //   });
   };
+  console.log(contract);
 
   useEffect(() => {
     getDepartments();
@@ -126,7 +127,7 @@ const ContractCard = ({
                 <div className="pt-8">
                   <div>
                     <h3 className="text-lg leading-6 font-medium text-gray-900">
-                      Personal Information
+                      {contract.user?.fname} {contract.user?.lname}'s Contract
                     </h3>
                   </div>
                   <div className="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
@@ -137,19 +138,23 @@ const ContractCard = ({
                           className="rounded-full w-12 h-12"
                           alt=""
                         />
-                        <label
-                          htmlFor="photo"
-                          className="ml-5 cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        >
-                          Change
-                          <input
-                            type="file"
-                            name="img"
-                            onChange={handleChange}
-                            id="photo"
-                            className="ml-5 hidden bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          />
-                        </label>
+                        {setContract ? (
+                          <label
+                            htmlFor="photo"
+                            className="ml-5 cursor-pointer bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          >
+                            Change
+                            <input
+                              type="file"
+                              name="img"
+                              onChange={handleChange}
+                              id="photo"
+                              className="ml-5 hidden bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            />
+                          </label>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                     <div className="sm:col-span-3">
@@ -165,6 +170,7 @@ const ContractCard = ({
                           name="fname"
                           value={contract.user?.fname}
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           id="first-name"
                           autoComplete="given-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -186,6 +192,7 @@ const ContractCard = ({
                           id="last-name"
                           value={contract.user?.lname}
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           autoComplete="family-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -206,6 +213,7 @@ const ContractCard = ({
                           type="email"
                           onChange={handleChange}
                           value={contract.user?.email}
+                          disabled={!setContract ?? true}
                           autoComplete="email"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -226,6 +234,7 @@ const ContractCard = ({
                           id="cin"
                           value={contract.user?.cin}
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           autoComplete="family-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -244,6 +253,7 @@ const ContractCard = ({
                           type="date"
                           name="birthday"
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           value={contract.user?.birthday}
                           id="birthday"
                           autoComplete="given-name"
@@ -264,6 +274,7 @@ const ContractCard = ({
                           id="department"
                           name="department_id"
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           value={contract.user?.department_id as number}
                           autoComplete="country-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -295,6 +306,7 @@ const ContractCard = ({
                           type="text"
                           name="phone"
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           value={contract.user?.phone}
                           id="phone"
                           autoComplete="given-name"
@@ -317,6 +329,7 @@ const ContractCard = ({
                           id="position"
                           value={contract.position}
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           autoComplete="family-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -334,6 +347,7 @@ const ContractCard = ({
                           id="role"
                           name="role"
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           value={contract.user?.role}
                           autoComplete="country-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
@@ -360,6 +374,7 @@ const ContractCard = ({
                           onChange={handleChange}
                           value={contract.debut_date}
                           id="debut_date"
+                          disabled={!setContract ?? true}
                           autoComplete="given-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -380,6 +395,7 @@ const ContractCard = ({
                           id="final_date"
                           value={contract.final_date || ""}
                           onChange={handleChange}
+                          disabled={!setContract ?? true}
                           autoComplete="family-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -421,6 +437,7 @@ const ContractCard = ({
                               defaultChecked={contract.rules?.some(
                                 (rule) => rule.id === 2
                               )}
+                              disabled={!setContract ?? true}
                               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                             />
                           </div>
@@ -442,6 +459,7 @@ const ContractCard = ({
                               defaultChecked={contract.rules?.some(
                                 (rule) => rule.id === 3
                               )}
+                              disabled={!setContract ?? true}
                               value="3"
                               type="checkbox"
                               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
@@ -466,6 +484,7 @@ const ContractCard = ({
                               defaultChecked={contract.rules?.some(
                                 (rule) => rule.id === 1
                               )}
+                              disabled={!setContract ?? true}
                               value="1"
                               type="checkbox"
                               className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
@@ -485,23 +504,27 @@ const ContractCard = ({
                   </div>
                 </div>
               </div>
-              <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
-                  onClick={renewContract}
-                >
-                  Renew
-                </button>
-                <button
-                  type="button"
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
-                  onClick={() => setOpen(false)}
-                  ref={cancelButtonRef}
-                >
-                  Cancel
-                </button>
-              </div>
+              {setContract ? (
+                <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
+                  <button
+                    type="button"
+                    className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
+                    onClick={renewContract}
+                  >
+                    Renew
+                  </button>
+                  <button
+                    type="button"
+                    className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                    onClick={() => setOpen(false)}
+                    ref={cancelButtonRef}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </Transition.Child>
         </div>
