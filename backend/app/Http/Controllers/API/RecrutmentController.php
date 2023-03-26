@@ -14,7 +14,7 @@ class RecrutmentController extends BaseController
 {
     public function index()
     {
-        $recrutments = Recrutment::with("candidates")->get();
+        $recrutments = Recrutment::with("candidates.recrutment")->get();
         return $this->sendResponse(RecrutmentResource::collection($recrutments), 'Recrutments retrieved successfully.', 200);
     }
 

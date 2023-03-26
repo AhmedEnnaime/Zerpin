@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\ContractResource;
+use App\Models\Candidate;
 use App\Models\Contract;
 use App\Models\Rule;
 use App\Models\User;
@@ -110,7 +111,8 @@ class ContractController extends BaseController
             ]);
 
             $contract->rules()->attach($rules);
-
+            $candidate = Candidate::find($request->email);
+            $candidate->delete();
             // SEND EMAIL
 
             return $this->sendResponse(new ContractResource($contract), 'Contract created successfully.', 201);

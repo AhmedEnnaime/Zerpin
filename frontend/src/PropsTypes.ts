@@ -52,3 +52,10 @@ export type CandidateCardProps = {
   candidate: ICandidate;
   handleDragging: (dragging: boolean) => void;
 };
+
+export type SignContractProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  candidate: ICandidate;
+  setCandidate?: React.Dispatch<React.SetStateAction<ICandidate>>;
+};
