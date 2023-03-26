@@ -16,6 +16,11 @@ const CandidateCard = ({ candidate, handleDragging }: CandidateCardProps) => {
       <p>
         {candidate.fname} {candidate.lname}
       </p>
+      {candidate.recrutment_state == "NEGOTIATIONS" ? (
+        <button>Sign Contract</button>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -3,8 +3,10 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectDepartment } from "../../redux/slices/departmentSlice";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { selectAuth } from "../../redux/slices/authSlice";
 const DepartmentEmployees = () => {
   const { department } = useAppSelector(selectDepartment);
+  const { user } = useAppSelector(selectAuth);
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
   const navigate = useNavigate();
   useEffect(() => {
@@ -76,8 +78,8 @@ const DepartmentEmployees = () => {
                   </thead>
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {department?.users ? (
-                      department?.users.map((user) => (
-                        <tr key={user.email}>
+                      department?.users.map((employee) => (
+                        <tr key={employee.email}>
                           <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
                             <div className="flex items-center">
                               <div className="h-10 w-10 flex-shrink-0">
@@ -89,52 +91,58 @@ const DepartmentEmployees = () => {
                               </div>
                               <div className="ml-4">
                                 <div className="font-medium text-gray-900">
-                                  {user.fname} {user.lname}
+                                  {employee.fname} {employee.lname}
                                 </div>
                                 <div className="text-gray-500">
-                                  {user.email}
+                                  {employee.email}
                                 </div>
                               </div>
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <div className="text-gray-900">
-                              {user.contract?.position}
+                              {employee.contract?.position}
                             </div>
                             <div className="text-gray-500">
-                              {user.contract?.position}
+                              {employee.contract?.position}
                             </div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <div className="text-gray-900">{user.cin}</div>
+                            <div className="text-gray-900">{employee.cin}</div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            <div className="text-gray-900">{user.phone}</div>
+                            <div className="text-gray-900">
+                              {employee.phone}
+                            </div>
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm">
                             <span
                               className={`inline-flex rounded-full px-2 text-xs font-semibold leading-5 ${
-                                user.contract?.state === "ONGOING"
+                                employee.contract?.state === "ONGOING"
                                   ? "bg-green-100 text-green-800"
                                   : "bg-red-100 text-red-800"
                               }`}
                             >
-                              {user.contract?.state}
+                              {employee.contract?.state}
                             </span>
                           </td>
 
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {user.role}
+                            {employee.role}
                           </td>
-                          <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <button className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                              <i className="fa-sharp fa-solid fa-print pr-2"></i>
-                              Print Payslip
-                              <span className="sr-only">
-                                , {user.fname} {user.lname}
-                              </span>
-                            </button>
-                          </td>
+                          {user?.role == "ADMIN" ? (
+                            <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                              <button className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                <i className="fa-sharp fa-solid fa-print pr-2"></i>
+                                Print Payslip
+                                <span className="sr-only">
+                                  , {employee.fname} {employee.lname}
+                                </span>
+                              </button>
+                            </td>
+                          ) : (
+                            ""
+                          )}
                         </tr>
                       ))
                     ) : (
