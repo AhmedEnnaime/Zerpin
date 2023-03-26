@@ -37,7 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
     Route::resource('recrutments', RecrutmentController::class);
-    Route::patch('updateState/{id}', [CandidateController::class, 'updateState']);
+    Route::post('updateState/{id}', [CandidateController::class, 'updateState']);
     Route::resource('rules', RulesController::class);
     Route::resource('contracts', ContractController::class);
     Route::post('renewContract/{id}', [ContractController::class, 'updateContract']);

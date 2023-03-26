@@ -1,3 +1,4 @@
+import { RecruitmentStatus } from "../PropsTypes";
 import IRecruitment from "./Recruitment";
 
 interface ICandidate {
@@ -11,7 +12,7 @@ interface ICandidate {
   cv: string;
   img: string;
   recrutment_id: string | undefined;
-  recrutment_state?: "EVALUATION" | "INTERVIEW" | "NEGOTIATIONS";
+  recrutment_state?: RecruitmentStatus;
   recrutment?: IRecruitment;
   created_at?: string;
   updated_at?: string;

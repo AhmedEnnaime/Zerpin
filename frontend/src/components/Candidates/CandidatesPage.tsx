@@ -4,6 +4,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import { selectRecruitment } from "../../redux/slices/recruitmentSlice";
 import Navbar from "../Navbar";
+import DragAndDrop from "./DragAndDrop";
 
 const CandidatesPage = () => {
   const { recruitment } = useAppSelector(selectRecruitment);
@@ -19,6 +20,11 @@ const CandidatesPage = () => {
   return (
     <>
       <Navbar />
+      <h1 className="mt-12 text-center text-2xl">
+        Candidates of {recruitment?.position}
+      </h1>
+
+      <DragAndDrop />
     </>
   );
 };

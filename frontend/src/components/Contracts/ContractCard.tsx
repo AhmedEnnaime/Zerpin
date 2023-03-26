@@ -14,6 +14,7 @@ const ContractCard = ({
 }: ContractCardProps) => {
   const cancelButtonRef = useRef(null);
   const [departments, setDepartments] = useState<IDepartment[]>();
+
   // const [inputs, setInputs] = useState<IContract>({
   //   id: contract.id,
   //   user_id: contract.user_id,
@@ -27,7 +28,6 @@ const ContractCard = ({
   //   user: contract.user,
   //   position: contract.position,
   // });
-
   const getDepartments = async () => [
     await API.get(`departments`)
       .then((res) => {
@@ -81,7 +81,6 @@ const ContractCard = ({
     //     console.log(err);
     //   });
   };
-  console.log(contract);
 
   useEffect(() => {
     getDepartments();
@@ -501,6 +500,27 @@ const ContractCard = ({
                         </div>
                       </div>
                     </fieldset>
+                  </div>
+                </div>
+
+                <div className="sm:col-span-4">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Base Salary
+                  </label>
+                  <div className="mt-1">
+                    <input
+                      id="base_salary"
+                      name="base_salary"
+                      type="text"
+                      onChange={handleChange}
+                      value={contract.base_salary}
+                      disabled={!setContract ?? true}
+                      autoComplete="email"
+                      className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
+                    />
                   </div>
                 </div>
               </div>
