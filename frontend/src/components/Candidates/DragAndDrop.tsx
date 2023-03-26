@@ -21,19 +21,22 @@ const DragAndDrop = () => {
 
   const handleDragging = (dragging: boolean) => setIsDragging(dragging);
   const handleUpdateList = async (id: number, status: RecruitmentStatus) => {
-    let card = listItems.find((item) => item.id === id);
+    let cardIndex = listItems.findIndex((item) => item.id === id);
 
-    if (card && card.recrutment_state !== status) {
+    if (cardIndex !== -1 && listItems[cardIndex].recrutment_state !== status) {
       const formData = new FormData();
       formData.append("recrutment_state", status);
       await API.post(`updateState/${id}`, formData)
         .then((res) => {
-          console.log(res.data);
-          console.log(status);
           if (res.status === 200) {
+            const updatedCard = {
+              ...listItems[cardIndex],
+              recrutment_state: status,
+            };
             setListItems((prev) => [
-              card!,
-              ...prev.filter((item) => item.id !== id),
+              ...prev.slice(0, cardIndex),
+              updatedCard,
+              ...prev.slice(cardIndex + 1),
             ]);
             toast.success(`Candidate passed successfully to ${status}`);
           }
@@ -43,6 +46,7 @@ const DragAndDrop = () => {
         });
     }
   };
+
   return (
     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12 px-4">
       {typesRecruitmentState.map((container) => (
