@@ -13,6 +13,7 @@ import ApplicationPage from "./components/Candidates/ApplicationPage";
 import EmployeesPage from "./components/Employees/EmployeesPage";
 import DepartmentEmployees from "./components/Departments/DepartmentEmployees";
 import ContractsPage from "./components/Contracts/ContractsPage";
+import CandidatesPage from "./components/Candidates/CandidatesPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +43,7 @@ const App = () => {
             element={<DepartmentEmployees />}
           ></Route>
           <Route path="/contracts" element={<ContractsPage />}></Route>
+          <Route path="/candidates" element={<CandidatesPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

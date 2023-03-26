@@ -67,6 +67,7 @@ const ContractCard = ({
 
   const renewContract = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
+    console.log(contract);
 
     // await API.post(`renewContract/${contract.id}`, inputs)
     //   .then((res) => {
