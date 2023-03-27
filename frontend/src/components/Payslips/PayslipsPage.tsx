@@ -59,6 +59,13 @@ const PayslipsPage = () => {
 
                       <th
                         scope="col"
+                        className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
+                      >
+                        Date
+                      </th>
+
+                      <th
+                        scope="col"
                         className="relative py-3.5 pl-3 pr-4 sm:pr-6"
                       >
                         <span className="sr-only">Edit</span>
@@ -83,6 +90,12 @@ const PayslipsPage = () => {
                             <div className="text-gray-900">
                               {payslip.contract?.user?.fname}{" "}
                               {payslip.contract?.user?.lname}
+                            </div>
+                          </td>
+
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                            <div className="text-gray-900">
+                              {payslip.created_at?.split("T")[0]}
                             </div>
                           </td>
 
