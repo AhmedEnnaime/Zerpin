@@ -31,7 +31,6 @@ const RecruitmentHome = () => {
       <Navbar />
       <div className="flex justify-between p-8">
         <h1 className="text-4xl font-bold">Recruitment</h1>
-        <h1>{user?.department?.name}</h1>
         <div className="flex justify-end px-12">
           {user?.role == "ADMIN" ? (
             <button
