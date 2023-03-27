@@ -91,15 +91,6 @@ const SignContract = ({
       formData.append("base_salary", inputs.base_salary.toString());
     }
 
-    const checkedRuleIds: any = [];
-    const checkboxes = document.getElementsByName("rule_id");
-    for (let i = 0; i < checkboxes.length; i++) {
-      const checkbox = checkboxes[i] as HTMLInputElement;
-      if (checkbox.checked) {
-        checkedRuleIds.push(checkbox.value);
-      }
-    }
-    formData.append("rule_id", checkedRuleIds.join(","));
     await API.post(`contracts`, formData)
       .then((res) => {
         console.log(res.data);
