@@ -111,7 +111,7 @@ class ContractController extends BaseController
             ]);
 
             $contract->rules()->attach($rules);
-            $candidate = Candidate::find($request->email);
+            $candidate = Candidate::where('email', $request->email)->first();
             $candidate->delete();
             // SEND EMAIL
 
