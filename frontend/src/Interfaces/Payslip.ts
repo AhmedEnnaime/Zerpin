@@ -6,7 +6,7 @@ interface IPayslip {
   contract_id: number;
   created_at?: string;
   updated_at?: string;
-  contract: IContract;
+  contract?: IContract;
 }
 
 export default IPayslip;

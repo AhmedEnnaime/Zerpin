@@ -10,7 +10,7 @@ interface IUser {
   phone: string;
   email: string;
   password: string;
-  img: string;
+  img: File | null;
   role: "ADMIN" | "CHEF" | "EMPLOYEE";
   department_id: number | null;
   created_at?: string;

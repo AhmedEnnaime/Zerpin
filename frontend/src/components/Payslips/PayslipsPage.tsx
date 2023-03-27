@@ -15,7 +15,6 @@ const PayslipsPage = () => {
   const getPayslips = async () => {
     await API.get(`payslips`)
       .then((res) => {
-        console.log(res.data);
         setPayslips(res.data);
       })
       .catch((err) => {
@@ -82,8 +81,8 @@ const PayslipsPage = () => {
 
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             <div className="text-gray-900">
-                              {payslip.contract.user?.fname}{" "}
-                              {payslip.contract.user?.lname}
+                              {payslip.contract?.user?.fname}{" "}
+                              {payslip.contract?.user?.lname}
                             </div>
                           </td>
 

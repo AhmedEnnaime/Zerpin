@@ -9,8 +9,8 @@ interface ICandidate {
   cin: string;
   phone: string;
   email: string;
-  cv: string;
-  img: string;
+  cv: File | null;
+  img: File | null;
   recrutment_id: string | undefined;
   recrutment_state?: RecruitmentStatus;
   recrutment?: IRecruitment;

@@ -39,6 +39,13 @@ const SignContract = ({
     department_id: 0,
   });
 
+  const [img, setImg] = useState<File | null>(null);
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImg(e.target.files && e.target.files[0]);
+    }
+  };
   const getDepartments = async () => {
     await API.get(`departments`)
       .then((res) => {
@@ -72,7 +79,7 @@ const SignContract = ({
     formData.append("password", inputs.password);
     formData.append("role", inputs.role);
     formData.append("position", inputs.position);
-    formData.append("img", inputs.img);
+    formData.append("img", img as File);
     formData.append("debut_date", inputs.debut_date);
     formData.append("final_date", inputs.final_date);
 
@@ -175,7 +182,7 @@ const SignContract = ({
                           <input
                             type="file"
                             name="img"
-                            onChange={handleChange}
+                            onChange={handleImage}
                             id="photo"
                             className="ml-5 hidden bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           />
@@ -549,7 +556,7 @@ const SignContract = ({
 
               <div className="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
                 <button
-                  type="button"
+                  type="submit"
                   className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm"
                   onClick={signContract}
                 >

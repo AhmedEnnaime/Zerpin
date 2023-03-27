@@ -7,6 +7,24 @@ import API from "../../utils/API";
 
 const ApplicationPage = () => {
   let { id } = useParams();
+  const [img, setImg] = useState<File | null>(null);
+  const [cv, setCv] = useState<File | null>(null);
+
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files && e.target.files[0]);
+    if (e.target.files && e.target.files.length > 0) {
+      setImg(e.target.files && e.target.files[0]);
+    }
+  };
+
+  const handleCv = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.files && e.target.files[0]);
+
+    if (e.target.files && e.target.files.length > 0) {
+      setCv(e.target.files && e.target.files[0]);
+    }
+  };
+
   const [inputs, setInputs] = useState<ICandidate>({
     fname: "",
     lname: "",
@@ -14,8 +32,8 @@ const ApplicationPage = () => {
     cin: "",
     phone: "",
     email: "",
-    cv: "",
-    img: "",
+    cv: cv,
+    img: img,
     recrutment_id: id,
   });
 
@@ -28,8 +46,18 @@ const ApplicationPage = () => {
 
   const handleSubmit = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    //console.log(inputs);
-    await API.post(`candidates`, inputs)
+    const formData = new FormData();
+    formData.append("fname", inputs.fname);
+    formData.append("lname", inputs.lname);
+    formData.append("email", inputs.email);
+    formData.append("birthday", inputs.birthday);
+    formData.append("cin", inputs.cin);
+    formData.append("phone", inputs.phone);
+    formData.append("cv", cv as File);
+    formData.append("img", img as File);
+    formData.append("recrutment_id", inputs.recrutment_id as string);
+
+    await API.post(`candidates`, formData)
       .then((res) => {
         console.log(res.data);
         if (res.status === 201) {
@@ -185,8 +213,7 @@ const ApplicationPage = () => {
                 <input
                   type="file"
                   name="cv"
-                  value={inputs.cv}
-                  onChange={handleChange}
+                  onChange={handleCv}
                   id="cv"
                   autoComplete="given-name"
                   className="py-3 px-4 block w-full border-2  shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-200 rounded-md"
@@ -204,8 +231,7 @@ const ApplicationPage = () => {
                 <input
                   type="file"
                   name="img"
-                  onChange={handleChange}
-                  value={inputs.img}
+                  onChange={handleImage}
                   id="img"
                   autoComplete="family-name"
                   className="py-3 px-4 block border-2 w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-200 rounded-md"
