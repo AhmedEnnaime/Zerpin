@@ -90,7 +90,7 @@ const SignContract = ({
     if (inputs.base_salary !== null) {
       formData.append("base_salary", inputs.base_salary.toString());
     }
-    //  Trying to group rules in array
+
     await API.post(`contracts`, formData)
       .then((res) => {
         console.log(res.data);
