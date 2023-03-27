@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import logo from "../../assets/logo.png";
 import ICandidate from "../../Interfaces/Candidate";
@@ -9,7 +9,7 @@ const ApplicationPage = () => {
   let { id } = useParams();
   const [img, setImg] = useState<File | null>(null);
   const [cv, setCv] = useState<File | null>(null);
-
+  const navigate = useNavigate();
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.files && e.target.files[0]);
     if (e.target.files && e.target.files.length > 0) {
@@ -62,6 +62,7 @@ const ApplicationPage = () => {
         console.log(res.data);
         if (res.status === 201) {
           toast.success("Your application was sent successfully");
+          navigate("/success");
         }
       })
       .catch((err) => {
