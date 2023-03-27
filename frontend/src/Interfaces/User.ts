@@ -1,5 +1,6 @@
 import IDepartment from "./Department";
 import IContract from "./Contract";
+import IHoliday from "./Holiday";
 
 interface IUser {
   id?: number;
@@ -17,6 +18,7 @@ interface IUser {
   updated_at?: string;
   department?: IDepartment | null;
   contract?: IContract | null;
+  holidays?: IHoliday[] | null;
 }
 
 export default IUser;

@@ -16,6 +16,7 @@ import ContractsPage from "./components/Contracts/ContractsPage";
 import CandidatesPage from "./components/Candidates/CandidatesPage";
 import PayslipsPage from "./components/Payslips/PayslipsPage";
 import SuccessPage from "./utils/SuccessPage";
+import HolidaysPage from "./components/Holidays/HolidaysPage";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/candidates" element={<CandidatesPage />}></Route>
           <Route path="/payslips" element={<PayslipsPage />}></Route>
           <Route path="/success" element={<SuccessPage />}></Route>
+          <Route path="/holidays" element={<HolidaysPage />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

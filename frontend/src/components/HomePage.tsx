@@ -66,10 +66,13 @@ const HomePage: React.FC = () => {
           />
         </Link>
 
-        <Module
-          title="Holidays"
-          icon={<i className="fa-sharp fa-solid fa-gift"></i>}
-        />
+        <Link to={"/holidays"}>
+          <Module
+            title="Holidays"
+            icon={<i className="fa-sharp fa-solid fa-gift"></i>}
+          />
+        </Link>
+
         {user?.role == "ADMIN" ? (
           <Link to={"/payslips"}>
             <Module

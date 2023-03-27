@@ -16,7 +16,7 @@ class UserController extends BaseController
 {
     public function index()
     {
-        $users = User::with("department", "contract.rules", "contract.user")->paginate(4);
+        $users = User::with("department", "contract.rules", "contract.user", "holidays")->paginate(4);
         return $this->sendResponse($users, 'Users retrieved successfully.', 200);
     }
     public function register(Request $request)
