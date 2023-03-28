@@ -42,8 +42,8 @@ const EmployeesPage = () => {
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}
         containerClassName={"flex items-center justify-end my-6"}
-        pageClassName="bg-gray-200 hover:bg-gray-300 text-gray-700 mx-1 rounded-full px-3 py-2 cursor-pointer"
-        activeClassName="bg-blue-600 text-white"
+        pageClassName="hover:bg-yellow-400 text-black mx-1 rounded-full px-3 py-1 cursor-pointer"
+        activeClassName="bg-yellow-400"
       />
     </>
   );

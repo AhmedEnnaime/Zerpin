@@ -56,7 +56,7 @@ const LoginPage = () => {
           token: loginData[1].token,
         })
       );
-      navigate("/");
+      navigate("/home");
     }
   }, [isLoginSuccess]);
 

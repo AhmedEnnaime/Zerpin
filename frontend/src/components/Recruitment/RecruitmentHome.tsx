@@ -28,9 +28,8 @@ const RecruitmentHome = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="flex justify-between p-8">
-        <h1 className="text-4xl font-bold">Recruitment</h1>
+      <div className="flex justify-between mt-8">
+        <h1 className="text-2xl">{recruitments?.length} Active Jobs</h1>
         <div className="flex justify-end px-12">
           {user?.role == "ADMIN" ? (
             <button

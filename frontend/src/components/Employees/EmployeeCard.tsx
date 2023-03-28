@@ -25,16 +25,23 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
                 now <= holidayEnd &&
                 holiday.state == "VALIDATED"
               ) {
-                return <Badge status="In Holiday" />;
+                return <Badge key={holiday.id} status="In Holiday" />;
               } else {
-                return <Badge status="Working" />;
+                return <Badge key={holiday.id} status="Working" />;
               }
             })
           ) : (
             <Badge status="Working" />
           )}
         </div>
-        <div className="flex flex-col items-center">
+        <div
+          onClick={() => {
+            {
+              user?.role == "ADMIN" ? setOpen(true) : "";
+            }
+          }}
+          className="flex flex-col items-center cursor-pointer"
+        >
           <img
             className="mb-3 h-24 w-24 rounded-full shadow-lg"
             src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"

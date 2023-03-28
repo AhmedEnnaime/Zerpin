@@ -22,15 +22,15 @@ const PayslipsPage = () => {
       });
   };
   useEffect(() => {
-    if (!auth.token || user?.role != "ADMIN") {
+    if (!auth.token) {
       navigate("/login");
+    } else if (user?.role == "CHEF" || user?.role == "EMPLOYEE") {
+      navigate("/home");
     }
     getPayslips();
   }, []);
   return (
     <>
-      <Navbar />
-
       <div className="px-4 mt-12 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">

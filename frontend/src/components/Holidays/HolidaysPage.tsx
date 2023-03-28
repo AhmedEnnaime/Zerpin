@@ -20,7 +20,6 @@ const HolidaysPage = () => {
   }, []);
   return (
     <>
-      <Navbar />
       <div className="flex w-full mt-12">
         <div className="w-3/4 px-6">
           {user?.role == "ADMIN" ? <HolidaysList /> : <RequestHoliday />}
