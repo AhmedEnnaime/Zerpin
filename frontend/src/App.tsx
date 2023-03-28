@@ -17,6 +17,7 @@ import CandidatesPage from "./components/Candidates/CandidatesPage";
 import PayslipsPage from "./components/Payslips/PayslipsPage";
 import SuccessPage from "./utils/SuccessPage";
 import HolidaysPage from "./components/Holidays/HolidaysPage";
+import SideBar from "./components/SideBar";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -35,21 +36,28 @@ const App = () => {
       <BrowserRouter>
         <ToastContainer />
         <Routes>
-          <Route path="/" element={<HomePage />}></Route>
+          <Route path="/home" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
-          <Route path="/recruitment" element={<RecruitmentHome />}></Route>
-          <Route path="/departments" element={<DepartmentPage />}></Route>
-          <Route path="/application/:id" element={<ApplicationPage />}></Route>
-          <Route path="/employees" element={<EmployeesPage />}></Route>
-          <Route
-            path="/departmentEmployees"
-            element={<DepartmentEmployees />}
-          ></Route>
-          <Route path="/contracts" element={<ContractsPage />}></Route>
-          <Route path="/candidates" element={<CandidatesPage />}></Route>
-          <Route path="/payslips" element={<PayslipsPage />}></Route>
-          <Route path="/success" element={<SuccessPage />}></Route>
-          <Route path="/holidays" element={<HolidaysPage />}></Route>
+
+          <Route path="/" element={<SideBar />}>
+            <Route path="/departments" element={<DepartmentPage />}></Route>
+            <Route path="/recruitment" element={<RecruitmentHome />}></Route>
+            {/* <Route path="/departments" element={<DepartmentPage />}></Route> */}
+            <Route
+              path="/application/:id"
+              element={<ApplicationPage />}
+            ></Route>
+            <Route path="/employees" element={<EmployeesPage />}></Route>
+            <Route
+              path="/departmentEmployees"
+              element={<DepartmentEmployees />}
+            ></Route>
+            <Route path="/contracts" element={<ContractsPage />}></Route>
+            <Route path="/candidates" element={<CandidatesPage />}></Route>
+            <Route path="/payslips" element={<PayslipsPage />}></Route>
+            <Route path="/success" element={<SuccessPage />}></Route>
+            <Route path="/holidays" element={<HolidaysPage />}></Route>
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

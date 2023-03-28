@@ -29,8 +29,7 @@ const EmployeesPage = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 justify-center pt-8 px-8 pb-4">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-8 pb-4">
         {users ? (
           users.map((user) => <EmployeeCard key={user.id} employee={user} />)
         ) : (
@@ -42,7 +41,7 @@ const EmployeesPage = () => {
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}
-        containerClassName={"flex items-center justify-center my-6"}
+        containerClassName={"flex items-center justify-end my-6"}
         pageClassName="bg-gray-200 hover:bg-gray-300 text-gray-700 mx-1 rounded-full px-3 py-2 cursor-pointer"
         activeClassName="bg-blue-600 text-white"
       />
