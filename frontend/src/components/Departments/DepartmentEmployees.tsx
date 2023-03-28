@@ -32,11 +32,12 @@ const DepartmentEmployees = () => {
 
   return (
     <>
-      <Navbar />
       <div className="px-4 mt-12 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
-            <h1 className="text-xl font-semibold text-gray-900">Users</h1>
+            <h1 className="text-xl font-semibold text-gray-900">
+              {department?.users?.length} Employees
+            </h1>
           </div>
           <h1 className="text-2xl">{department?.name}</h1>
         </div>

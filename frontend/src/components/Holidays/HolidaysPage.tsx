@@ -20,11 +20,11 @@ const HolidaysPage = () => {
   }, []);
   return (
     <>
-      <div className="flex w-full mt-12">
-        <div className="w-3/4 px-6">
+      <div className="flex justify-between mt-12">
+        <div className="w-3/5 px-6">
           {user?.role == "ADMIN" ? <HolidaysList /> : <RequestHoliday />}
         </div>
-        <div className="flex flex-col gap-y-6 w-1/3">
+        <div className="flex flex-col items-center gap-y-6">
           {user?.role == "ADMIN" ? (
             <RequestsLists />
           ) : user?.role == "CHEF" ? (

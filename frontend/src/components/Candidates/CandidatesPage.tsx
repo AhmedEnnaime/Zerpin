@@ -19,8 +19,7 @@ const CandidatesPage = () => {
   }, []);
   return (
     <>
-      <Navbar />
-      <h1 className="mt-12 text-center text-2xl">
+      <h1 className="mt-12 text-left text-2xl">
         Candidates of {recruitment?.position}
       </h1>
 

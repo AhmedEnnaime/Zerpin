@@ -25,113 +25,54 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
   };
   return (
     <div className="flex items-center justify-center">
-      <div className="md:w-96 rounded-md shadow-lg py-800 4 px-5 w-full dark:bg-gray- bg-white">
-        <h2 className="text-xs leading-3 text-gray-600 dark:text-gray-100">
-          Tasks
-        </h2>
+      <div className="md:w-96 rounded-md shadow-lg p-4 w-full dark:bg-gray- bg-white">
         <h1 className="text-lg font-bold text-gray-800 leading-5 pt-2">
-          25th January, Monday
+          {recruitment.position}
         </h1>
-        <div className="pt-6 relative">
+        <div className="pt-12 relative">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-purple-400" />
-              <span className="text-purple-400 text-xs italic font-normal pl-1">
-                11:30 AM
-              </span>
+              <span className=" text-xs font-normal pl-1">Candidates</span>
             </div>
           </div>
-          <p className="text-sm leading-none pt-2 text-gray-600 dark:text-gray-100">
-            Meeting with stake holders
-          </p>
-          <p className="text-xs italic pt-1 leading-3 text-gray-400">
-            Discussion on the template design
-          </p>
-          <div className="flex items-center justify-left">
-            <div className="text-green-500 bg-green-200 py-1 px-2 rounded text-xs leading-3 mt-2">
-              Completed
+          <div className="flex items-center bg-blue-100 p-4 rounded-sm mt-4 justify-start">
+            <div className="flex items-left gap-x-2">
+              <div className="mt-2 h-16 w-2 border-l-2 border-gray-500"></div>
+              <div className="flex flex-col items-center gap-y-1 p-2">
+                <h3 className="text-gray-500">APPLIED</h3>
+                <p className="text-3xl">{recruitment.candidates?.length}</p>
+              </div>
+
+              <div className="mt-2 h-16 w-2 border-l-2 border-gray-500 ml-8"></div>
+              <div className="flex flex-col items-center gap-y-1 p-2">
+                <h3 className="text-gray-500">WANTED</h3>
+                <p className="text-3xl">{recruitment.number}</p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="pt-6 relative">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-blue-400" />
-              <span className="text-blue-400 text-xs italic font-normal pl-1">
-                1:00 AM
-              </span>
-            </div>
-          </div>
-          <p className="text-sm leading-none pt-2 text-gray-600 dark:text-gray-100">
-            Design spring discussion
-          </p>
-          <p className="text-xs italic pt-1 leading-3 text-gray-400">
-            Plan next weeks design sprint
-          </p>
-          <div className="flex items-center justify-left">
-            <div className="text-red-500 bg-red-200 py-1 px-2 rounded text-xs leading-3 mt-2">
-              Pending
-            </div>
-          </div>
-        </div>
-        <div className="pt-6 relative">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div className="w-2 h-2 rounded-full bg-pink-400" />
-              <span className="text-pink-400 text-xs italic font-normal pl-1">
-                2:30 PM
-              </span>
-            </div>
-          </div>
-          <p className="text-sm leading-none pt-2 text-gray-600 dark:text-gray-100">
-            Finalise marketing plan
-          </p>
-          <p className="text-xs italic pt-1 leading-3 text-gray-400">
-            Define channels for content
-          </p>
-          <div className="flex items-center justify-left">
-            <div className="text-red-500 bg-red-200 py-1 px-2 rounded text-xs leading-3 mt-2">
-              Pending
-            </div>
-          </div>
+          {user?.role == "ADMIN" ? (
+            <>
+              <div className="flex justify-center mt-8">
+                <hr className="w-11/12" />
+              </div>
+
+              <div
+                onClick={() => {
+                  dispatch(setRecruitment(recruitment));
+                  navigate("/candidates");
+                }}
+                className="flex items-center gap-x-2 justify-end p-2 cursor-pointer hover:underline"
+              >
+                <p className="text-gray-500 text-xs">See Candidates</p>
+                <i className="fa-sharp fa-solid fa-arrow-right text-xs text-gray-500"></i>
+              </div>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </div>
     </div>
-    // <div className="flex items-center w-full justify-center py-8">
-    //   <div className="max-w-sm rounded shadow bg-blue-200">
-    //     <div className="flex">
-    //       <div className="px-6 py-5">
-    //         <p className="text-base font-medium leading-none text-gray-800">
-    //           {recruitment.title}
-    //         </p>
-    //         <p className="text-xs leading-3 text-gray-800 pt-2">
-    //           {recruitment.position}
-    //         </p>
-    //         <p className="text-xl font-semibold leading-tight text-gray-800 pt-6">
-    //           {recruitment.number} Places
-    //         </p>
-    //         <div className="pt-4">
-    //           {user?.role == "ADMIN" ? (
-    //             <button
-    //               onClick={() => {
-    //                 dispatch(setRecruitment(recruitment));
-    //                 navigate("/candidates");
-    //               }}
-    //               className="py-2 px-4 text-xs font-semibold leading-3 bg-blue-400 rounded hover:bg-blue-500 focus:outline-none"
-    //             >
-    //               View Candidates
-    //             </button>
-    //           ) : (
-    //             ""
-    //           )}
-    //         </div>
-    //       </div>
-    //       <div className="px-3">
-    //         <img src="https://i.ibb.co/34gPtCT/bg.png" alt="medal" />
-    //       </div>
-    //     </div>
-    //   </div>
-    // </div>
   );
 };
 

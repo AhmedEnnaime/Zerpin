@@ -6,7 +6,7 @@ import API from "../../utils/API";
 import IDepartment from "../../Interfaces/Department";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
-import SideBar from "../SideBar";
+import { Button } from "flowbite-react";
 
 const DepartmentPage: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -28,21 +28,21 @@ const DepartmentPage: React.FC = () => {
 
   return (
     <>
-      <div className="flex justify-end px-4">
+      <div className="flex justify-between px-4 mt-8">
+        <h2 className="text-2xl">{departments?.length} Departments</h2>
         {user?.role == "ADMIN" ? (
-          <button
+          <Button
             onClick={() => {
               setOpen(true);
             }}
-            className="p-4"
           >
             Add Department
-          </button>
+          </Button>
         ) : (
           ""
         )}
       </div>
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-4">
         {departments ? (
           departments.map((department) => (
             <Card key={department.id} department={department} />
