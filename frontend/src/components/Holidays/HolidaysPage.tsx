@@ -4,6 +4,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import Navbar from "../Navbar";
 import HolidaysList from "./HolidaysList";
+import MyHolidaysRequests from "./Requests/MyHolidaysRequests";
 import RequestHoliday from "./Requests/RequestHoliday";
 import RequestsLists from "./Validation/RequestsLists";
 
@@ -24,11 +25,16 @@ const HolidaysPage = () => {
         <div className="w-3/4">
           {user?.role == "ADMIN" ? <HolidaysList /> : <RequestHoliday />}
         </div>
-        <div className="w-1/3">
-          {user?.role == "ADMIN" || user?.role == "CHEF" ? (
+        <div className="flex flex-col gap-y-6 w-1/3">
+          {user?.role == "ADMIN" ? (
             <RequestsLists />
+          ) : user?.role == "CHEF" ? (
+            <>
+              <RequestsLists />
+              <MyHolidaysRequests />
+            </>
           ) : (
-            ""
+            <MyHolidaysRequests />
           )}
         </div>
       </div>
