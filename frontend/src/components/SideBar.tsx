@@ -1,7 +1,10 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
+import { useAppDispatch } from "../redux/hooks";
+import { logout } from "../redux/slices/authSlice";
+import { toast } from "react-toastify";
 
 const Icon = ({ className }: any) => (
   <svg
@@ -53,17 +56,36 @@ const navigation = [
   },
 ];
 
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
-
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 const SideBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
+  const handleLogout = () => {
+    dispatch(logout());
+    toast.success("User logged out successfully");
+    navigate("/login");
+  };
+
+  const userNavigation = [
+    { name: "Your Profile", href: "#" },
+    {
+      name: "Sign out",
+      onClick: () => {
+        handleLogout();
+      },
+    },
+  ];
+
+  useEffect(() => {
+    if (!auth.token) {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <>
@@ -116,7 +138,7 @@ const SideBar = () => {
                   </div>
                 </Transition.Child>
                 <div className="flex-shrink-0 px-4 flex items-center">
-                  <img className="h-8 w-auto" src={logo} alt="Workflow" />
+                  <img className="h-16 w-16" src={logo} alt="Workflow" />
                 </div>
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
@@ -212,9 +234,10 @@ const SideBar = () => {
                             {({ active }) => (
                               <a
                                 href={item.href}
+                                onClick={item.onClick}
                                 className={classNames(
-                                  active ? "bg-gray-100" : "",
-                                  "block py-2 px-4 text-sm text-gray-700"
+                                  active ? "bg-gray-100 cursor-pointer" : "",
+                                  "block py-2 px-4 text-sm text-gray-700 cursor-pointer"
                                 )}
                               >
                                 {item.name}
