@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import DepartmentModal from "./DepartmentModal";
 import API from "../../utils/API";
 import IDepartment from "../../Interfaces/Department";
+import { useAppSelector } from "../../redux/hooks";
+import { selectAuth } from "../../redux/slices/authSlice";
+import SideBar from "../SideBar";
 
 const DepartmentPage: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [departments, setDepartments] = useState<IDepartment[]>();
-
+  const { user } = useAppSelector(selectAuth);
   const getDepartments = async () => {
     await API.get(`departments`)
       .then((res) => {
@@ -25,16 +28,19 @@ const DepartmentPage: React.FC = () => {
 
   return (
     <>
-      <Navbar />
       <div className="flex justify-end px-4">
-        <button
-          onClick={() => {
-            setOpen(true);
-          }}
-          className="p-4"
-        >
-          Add Department
-        </button>
+        {user?.role == "ADMIN" ? (
+          <button
+            onClick={() => {
+              setOpen(true);
+            }}
+            className="p-4"
+          >
+            Add Department
+          </button>
+        ) : (
+          ""
+        )}
       </div>
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
         {departments ? (

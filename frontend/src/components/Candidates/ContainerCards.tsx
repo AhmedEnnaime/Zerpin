@@ -20,9 +20,9 @@ const ContainerCards = ({
   };
   return (
     <div
-      className={`flex justify-around w-full h-fit py-4 border-2 border-gray-700 rounded-md  ${
+      className={`flex justify-around w-full h-fit py-4 border-gray-700 rounded-md  ${
         isDragging
-          ? "flex justify-around w-full h-fit py-4 border-2 border-gray-700 rounded-md bg-red-400"
+          ? "flex justify-around w-full h-fit py-4 border-gray-700 rounded-md bg-red-400"
           : ""
       }`}
       onDragOver={handleDragOver}

@@ -63,15 +63,16 @@ const ContractsPage = () => {
   };
 
   useEffect(() => {
-    if (!auth.token || user?.role != "ADMIN") {
+    if (!auth.token) {
       navigate("/login");
+    } else if (user?.role == "CHEF" || user?.role == "EMPLOYEE") {
+      navigate("/home");
     }
     getContracts();
   }, [rerender, open]);
 
   return (
     <>
-      <Navbar />
       <div className="px-4 sm:px-6 lg:px-8 mt-12">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
