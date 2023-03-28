@@ -1,5 +1,6 @@
 import { Card, Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import IHoliday from "../../../Interfaces/Holiday";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectAuth } from "../../../redux/slices/authSlice";
@@ -8,6 +9,7 @@ import API from "../../../utils/API";
 const RequestsLists = () => {
   const { user } = useAppSelector(selectAuth);
   const [holidaysRequests, setHolidaysRequests] = useState<IHoliday[]>();
+  const [rerender, setRerender] = useState(false);
 
   const getHolidaysRequest = async () => {
     try {
@@ -34,9 +36,35 @@ const RequestsLists = () => {
     }
   };
 
+  const validateHoliday = async (id: number) => {
+    await API.patch(`validateHoliday/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Holiday validated successfully");
+          setRerender(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const rejectHoliday = async (id: number) => {
+    await API.patch(`rejectHoliday/${id}`)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Holiday rejected successfully");
+          setRerender(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     getHolidaysRequest();
-  }, []);
+  }, [rerender]);
   return (
     <div className="max-w-sm">
       <Card>
@@ -81,11 +109,21 @@ const RequestsLists = () => {
                       </div>
                     </Tooltip>
                     <div className="inline-flex gap-x-2 items-center text-base font-semibold text-gray-900 dark:text-white">
-                      <button className="inline-flex items-center rounded-lg border border-gray-300 bg-green-600 p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                      <button
+                        onClick={() => {
+                          validateHoliday(holidayRequest.id as number);
+                        }}
+                        className="inline-flex items-center rounded-lg border border-gray-300 bg-green-600 p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                      >
                         Validate
                       </button>
 
-                      <button className="inline-flex items-center rounded-lg border border-gray-300 bg-red-600 p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700">
+                      <button
+                        onClick={() => {
+                          rejectHoliday(holidayRequest.id as number);
+                        }}
+                        className="inline-flex items-center rounded-lg border border-gray-300 bg-red-600 p-2 text-center text-sm font-medium text-white focus:outline-none focus:ring-4 focus:ring-gray-200 dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:hover:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-700"
+                      >
                         Reject
                       </button>
                     </div>
