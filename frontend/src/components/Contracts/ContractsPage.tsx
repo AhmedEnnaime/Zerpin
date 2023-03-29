@@ -65,7 +65,7 @@ const ContractsPage = () => {
   useEffect(() => {
     if (!auth.token) {
       navigate("/login");
-    } else if (user?.role == "CHEF" || user?.role == "EMPLOYEE") {
+    } else if (user?.role != "ADMIN") {
       navigate("/home");
     }
     getContracts();

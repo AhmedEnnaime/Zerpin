@@ -87,12 +87,8 @@ class CandidateController extends BaseController
 
     public function destroy(Candidate $candidate)
     {
-        if (Auth::user()->role == "ADMIN") {
-            $candidate->delete();
-            return $this->sendResponse([], 'Candidate deleted successfully.', 202);
-        } else {
-            return $this->sendResponse([], 'Not allowed.', 404);
-        }
+        $candidate->delete();
+        return $this->sendResponse([], 'Candidate deleted successfully.', 202);
     }
 
     public function show($id)
