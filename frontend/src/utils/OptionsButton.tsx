@@ -1,13 +1,15 @@
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { DepartmentCardProps } from "../PropsTypes";
 import API from "./API";
 import { toast } from "react-toastify";
+import DepartmentModal from "../components/Departments/DepartmentModal";
 
 const OptionsButton = ({ department }: DepartmentCardProps) => {
   function classNames(...classes: any) {
     return classes.filter(Boolean).join(" ");
   }
+  const [open, setOpen] = useState(false);
 
   const deleteDepartment = async () => {
     await API.delete(`departments/${department.id}`)
@@ -60,10 +62,12 @@ const OptionsButton = ({ department }: DepartmentCardProps) => {
               <Menu.Item>
                 {({ active }) => (
                   <a
-                    href="#"
+                    onClick={() => {
+                      setOpen(true);
+                    }}
                     className={classNames(
                       active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "flex px-4 py-2 text-sm"
+                      "flex px-4 py-2 text-sm cursor-pointer"
                     )}
                   >
                     <i className="fa-sharp fa-solid fa-pen mr-3 h-5 w-5 text-blue-600"></i>
@@ -75,6 +79,15 @@ const OptionsButton = ({ department }: DepartmentCardProps) => {
           </Menu.Items>
         </Transition>
       </Menu>
+      {open ? (
+        <DepartmentModal
+          open={open}
+          setOpen={setOpen}
+          department={department}
+        />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

@@ -25,9 +25,7 @@ const ContainerCards = ({
   return (
     <div
       className={`flex justify-around w-full h-fit py-4 border-gray-700 rounded-md  ${
-        isDragging
-          ? "flex justify-around w-full h-fit py-4 border-black border-2 rounded-md border-dashed"
-          : ""
+        isDragging ? "flex justify-around w-full h-fit py-4" : ""
       }`}
       onDragOver={handleDragOver}
       onDrop={handleDrop}

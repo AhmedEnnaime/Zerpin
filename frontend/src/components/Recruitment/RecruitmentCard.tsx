@@ -74,9 +74,11 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
                   onClick={() => {
                     deleteRecruitment(recruitment.id as number);
                   }}
-                  className="hover:underline"
+                  className="hover:underline "
                 >
-                  <p className="text-gray-500 text-xs">Delete</p>
+                  <p className="text-gray-500 hover:text-red-600 text-xs">
+                    Delete
+                  </p>
                 </div>
                 <div className="flex items-center hover:underline">
                   <p className="text-gray-500 text-xs">See Candidates</p>

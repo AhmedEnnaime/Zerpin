@@ -5,11 +5,15 @@ import { DepartmentModalProps } from "../../PropsTypes";
 import { toast } from "react-toastify";
 import API from "../../utils/API";
 
-const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
+const DepartmentModal = ({
+  open,
+  setOpen,
+  department,
+}: DepartmentModalProps) => {
   const cancelButtonRef = useRef(null);
   const [inputs, setInputs] = useState<IDepartment>({
-    name: "",
-    description: "",
+    name: department?.name ?? "",
+    description: department?.description ?? "",
   });
   const handleAddChange = (
     e:
@@ -29,6 +33,21 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
       .then((res) => {
         if (res.status === 201) {
           toast.success("Department created successfully");
+          setOpen(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleUpdateSubmit = async (e: React.FormEvent<EventTarget>) => {
+    e.preventDefault();
+
+    await API.put(`departments/${department?.id}`, inputs)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Department updated successfully");
           setOpen(false);
         }
       })
@@ -129,13 +148,23 @@ const DepartmentModal = ({ open, setOpen }: DepartmentModalProps) => {
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6 sm:grid sm:grid-flow-row-dense sm:grid-cols-2 sm:gap-3">
-                  <button
-                    type="submit"
-                    className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
-                    onClick={handleAddSubmit}
-                  >
-                    Add
-                  </button>
+                  {!department?.id ? (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      onClick={handleAddSubmit}
+                    >
+                      Add
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:col-start-2 sm:text-sm"
+                      onClick={handleUpdateSubmit}
+                    >
+                      Update
+                    </button>
+                  )}
 
                   <button
                     type="button"

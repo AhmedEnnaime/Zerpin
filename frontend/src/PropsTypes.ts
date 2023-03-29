@@ -17,6 +17,8 @@ export type RecruitmentModalProps = {
 export type DepartmentModalProps = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  department?: IDepartment | undefined;
+  setDepartment?: React.Dispatch<React.SetStateAction<IDepartment>>;
 };
 
 export type DepartmentCardProps = {
@@ -58,4 +60,10 @@ export type SignContractProps = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   candidate: ICandidate;
   setCandidate?: React.Dispatch<React.SetStateAction<ICandidate>>;
+};
+
+export type CandidateInfoProps = {
+  open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  candidate: ICandidate;
 };
