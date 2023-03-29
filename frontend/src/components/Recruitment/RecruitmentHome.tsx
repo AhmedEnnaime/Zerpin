@@ -37,19 +37,20 @@ const RecruitmentHome = () => {
                 setOpen(true);
               }}
               type="button"
-              className="inline-flex items-center p-4 border border-transparent rounded-full shadow-sm text-white bg-blue-200 hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              className="inline-flex gap-x-2 items-center px-4 py-2 border-2 border-green-600 border-transparent rounded-md cursor-pointer shadow-sm bg-transparent hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
             >
               <i
-                className="fa-sharp fa-solid fa-plus text-black"
+                className="fa-sharp fa-solid fa-plus text-sm text-black"
                 aria-hidden="true"
               ></i>
+              Add Job
             </button>
           ) : (
             ""
           )}
         </div>
       </div>
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12">
+      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-center pt-12 pb-4">
         {recruitments ? (
           recruitments.map((recruitment) => (
             <RecruitmentCard key={recruitment.id} recruitment={recruitment} />

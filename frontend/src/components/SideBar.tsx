@@ -1,27 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
-import { useAppDispatch } from "../redux/hooks";
-import { logout } from "../redux/slices/authSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { logout, selectAuth } from "../redux/slices/authSlice";
 import { toast } from "react-toastify";
-
-const Icon = ({ className }: any) => (
-  <svg
-    className={className}
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={2}
-      d="M4 6h16M4 12h16M4 18h16"
-    />
-  </svg>
-);
 
 const navigation = [
   {
@@ -61,7 +44,7 @@ function classNames(...classes: any) {
 }
 const SideBar = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
+  const { user } = useAppSelector(selectAuth);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
@@ -80,6 +63,10 @@ const SideBar = () => {
       },
     },
   ];
+
+  const filteredNavigation = navigation.filter(
+    (item) => item.name !== "Contracts" && item.name !== "Payslips"
+  );
 
   useEffect(() => {
     if (!auth.token) {
@@ -142,21 +129,47 @@ const SideBar = () => {
                 </div>
                 <div className="mt-5 flex-1 h-0 overflow-y-auto">
                   <nav className="px-2 space-y-1">
-                    {navigation.map((item) => (
-                      <a
-                        key={item.name}
-                        href={item.href}
-                        className={classNames(
-                          "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                          "group rounded-md py-2 px-2 flex items-center text-base font-medium"
-                        )}
-                      >
-                        {
-                          item.icon /* Use curly braces to render the component */
-                        }
-                        <span className="ml-4">{item.name}</span>
-                      </a>
-                    ))}
+                    {user?.role === "ADMIN"
+                      ? navigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              location.pathname === item.href
+                                ? "bg-gray-100 text-gray-900"
+                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                              "group flex items-center px-2 py-2 text-sm font-medium rounded-md gap-x-2"
+                            )}
+                            aria-current={
+                              location.pathname === item.href
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.icon}
+                            {item.name}
+                          </Link>
+                        ))
+                      : filteredNavigation.map((item) => (
+                          <Link
+                            key={item.name}
+                            to={item.href}
+                            className={classNames(
+                              location.pathname === item.href
+                                ? "bg-gray-100 text-gray-900"
+                                : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                              "group flex items-center px-2 py-2 text-sm font-medium rounded-md gap-x-2"
+                            )}
+                            aria-current={
+                              location.pathname === item.href
+                                ? "page"
+                                : undefined
+                            }
+                          >
+                            {item.icon}
+                            {item.name}
+                          </Link>
+                        ))}
                   </nav>
                 </div>
               </div>
@@ -176,26 +189,50 @@ const SideBar = () => {
             </div>
             <div className="flex-grow mt-12 flex flex-col">
               <nav className="flex-1 px-4 pb-4 space-y-8">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className={classNames(
-                      "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
-                      "group rounded-md py-2 px-2 flex items-center text-base font-medium"
-                    )}
-                  >
-                    {item.icon /* Use curly braces to render the component */}
-                    <span className="ml-4">{item.name}</span>
-                  </a>
-                ))}
+                {user?.role === "ADMIN"
+                  ? navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={classNames(
+                          location.pathname === item.href
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                          "group flex items-center px-2 py-2 text-sm font-medium rounded-md gap-x-2"
+                        )}
+                        aria-current={
+                          location.pathname === item.href ? "page" : undefined
+                        }
+                      >
+                        {item.icon}
+                        {item.name}
+                      </Link>
+                    ))
+                  : filteredNavigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        to={item.href}
+                        className={classNames(
+                          location.pathname === item.href
+                            ? "bg-gray-100 text-gray-900"
+                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                          "group flex items-center px-2 py-2 text-sm font-medium rounded-md gap-x-2"
+                        )}
+                        aria-current={
+                          location.pathname === item.href ? "page" : undefined
+                        }
+                      >
+                        {item.icon}
+                        {item.name}
+                      </Link>
+                    ))}
               </nav>
             </div>
           </div>
         </div>
 
         <div className="md:pl-64 bg-gray-50">
-          <div className="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0 ">
+          <div className="mx-auto flex flex-col px-4 md:px-8 xl:px-4">
             <div className="sticky top-0 z-10 flex-shrink-0 h-16 bg-white border-b border-gray-200 flex">
               <button
                 type="button"
@@ -205,7 +242,7 @@ const SideBar = () => {
                 <span className="sr-only">Open sidebar</span>
                 <i className="fa-sharp fa-solid fa-bars h-6 w-6"></i>
               </button>
-              <div className="flex-1 flex justify-end px-4 md:px-0">
+              <div className="flex-1 flex justify-end md:px-8">
                 <div className="ml-4 flex items-center md:ml-6">
                   {/* Profile dropdown */}
                   <Menu as="div" className="ml-3 relative">
