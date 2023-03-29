@@ -73,13 +73,13 @@ const ContractsPage = () => {
 
   return (
     <>
-      <div className="px-4 sm:px-6 lg:px-4 mt-12">
+      <div className="px-4 pb-4 sm:px-6 lg:px-4 mt-12">
         <div className="sm:flex sm:items-center">
           <div className="sm:flex-auto">
             <h1 className="text-xl font-semibold text-gray-900">Contracts</h1>
           </div>
         </div>
-        <div className="mt-8 flex flex-col">
+        <div className="mt-8 pb-4 flex flex-col">
           <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-4">
               <div className="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
@@ -98,12 +98,7 @@ const ContractsPage = () => {
                       >
                         Employee
                       </th>
-                      <th
-                        scope="col"
-                        className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
-                      >
-                        Position
-                      </th>
+
                       <th
                         scope="col"
                         className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
@@ -156,11 +151,14 @@ const ContractsPage = () => {
                             {contract.ref}
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {contract.user?.fname} {contract.user?.lname}
+                            <div className="text-gray-900">
+                              {contract.user?.fname} {contract.user?.lname}
+                            </div>
+                            <div className="text-gray-500">
+                              {contract.position}
+                            </div>
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                            {contract.position}
-                          </td>
+
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                             {contract.debut_date}
                           </td>
