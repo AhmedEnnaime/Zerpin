@@ -19,9 +19,15 @@ const CandidatesPage = () => {
   }, []);
   return (
     <>
-      <h1 className="mt-12 text-left text-2xl">
-        Candidates of {recruitment?.position}
-      </h1>
+      <h1 className="mt-8 text-3xl">Candidates of {recruitment?.position}</h1>
+
+      <h2 className="mt-16 font-bold ml-12">
+        Total Candidates{" "}
+        <span className="bg-green-700 py-1 px-2 text-white rounded-md">
+          {" "}
+          {recruitment?.candidates?.length}{" "}
+        </span>{" "}
+      </h2>
 
       <DragAndDrop />
     </>
