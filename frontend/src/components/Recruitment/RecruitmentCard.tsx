@@ -12,7 +12,7 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
   const navigate = useNavigate();
 
   const deleteRecruitment = async (id: number) => {
-    await API.delete(`recruitments/${id}`)
+    await API.delete(`recrutments/${id}`)
       .then((res) => {
         console.log(res.data);
         if (res.status === 202) {
@@ -25,7 +25,14 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
   };
   return (
     <div className="flex items-center justify-center">
-      <div className="md:w-96 rounded-md shadow-lg p-4 w-full dark:bg-gray- bg-white">
+      <div
+        className={`md:w-96 border-t-4 ${
+          recruitment.candidates &&
+          recruitment.candidates.length >= recruitment.number
+            ? "border-red-600"
+            : "border-green-600"
+        } rounded-md shadow-lg p-4 w-full dark:bg-gray- bg-white`}
+      >
         <h1 className="text-lg font-bold text-gray-800 leading-5 pt-2">
           {recruitment.position}
         </h1>
@@ -61,10 +68,20 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
                   dispatch(setRecruitment(recruitment));
                   navigate("/candidates");
                 }}
-                className="flex items-center gap-x-2 justify-end p-2 cursor-pointer hover:underline"
+                className="flex items-center gap-x-2 justify-between p-2 cursor-pointer "
               >
-                <p className="text-gray-500 text-xs">See Candidates</p>
-                <i className="fa-sharp fa-solid fa-arrow-right text-xs text-gray-500"></i>
+                <div
+                  onClick={() => {
+                    deleteRecruitment(recruitment.id as number);
+                  }}
+                  className="hover:underline"
+                >
+                  <p className="text-gray-500 text-xs">Delete</p>
+                </div>
+                <div className="flex items-center hover:underline">
+                  <p className="text-gray-500 text-xs">See Candidates</p>
+                  <i className="fa-sharp fa-solid fa-arrow-right text-xs text-gray-500"></i>
+                </div>
               </div>
             </>
           ) : (
