@@ -91,6 +91,12 @@ class UserController extends BaseController
         return $this->sendResponse($user, 'Authenticated user.', 200);
     }
 
+    public function getUsers() 
+    {
+        $users = User::with("department", "contract.rules", "contract.user", "holidays")->where('role', '<>', 'ADMIN')->get();
+        return $this->sendResponse(UserResource::collection($users), 'Users retrieved successfully.', 200);
+    }
+
     public function destroy(User $user)
     {
         $user->delete();
