@@ -22,7 +22,7 @@ const Dashboard = () => {
       <div className="flex flex-col gap-y-8 pb-4">
         {user?.role == "ADMIN" ? <PinnedSections /> : ""}
         <div className="flex flex-col items-center mt-8">
-          <div className="flex gap-x-4 px-4 justify-between w-full">
+          <div className="flex gap-x-8 px-4 justify-between w-full">
             <div className="flex w-2/3 p-2 rounded bg-white shadow">
               <PieChart />
             </div>

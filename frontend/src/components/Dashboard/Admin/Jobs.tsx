@@ -1,50 +1,61 @@
+import { useEffect, useState } from "react";
+import IRecruitment from "../../../Interfaces/Recruitment";
+import API from "../../../utils/API";
+
 function classNames(...classes: any) {
   return classes.filter(Boolean).join(" ");
 }
 
 const Jobs = () => {
-  const timeline = [
-    {
-      id: 1,
+  const [jobs, setJobs] = useState<IRecruitment[]>();
 
-      content: "Applied to",
-      target: "Front End Developer",
-      date: "Sep 20",
-      datetime: "2020-09-20",
-    },
-    {
-      id: 2,
+  const getJobs = async () => {
+    await API.get(`recrutments`)
+      .then((res) => {
+        const filteredJobs = res.data.filter(
+          (job: IRecruitment) => job.number > (job.candidates ?? []).length
+        );
+        setJobs(filteredJobs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-      content: "Advanced to phone screening by",
-      target: "Bethany Blake",
-      date: "Sep 22",
-      datetime: "2020-09-22",
-    },
-    {
-      id: 3,
+  function getMonthName(month: string): string {
+    switch (month) {
+      case "01":
+        return "January";
+      case "02":
+        return "February";
+      case "03":
+        return "March";
+      case "04":
+        return "April";
+      case "05":
+        return "May";
+      case "06":
+        return "June";
+      case "07":
+        return "July";
+      case "08":
+        return "August";
+      case "09":
+        return "September";
+      case "10":
+        return "October";
+      case "11":
+        return "November";
+      case "12":
+        return "December";
+      default:
+        return "";
+    }
+  }
 
-      content: "Completed phone screening with",
-      target: "Martha Gardner",
-      date: "Sep 28",
-      datetime: "2020-09-28",
-    },
-    {
-      id: 4,
-
-      content: "Advanced to interview by",
-      target: "Bethany Blake",
-      date: "Sep 30",
-      datetime: "2020-09-30",
-    },
-    {
-      id: 5,
-
-      content: "Completed interview with",
-      target: "Katherine Snyder",
-      date: "Oct 4",
-      datetime: "2020-10-04",
-    },
-  ];
+  useEffect(() => {
+    getJobs();
+  }, []);
   return (
     <section
       aria-labelledby="timeline-title"
@@ -52,34 +63,44 @@ const Jobs = () => {
     >
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
         <h2 id="timeline-title" className="text-lg font-medium text-gray-900">
-          Timeline
+          Open Jobs
         </h2>
 
         {/* Activity Feed */}
         <div className="mt-6 flow-root">
           <ul role="list" className="-mb-8">
-            {timeline.map((item, itemIdx) => (
-              <li key={item.id}>
-                <div className="relative pb-8">
-                  <div className="relative flex space-x-3">
-                    <div></div>
-                    <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
-                      <div>
-                        <p className="text-sm text-gray-500">
-                          {item.content}{" "}
-                          <a href="#" className="font-medium text-gray-900">
-                            {item.target}
-                          </a>
-                        </p>
-                      </div>
-                      <div className="text-right text-sm whitespace-nowrap text-gray-500">
-                        <time dateTime={item.datetime}>{item.date}</time>
+            {jobs ? (
+              jobs.map((job) => (
+                <li key={job.id}>
+                  <div className="relative pb-8">
+                    <div className="relative flex space-x-3">
+                      <div></div>
+                      <div className="min-w-0 flex-1 pt-1.5 flex justify-between space-x-4">
+                        <div>
+                          <p className="text-sm text-gray-500">
+                            <a href="#" className="font-medium text-gray-900">
+                              {job.position}
+                            </a>
+                          </p>
+                        </div>
+                        <div className="text-right text-sm whitespace-nowrap text-gray-500">
+                          <time dateTime={job.created_at?.split("T")[0]}>
+                            {getMonthName(
+                              job.created_at
+                                ?.split("T")[0]
+                                .split("-")[1] as string
+                            )}{" "}
+                            {job.created_at?.split("T")[0].split("-")[2]}{" "}
+                          </time>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              ))
+            ) : (
+              <h1>All jobs are closed</h1>
+            )}
           </ul>
         </div>
         <div className="mt-6 flex flex-col justify-stretch">
