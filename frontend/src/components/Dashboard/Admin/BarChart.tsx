@@ -1,7 +1,6 @@
 import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
 import { useEffect, useState } from "react";
-import IUser from "../../../Interfaces/User";
 import API from "../../../utils/API";
 import { Bar } from "react-chartjs-2";
 import IContract from "../../../Interfaces/Contract";
@@ -21,7 +20,7 @@ const BarChart = () => {
           "#3cba9f",
         ],
         borderColor: "#fff",
-        data: [],
+        data: [] as number[],
       },
     ],
   });
@@ -71,43 +70,57 @@ const BarChart = () => {
         return "";
     }
   }
-  const hiredMonths: any = [];
 
-  contracts?.forEach((contract) => {
-    hiredMonths.push(
-      getMonthName(contract.debut_date.split("T")[0].split("-")[1])
+  function calculateChartData(contracts: IContract[]) {
+    const contractsByMonth: { [key: string]: number } = contracts.reduce(
+      (acc, contract) => {
+        const month = getMonthName(
+          contract.debut_date.split("T")[0].split("-")[1]
+        );
+        acc[month] = (acc[month] || 0) + 1;
+        return acc;
+      },
+      {} as { [key: string]: number }
     );
-  });
 
-  const getEmployees = async () => {
-    await API.get(`contracts`)
-      .then((res) => {
-        setContracts(res.data);
-        setChartData({
-          labels: monthNames,
-          datasets: [
-            {
-              backgroundColor: [
-                "#FF6384",
-                "#36A2EB",
-                "#FFCE56",
-                "#8e5ea2",
-                "#3cba9f",
-              ],
-              borderColor: "#fff",
-              data: hiredMonths,
-            },
+    const contractCounts = monthNames.map(
+      (month) => contractsByMonth[month] || 0
+    );
+
+    setChartData({
+      labels: monthNames,
+      datasets: [
+        {
+          backgroundColor: [
+            "#FF6384",
+            "#36A2EB",
+            "#FFCE56",
+            "#8e5ea2",
+            "#3cba9f",
           ],
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+          borderColor: "#fff",
+          data: contractCounts,
+        },
+      ],
+    });
+  }
 
   useEffect(() => {
-    getEmployees();
-  }, []);
+    async function getEmployees() {
+      try {
+        const res = await API.get(`contracts`);
+        setContracts(res.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    if (contracts) {
+      calculateChartData(contracts);
+    } else {
+      getEmployees();
+    }
+  }, [contracts]);
   return (
     <Bar
       data={chartData}
