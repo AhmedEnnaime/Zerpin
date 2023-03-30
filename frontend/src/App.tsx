@@ -18,6 +18,7 @@ import PayslipsPage from "./components/Payslips/PayslipsPage";
 import SuccessPage from "./utils/SuccessPage";
 import HolidaysPage from "./components/Holidays/HolidaysPage";
 import SideBar from "./components/SideBar";
+import Dashboard from "./components/Dashboard/Admin/Dashboard";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -47,6 +48,7 @@ const App = () => {
               path="/application/:id"
               element={<ApplicationPage />}
             ></Route>
+            <Route path="/" element={<Dashboard />}></Route>
             <Route path="/employees" element={<EmployeesPage />}></Route>
             <Route
               path="/departmentEmployees"

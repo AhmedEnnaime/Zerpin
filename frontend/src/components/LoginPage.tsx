@@ -5,7 +5,7 @@ import { useLoginUserMutation } from "../services/authApi";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hooks";
-import { getAuthUser, setUser } from "../redux/slices/authSlice";
+import { setUser } from "../redux/slices/authSlice";
 
 const LoginPage = () => {
   const [credentials, setCredentials] = useState<Auth>({
@@ -56,7 +56,7 @@ const LoginPage = () => {
           token: loginData[1].token,
         })
       );
-      navigate("/home");
+      navigate("/");
     }
   }, [isLoginSuccess]);
 

@@ -6,7 +6,6 @@ import IUser from "../../Interfaces/User";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
-import Navbar from "../Navbar";
 import ContractCard from "./ContractCard";
 
 const ContractsPage = () => {
