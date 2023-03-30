@@ -46,4 +46,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('rejectHoliday/{id}', [HolidayController::class, 'rejectHoliday']);
     Route::resource('payslips', PayslipController::class);
     Route::post('createPayslip/{id}', [PayslipController::class, 'createPayslip']);
+    Route::get('getUsers', [UserController::class, 'getUsers']);
 });
