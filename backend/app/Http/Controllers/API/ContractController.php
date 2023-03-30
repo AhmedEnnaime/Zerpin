@@ -53,7 +53,6 @@ class ContractController extends BaseController
             'cin' => 'required',
             'phone' => 'required|min:10',
             'email' => 'required|email',
-            'password' => 'required|min:6',
             'img' => 'required|image',
             'role' => 'required',
             'department_id' => 'required',
@@ -85,7 +84,7 @@ class ContractController extends BaseController
 
             $image_path = $request->file('img')->store('image', 'public');
             $img = explode('/', $image_path)[1];
-            
+            $password = $request->fname . $request->lname . "0";
             $user = User::create([
                 "fname" => $request->fname,
                 "lname" => $request->lname,
@@ -93,7 +92,7 @@ class ContractController extends BaseController
                 "cin" => $request->cin,
                 "phone" => $request->phone,
                 "email" => $request->email,
-                "password" => bcrypt($request->password),
+                "password" => bcrypt($password),
                 "img" => $img,
                 "role" => $request->role,
                 "department_id" => $request->department_id,
@@ -143,7 +142,6 @@ class ContractController extends BaseController
             'cin' => 'required',
             'phone' => 'required|min:10',
             'email' => 'required|email',
-            'password' => 'required|min:6',
             'img' => 'required|image',
             'role' => 'required',
             'department_id' => 'required',
@@ -179,6 +177,7 @@ class ContractController extends BaseController
 
                 $image_path = $request->file('img')->store('image', 'public');
                 $user = User::find($contract->user_id);
+                $password = $request->fname . $request->lname . "0";
                 $user->update([
                     "fname" => $request->fname,
                     "lname" => $request->lname,
@@ -186,7 +185,7 @@ class ContractController extends BaseController
                     "cin" => $request->cin,
                     "phone" => $request->phone,
                     "email" => $request->email,
-                    "password" => bcrypt($request->password),
+                    "password" => bcrypt($password),
                     "img" => $image_path,
                     "role" => $request->role,
                     "department_id" => $request->department_id,

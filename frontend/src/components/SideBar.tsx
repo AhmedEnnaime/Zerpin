@@ -8,6 +8,11 @@ import { toast } from "react-toastify";
 
 const navigation = [
   {
+    name: "Home",
+    href: "/",
+    icon: <i className="fa-sharp fa-solid fa-house"></i>,
+  },
+  {
     name: "Employees",
     href: "/employees",
     icon: <i className="fa-sharp fa-solid fa-user-tie"></i>,

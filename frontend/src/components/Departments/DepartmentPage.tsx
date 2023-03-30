@@ -1,4 +1,3 @@
-import Navbar from "../Navbar";
 import Card from "./Card";
 import { useEffect, useState } from "react";
 import DepartmentModal from "./DepartmentModal";

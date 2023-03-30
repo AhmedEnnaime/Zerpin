@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import { selectRecruitment } from "../../redux/slices/recruitmentSlice";
-import Navbar from "../Navbar";
 import DragAndDrop from "./DragAndDrop";
 
 const CandidatesPage = () => {
@@ -19,7 +18,7 @@ const CandidatesPage = () => {
   }, []);
   return (
     <>
-      <h1 className="mt-8 text-3xl">Candidates of {recruitment?.position}</h1>
+      <h1 className="mt-8 text-3xl">{recruitment?.position}</h1>
 
       <h2 className="mt-16 font-bold ml-12">
         Total Candidates{" "}

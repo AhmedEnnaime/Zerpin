@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
-import Navbar from "../Navbar";
 import HolidaysList from "./HolidaysList";
 import MyHolidaysRequests from "./Requests/MyHolidaysRequests";
 import RequestHoliday from "./Requests/RequestHoliday";

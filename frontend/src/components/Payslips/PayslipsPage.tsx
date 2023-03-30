@@ -4,7 +4,6 @@ import IPayslip from "../../Interfaces/Payslip";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
-import Navbar from "../Navbar";
 
 const PayslipsPage = () => {
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
