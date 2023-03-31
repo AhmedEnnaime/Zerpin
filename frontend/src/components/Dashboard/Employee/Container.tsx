@@ -124,7 +124,7 @@ const Container = () => {
         </ol>
       </nav>
 
-      <div className="flex justify-center mt-8">{componentToRender}</div>
+      <div className="flex mt-8">{componentToRender}</div>
     </>
   );
 };

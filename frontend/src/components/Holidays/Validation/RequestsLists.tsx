@@ -5,6 +5,7 @@ import IHoliday from "../../../Interfaces/Holiday";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectAuth } from "../../../redux/slices/authSlice";
 import API from "../../../utils/API";
+import not_found from "../../../assets/3973481-removebg-preview.png";
 
 const RequestsLists = () => {
   const { user } = useAppSelector(selectAuth);
@@ -67,7 +68,7 @@ const RequestsLists = () => {
   }, [rerender]);
   return (
     <div className="w-full px-4">
-      <Card>
+      <Card className={`${user?.role != "ADMIN" ? "md:w-96" : ""}`}>
         <div className="mb-4 flex items-center justify-between">
           <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
             Latest Holidays Requests
@@ -136,7 +137,11 @@ const RequestsLists = () => {
               ))
             ) : (
               <div className="flex justify-center">
-                <h1>No Holiday is requested</h1>
+                <img
+                  className="flex justify-center w-22 h-22"
+                  src={not_found}
+                  alt=""
+                />
               </div>
             )}
           </ul>
