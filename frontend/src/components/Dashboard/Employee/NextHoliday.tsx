@@ -90,12 +90,17 @@ const NextHoliday = () => {
   return (
     <>
       <div className="flex px-8 flex-col gap-y-8">
-        <h1 className="flex px-4 items-start text-2xl font-bold">
-          {user?.holidays?.length} Requested Holidays
-        </h1>
-        <Timeline>
-          {user?.holidays ? (
-            user.holidays.map((holiday) => (
+        {user?.holidays && user.holidays.length > 0 ? (
+          <h1 className="flex px-4 items-start text-2xl font-bold">
+            {user?.holidays?.length} Requested Holidays
+          </h1>
+        ) : (
+          ""
+        )}
+
+        {user?.holidays && user.holidays.length > 0 ? (
+          user.holidays.map((holiday) => (
+            <Timeline>
               <Timeline.Item key={holiday.id}>
                 <Timeline.Point
                   className={`${
@@ -134,15 +139,13 @@ const NextHoliday = () => {
                   </Timeline.Title>
                 </Timeline.Content>
               </Timeline.Item>
-            ))
-          ) : (
-            <img
-              className="flex justify-center w-22 h-22"
-              src={not_found}
-              alt=""
-            />
-          )}
-        </Timeline>
+            </Timeline>
+          ))
+        ) : (
+          <div className="flex items-center justify-center">
+            <img className="w-22 h-22" src={not_found} alt="" />
+          </div>
+        )}
       </div>
     </>
   );
