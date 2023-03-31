@@ -59,6 +59,10 @@ const SideBar = () => {
     navigate("/login");
   };
 
+  // const getUserImage = () => {
+  //   return `../../../backend/public/storage/image/${user?.img}`;
+  // };
+
   const userNavigation = [
     { name: "Your Profile", href: "#" },
     {
