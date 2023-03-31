@@ -6,6 +6,7 @@ import IDepartment from "../../Interfaces/Department";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import { Button } from "flowbite-react";
+import not_found from "../../assets/3024051-removebg-preview.png";
 
 const DepartmentPage: React.FC = () => {
   const [open, setOpen] = useState(false);
@@ -47,7 +48,13 @@ const DepartmentPage: React.FC = () => {
             <Card key={department.id} department={department} />
           ))
         ) : (
-          <h1>No department available</h1>
+          <div className="flex justify-center">
+            <img
+              className="flex justify-center w-22 h-22"
+              src={not_found}
+              alt=""
+            />
+          </div>
         )}
       </div>
       {open ? <DepartmentModal open={open} setOpen={setOpen} /> : ""}

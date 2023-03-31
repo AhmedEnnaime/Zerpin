@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import IUser from "../../Interfaces/User";
 import API from "../../utils/API";
-import Navbar from "../Navbar";
+import not_found from "../../assets/3024051-removebg-preview.png";
 import EmployeeCard from "./EmployeeCard";
 import ReactPaginate from "react-paginate";
 
@@ -33,7 +33,13 @@ const EmployeesPage = () => {
         {users ? (
           users.map((user) => <EmployeeCard key={user.id} employee={user} />)
         ) : (
-          <h1>No user available</h1>
+          <div className="flex justify-center">
+            <img
+              className="flex justify-center w-22 h-22"
+              src={not_found}
+              alt=""
+            />
+          </div>
         )}
       </div>
       <ReactPaginate

@@ -46,23 +46,6 @@ const HolidaysPage = () => {
           <div></div>
         </div>
       )}
-      {/* <div className="flex justify-between mt-12">
-        <div className="w-3/5 px-6">
-          {user?.role == "ADMIN" ? <HolidaysList /> : <RequestHoliday />}
-        </div>
-        <div className="flex flex-col items-center gap-y-6">
-          {user?.role == "ADMIN" ? (
-            <RequestsLists />
-          ) : user?.role == "CHEF" ? (
-            <>
-              <MyHolidaysRequests />
-              <RequestsLists />
-            </>
-          ) : (
-            <MyHolidaysRequests />
-          )}
-        </div>
-      </div> */}
     </>
   );
 };
