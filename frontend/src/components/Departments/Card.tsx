@@ -1,13 +1,15 @@
 import { DepartmentCardProps } from "../../PropsTypes";
 import OptionsButton from "../../utils/OptionsButton";
-import { useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { setDepartment } from "../../redux/slices/departmentSlice";
 import { useNavigate } from "react-router-dom";
+import { selectAuth } from "../../redux/slices/authSlice";
 
 const Card = ({ department }: DepartmentCardProps) => {
   const chef = department.users?.find((user) => user.role === "CHEF");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { user } = useAppSelector(selectAuth);
 
   return (
     <>
@@ -35,8 +37,11 @@ const Card = ({ department }: DepartmentCardProps) => {
                         </p>
                       </div>
                     </div>
-
-                    <OptionsButton department={department} />
+                    {user?.role == "ADMIN" ? (
+                      <OptionsButton department={department} />
+                    ) : (
+                      ""
+                    )}
                   </div>
                   <p className="mt-5 text-sm text-gray-600 dark:text-gray-400 font-normal">
                     {department.description}

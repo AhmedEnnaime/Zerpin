@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import IUser from "../../../Interfaces/User";
 import { useAppSelector } from "../../../redux/hooks";
 import { selectAuth } from "../../../redux/slices/authSlice";
+import API from "../../../utils/API";
+import { toast } from "react-toastify";
 
 const Profile = () => {
   const { user } = useAppSelector(selectAuth);
-
+  const [rerender, setRerender] = useState(false);
   const [inputs, setInputs] = useState<IUser>({
     fname: "",
     lname: "",
@@ -54,6 +56,28 @@ const Profile = () => {
   };
 
   const handleSubmit = async () => {
+    const formData = new FormData();
+    formData.append("fname", inputs.fname);
+    formData.append("lname", inputs.lname);
+    formData.append("email", inputs.email);
+    formData.append("birthday", inputs.birthday);
+    formData.append("cin", inputs.cin);
+    formData.append("phone", inputs.phone);
+    formData.append("password", inputs.password);
+    formData.append("old_password", oldPassword.old_password);
+    formData.append("role", user?.role as string);
+    formData.append("department_id", inputs.department_id?.toString() ?? "");
+
+    await API.post(`update/${user?.id}`, formData)
+      .then((res) => {
+        if (res.status === 200) {
+          toast.success("Profile updated successfully");
+          setRerender(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     console.log(inputs);
     console.log(oldPassword);
   };
