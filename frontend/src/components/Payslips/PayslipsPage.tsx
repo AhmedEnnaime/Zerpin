@@ -4,6 +4,8 @@ import IPayslip from "../../Interfaces/Payslip";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
+import jsPDF from "jspdf";
+import IContract from "../../Interfaces/Contract";
 
 const PayslipsPage = () => {
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
@@ -20,6 +22,53 @@ const PayslipsPage = () => {
         console.log(err);
       });
   };
+
+  const generatePdf = async (payslip: IPayslip) => {
+    const doc = new jsPDF();
+
+    // Set font styles
+    doc.setFont("Helvetica", "normal");
+
+    // Add a title to the payslip
+    doc.setFontSize(22);
+    doc.text("Payslip", 14, 22);
+
+    // Add payslip data
+    doc.setFontSize(16);
+    doc.text(`Payslip Reference: ${payslip.ref}`, 14, 40);
+    doc.text(`Date: ${payslip.created_at?.split("T")[0]}`, 14, 50);
+
+    // Add contract data
+    const contract: IContract = payslip.contract!;
+    doc.setFontSize(14);
+    doc.text(`Contract Ref: ${contract.ref}`, 14, 70);
+    doc.text(
+      `Employee: ${contract.user?.fname} ${contract.user?.lname}`,
+      14,
+      78
+    );
+    doc.text(`Position: ${contract.position}`, 14, 86);
+    doc.text(`Monthly Base Salary: ${contract.base_salary}`, 14, 94);
+    doc.text(`Monthly Final Salary: ${contract.final_salary}`, 14, 102);
+    doc.text(`Annual Base Salary: ${contract.base_salary * 12}`, 14, 110);
+    doc.text(`Annual Final Salary: ${contract.final_salary * 12}`, 14, 118);
+
+    // Add rules data
+    if (contract.rules) {
+      let y = 130;
+      doc.setFontSize(12);
+      doc.text("Rules", 14, y);
+      contract.rules.forEach((rule) => {
+        y += 8;
+        const symbol = rule.type === "AUGMENTATION" ? "-" : "+";
+        doc.text(`${rule.name}: ${symbol}${rule.rate}`, 14, y);
+      });
+    }
+
+    // Save and download the PDF
+    doc.save(`${payslip.contract?.user?.lname}'s Payslip.pdf`);
+  };
+
   useEffect(() => {
     if (!auth.token) {
       navigate("/login");
@@ -100,7 +149,12 @@ const PayslipsPage = () => {
 
                           {user?.role == "ADMIN" ? (
                             <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                              <button className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                              <button
+                                onClick={() => {
+                                  generatePdf(payslip);
+                                }}
+                                className="inline-flex items-center rounded-lg bg-blue-700 py-2 px-4 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                              >
                                 <i className="fa-sharp fa-solid fa-download pr-2"></i>
                                 Download Payslip
                               </button>
