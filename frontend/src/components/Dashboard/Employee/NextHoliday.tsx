@@ -4,44 +4,71 @@ import { selectAuth } from "../../../redux/slices/authSlice";
 
 const NextHoliday = () => {
   const { user } = useAppSelector(selectAuth);
-  console.log(user?.holidays);
 
+  function getMonthName(month: string): string {
+    switch (month) {
+      case "01":
+        return "January";
+      case "02":
+        return "February";
+      case "03":
+        return "March";
+      case "04":
+        return "April";
+      case "05":
+        return "May";
+      case "06":
+        return "June";
+      case "07":
+        return "July";
+      case "08":
+        return "August";
+      case "09":
+        return "September";
+      case "10":
+        return "October";
+      case "11":
+        return "November";
+      case "12":
+        return "December";
+      default:
+        return "";
+    }
+  }
   return (
     <Timeline>
-      <Timeline.Item>
-        <Timeline.Point />
-        <Timeline.Content>
-          <Timeline.Time>February 2022</Timeline.Time>
-          <Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
-          <Timeline.Body>
-            Get access to over 20+ pages including a dashboard layout, charts,
-            kanban board, calendar, and pre-order E-commerce & Marketing pages.
-          </Timeline.Body>
-        </Timeline.Content>
-      </Timeline.Item>
-      <Timeline.Item>
-        <Timeline.Point />
-        <Timeline.Content>
-          <Timeline.Time>March 2022</Timeline.Time>
-          <Timeline.Title>Marketing UI design in Figma</Timeline.Title>
-          <Timeline.Body>
-            All of the pages and components are first designed in Figma and we
-            keep a parity between the two versions even as we update the
-            project.
-          </Timeline.Body>
-        </Timeline.Content>
-      </Timeline.Item>
-      <Timeline.Item>
-        <Timeline.Point />
-        <Timeline.Content>
-          <Timeline.Time>April 2022</Timeline.Time>
-          <Timeline.Title>E-Commerce UI code in Tailwind CSS</Timeline.Title>
-          <Timeline.Body>
-            Get started with dozens of web components and interactive elements
-            built on top of Tailwind CSS.
-          </Timeline.Body>
-        </Timeline.Content>
-      </Timeline.Item>
+      {user?.holidays ? (
+        user.holidays.map((holiday) => (
+          <Timeline.Item>
+            <Timeline.Point />
+            <Timeline.Content>
+              <Timeline.Time>
+                {holiday.created_at?.split("T")[0].split("-")[2]}{" "}
+                {getMonthName(
+                  holiday.created_at?.split("T")[0].split("-")[1] as string
+                )}{" "}
+                {holiday.created_at?.split("T")[0].split("-")[0]}{" "}
+              </Timeline.Time>
+              <Timeline.Title>
+                Taken From {holiday.debut_date?.split("T")[0].split("-")[2]}{" "}
+                {getMonthName(
+                  holiday.debut_date?.split("T")[0].split("-")[1] as string
+                )}{" "}
+                {holiday.debut_date?.split("T")[0].split("-")[0]}
+              </Timeline.Title>
+              <Timeline.Title>
+                To {holiday.final_date?.split("T")[0].split("-")[2]}{" "}
+                {getMonthName(
+                  holiday.final_date?.split("T")[0].split("-")[1] as string
+                )}{" "}
+                {holiday.final_date?.split("T")[0].split("-")[0]}{" "}
+              </Timeline.Title>
+            </Timeline.Content>
+          </Timeline.Item>
+        ))
+      ) : (
+        <h1>You haven't picked a holiday yet</h1>
+      )}
     </Timeline>
   );
 };
