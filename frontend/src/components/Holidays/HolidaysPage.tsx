@@ -19,7 +19,34 @@ const HolidaysPage = () => {
   }, []);
   return (
     <>
-      <div className="flex justify-between mt-12">
+      {user?.role == "ADMIN" ? (
+        <div className="flex mt-10 flex-col gap-y-4 items-center">
+          <div className="px-6">
+            <HolidaysList />
+          </div>
+          <div className="flex justify-center w-full">
+            <RequestsLists />
+          </div>
+        </div>
+      ) : (
+        <div className="flex justify-between mt-12">
+          <div className="w-3/5 px-6">
+            <RequestHoliday />
+          </div>
+          <div className="flex flex-col items-center gap-y-6">
+            {user?.role == "CHEF" ? (
+              <>
+                <MyHolidaysRequests />
+                <RequestsLists />
+              </>
+            ) : (
+              <MyHolidaysRequests />
+            )}
+          </div>
+          <div></div>
+        </div>
+      )}
+      {/* <div className="flex justify-between mt-12">
         <div className="w-3/5 px-6">
           {user?.role == "ADMIN" ? <HolidaysList /> : <RequestHoliday />}
         </div>
@@ -28,14 +55,14 @@ const HolidaysPage = () => {
             <RequestsLists />
           ) : user?.role == "CHEF" ? (
             <>
-              <RequestsLists />
               <MyHolidaysRequests />
+              <RequestsLists />
             </>
           ) : (
             <MyHolidaysRequests />
           )}
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

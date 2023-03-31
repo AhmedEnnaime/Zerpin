@@ -36,40 +36,47 @@ const NextHoliday = () => {
     }
   }
   return (
-    <Timeline>
-      {user?.holidays ? (
-        user.holidays.map((holiday) => (
-          <Timeline.Item>
-            <Timeline.Point />
-            <Timeline.Content>
-              <Timeline.Time>
-                {holiday.created_at?.split("T")[0].split("-")[2]}{" "}
-                {getMonthName(
-                  holiday.created_at?.split("T")[0].split("-")[1] as string
-                )}{" "}
-                {holiday.created_at?.split("T")[0].split("-")[0]}{" "}
-              </Timeline.Time>
-              <Timeline.Title>
-                Taken From {holiday.debut_date?.split("T")[0].split("-")[2]}{" "}
-                {getMonthName(
-                  holiday.debut_date?.split("T")[0].split("-")[1] as string
-                )}{" "}
-                {holiday.debut_date?.split("T")[0].split("-")[0]}
-              </Timeline.Title>
-              <Timeline.Title>
-                To {holiday.final_date?.split("T")[0].split("-")[2]}{" "}
-                {getMonthName(
-                  holiday.final_date?.split("T")[0].split("-")[1] as string
-                )}{" "}
-                {holiday.final_date?.split("T")[0].split("-")[0]}{" "}
-              </Timeline.Title>
-            </Timeline.Content>
-          </Timeline.Item>
-        ))
-      ) : (
-        <h1>You haven't picked a holiday yet</h1>
-      )}
-    </Timeline>
+    <>
+      <div className="flex flex-col gap-y-4">
+        <h1 className="flex justify-start items-start text-2xl font-bold">
+          {user?.holidays?.length} Taken Holidays
+        </h1>
+        <Timeline>
+          {user?.holidays ? (
+            user.holidays.map((holiday) => (
+              <Timeline.Item key={holiday.id}>
+                <Timeline.Point />
+                <Timeline.Content>
+                  <Timeline.Time>
+                    {holiday.created_at?.split("T")[0].split("-")[2]}{" "}
+                    {getMonthName(
+                      holiday.created_at?.split("T")[0].split("-")[1] as string
+                    )}{" "}
+                    {holiday.created_at?.split("T")[0].split("-")[0]}{" "}
+                  </Timeline.Time>
+                  <Timeline.Title>
+                    Taken From {holiday.debut_date?.split("T")[0].split("-")[2]}{" "}
+                    {getMonthName(
+                      holiday.debut_date?.split("T")[0].split("-")[1] as string
+                    )}{" "}
+                    {holiday.debut_date?.split("T")[0].split("-")[0]}
+                  </Timeline.Title>
+                  <Timeline.Title>
+                    To {holiday.final_date?.split("T")[0].split("-")[2]}{" "}
+                    {getMonthName(
+                      holiday.final_date?.split("T")[0].split("-")[1] as string
+                    )}{" "}
+                    {holiday.final_date?.split("T")[0].split("-")[0]}{" "}
+                  </Timeline.Title>
+                </Timeline.Content>
+              </Timeline.Item>
+            ))
+          ) : (
+            <h1>You haven't picked a holiday yet</h1>
+          )}
+        </Timeline>
+      </div>
+    </>
   );
 };
 

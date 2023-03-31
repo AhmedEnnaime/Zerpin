@@ -8,7 +8,7 @@ interface IHoliday {
   state: "WAITING" | "REJECTED" | "VALIDATED";
   created_at?: string;
   updated_at?: string;
-  user: IUser;
+  user?: IUser;
 }
 
 export default IHoliday;
