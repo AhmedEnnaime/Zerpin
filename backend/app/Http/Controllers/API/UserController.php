@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AccountCreated;
-
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends BaseController
 {
@@ -31,7 +31,6 @@ class UserController extends BaseController
             'cin' => 'required',
             'phone' => 'required|min:10',
             'email' => 'required|email',
-            'password' => 'required|min:6',
             'img' => 'required|image',
             'role' => 'required',
             'department_id' => 'required',
@@ -42,7 +41,7 @@ class UserController extends BaseController
         }
 
         $image_path = $request->file('img')->store('image', 'public');
-
+        $password = $request->fname . $request->lname . "0";
         $user = User::create([
             "fname" => $request->fname,
             "lname" => $request->lname,
@@ -50,7 +49,7 @@ class UserController extends BaseController
             "cin" => $request->cin,
             "phone" => $request->phone,
             "email" => $request->email,
-            "password" => bcrypt($request->password),
+            "password" => bcrypt($password),
             "img" => $image_path,
             "role" => $request->role,
             "department_id" => $request->department_id,
@@ -63,6 +62,51 @@ class UserController extends BaseController
 
         return $this->sendResponse($success, 'User register successfully.', 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $user = User::find($id);
+        // validate input
+        $validator = Validator::make($request->all(), [
+            'fname' => 'required',
+            'lname' => 'required',
+            'birthday' => 'required|date',
+            'cin' => 'required',
+            'phone' => 'required|min:10',
+            'email' => 'required',
+            'img' => 'nullable|image',
+            'old_password' => 'required_with:password',
+            'password' => 'nullable|min:6',
+            'role' => 'required',
+            'department_id' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        // check old password
+        if ($request->has('old_password')) {
+            if (!password_verify($request->old_password, $user->password)) {
+                return $this->sendError('Incorrect password.', [], 401);
+            }
+        }
+
+
+        // update user
+        $user->fill($request->all());
+        if ($request->has('password')) {
+            $user->password = bcrypt($request->password);
+        }
+        if ($request->hasFile('img')) {
+            $user->img = $request->file('img')->store('image', 'public');
+        }
+        $user->save();
+
+        $success['lname'] =  $user->lname;
+        return $this->sendResponse($success, 'User updated successfully.', 200);
+    }
+
 
     public function login(Request $request)
     {

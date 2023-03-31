@@ -33,6 +33,7 @@ Route::resource('candidates', CandidateController::class);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [UserController::class, 'logout']);
     Route::get('users', [UserController::class, 'index']);
+    Route::post('update/{id}', [UserController::class, 'update']);
     Route::get('userAuth', [UserController::class, 'getAuthUser']);
     Route::delete('delete/{id}', [UserController::class, 'destroy']);
     Route::resource('departments', DepartmentController::class);
