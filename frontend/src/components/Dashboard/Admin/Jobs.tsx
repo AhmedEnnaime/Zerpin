@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import IRecruitment from "../../../Interfaces/Recruitment";
 import API from "../../../utils/API";
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
-
 const Jobs = () => {
   const [jobs, setJobs] = useState<IRecruitment[]>();
-
+  const navigate = useNavigate();
   const getJobs = async () => {
     await API.get(`recrutments`)
       .then((res) => {
@@ -59,7 +56,7 @@ const Jobs = () => {
   return (
     <section
       aria-labelledby="timeline-title"
-      className="lg:col-start-3 lg:col-span-1"
+      className="lg:col-start-3 w-full lg:col-span-1"
     >
       <div className="bg-white px-4 py-5 shadow sm:rounded-lg sm:px-6">
         <h2 id="timeline-title" className="text-lg font-medium text-gray-900">
@@ -105,10 +102,13 @@ const Jobs = () => {
         </div>
         <div className="mt-6 flex flex-col justify-stretch">
           <button
+            onClick={() => {
+              navigate("/recruitment");
+            }}
             type="button"
             className="inline-flex items-center justify-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
-            Advance to offer
+            View All Jobs
           </button>
         </div>
       </div>
