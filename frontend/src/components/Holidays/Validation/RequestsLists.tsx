@@ -25,7 +25,7 @@ const RequestsLists = () => {
         waitingHolidays = allHolidays.filter(
           (holidayRequest: IHoliday) =>
             holidayRequest.state === "WAITING" &&
-            holidayRequest.user.department_id === user.department_id &&
+            holidayRequest.user?.department_id === user.department_id &&
             holidayRequest.user.role === "EMPLOYEE"
         );
       }
@@ -66,7 +66,7 @@ const RequestsLists = () => {
     getHolidaysRequest();
   }, [rerender]);
   return (
-    <div className="max-w-sm">
+    <div className="w-full px-4">
       <Card>
         <div className="mb-4 flex items-center justify-between">
           <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
@@ -81,33 +81,37 @@ const RequestsLists = () => {
             {holidaysRequests && holidaysRequests?.length > 0 ? (
               holidaysRequests?.map((holidayRequest) => (
                 <li key={holidayRequest.id} className="py-3 sm:py-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="shrink-0">
-                      <img
-                        className="h-8 w-8 rounded-full"
-                        src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
-                        alt="Lana image"
-                      />
-                    </div>
-                    <Tooltip
-                      content={
-                        <div>
-                          From: {holidayRequest.debut_date.split("T")[0]} <br />
-                          To: {holidayRequest.final_date.split("T")[0]}
-                        </div>
-                      }
-                      style="light"
-                    >
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
-                          {holidayRequest.user.fname}{" "}
-                          {holidayRequest.user.lname}
-                        </p>
-                        <p className="truncate text-sm text-gray-500 dark:text-gray-400">
-                          {holidayRequest.user.email}
-                        </p>
+                  <div className="flex justify-between items-center">
+                    <div className="flex gap-x-2 items-center">
+                      <div className="shrink-0">
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+                          alt="Lana image"
+                        />
                       </div>
-                    </Tooltip>
+                      <Tooltip
+                        content={
+                          <div>
+                            From: {holidayRequest.debut_date.split("T")[0]}{" "}
+                            <br />
+                            To: {holidayRequest.final_date.split("T")[0]}
+                          </div>
+                        }
+                        style="light"
+                      >
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-medium text-gray-900 dark:text-white">
+                            {holidayRequest.user?.fname}{" "}
+                            {holidayRequest.user?.lname}
+                          </p>
+                          <p className="truncate text-sm text-gray-500 dark:text-gray-400">
+                            {holidayRequest.user?.email}
+                          </p>
+                        </div>
+                      </Tooltip>
+                    </div>
+
                     <div className="inline-flex gap-x-2 items-center text-base font-semibold text-gray-900 dark:text-white">
                       <button
                         onClick={() => {

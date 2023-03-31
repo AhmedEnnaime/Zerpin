@@ -78,8 +78,6 @@ const Profile = () => {
       .catch((err) => {
         console.log(err);
       });
-    console.log(inputs);
-    console.log(oldPassword);
   };
   return (
     <div className="flex items-center justify-center">
