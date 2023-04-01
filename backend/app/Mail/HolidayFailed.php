@@ -2,25 +2,25 @@
 
 namespace App\Mail;
 
-use App\Models\User;
-use Illuminate\Mail\Mailables\Address;
+use App\Models\Holiday;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
-class AccountCreated extends Mailable
+class HolidayFailed extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    public $holiday;
     /**
      * Create a new message instance.
      */
-    public function __construct(User $user)
+    public function __construct(Holiday $holiday)
     {
-        $this->user = $user;
+        $this->holiday = $holiday;
     }
 
     /**
@@ -30,7 +30,7 @@ class AccountCreated extends Mailable
     {
         return new Envelope(
             from: new Address('Trinonix@gmail.com', 'Trionix'),
-            subject: 'Account Created',
+            subject: 'Holiday Response',
         );
     }
 
@@ -40,7 +40,7 @@ class AccountCreated extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.index',
+            view: 'emails.holidayFailed',
         );
     }
 

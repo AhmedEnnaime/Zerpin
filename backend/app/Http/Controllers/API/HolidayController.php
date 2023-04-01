@@ -4,10 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\HolidayResource;
+use App\Mail\HolidayFailed;
+use App\Mail\HolidaySuccess;
 use App\Models\Holiday;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class HolidayController extends BaseController
@@ -82,7 +85,7 @@ class HolidayController extends BaseController
             if (Auth::user()->role == "ADMIN" || (Auth::user()->role == "CHEF" && Auth::user()->department_id == $user->department_id)) {
                 $holiday->state = 'VALIDATED';
                 $holiday->save();
-                // SENT EMAIL
+                Mail::to($user->email)->send(new HolidaySuccess($holiday));
                 return $this->sendResponse(new HolidayResource($holiday), 'Holiday VALIDATED successfully.', 200);
             } else {
                 return $this->sendResponse([], 'Not allowed.', 404);
@@ -110,7 +113,7 @@ class HolidayController extends BaseController
         if (Auth::user()->role == "ADMIN" || (Auth::user()->role == "CHEF" && Auth::user()->department_id == $user->department_id)) {
             $holiday->state = 'REJECTED';
             $holiday->save();
-            // SENT EMAIL
+            Mail::to($user->email)->send(new HolidayFailed($holiday));
             return $this->sendResponse(new HolidayResource($holiday), 'Holiday VALIDATED successfully.', 200);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);

@@ -4,12 +4,14 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\ContractResource;
+use App\Mail\AccountCreated;
 use App\Models\Candidate;
 use App\Models\Contract;
 use App\Models\Rule;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class ContractController extends BaseController
@@ -97,6 +99,7 @@ class ContractController extends BaseController
                 "role" => $request->role,
                 "department_id" => $request->department_id,
             ]);
+            
             $employee = User::orderBy('id', 'desc')->first();
 
             $contract = Contract::create([
@@ -110,10 +113,10 @@ class ContractController extends BaseController
             ]);
 
             $contract->rules()->attach($rules);
+            Mail::to($user->email)->send(new AccountCreated($user));
             $candidate = Candidate::where('email', $request->email)->first();
             $candidate->delete();
-            // SEND EMAIL
-
+            
             return $this->sendResponse(new ContractResource($contract), 'Contract created successfully.', 201);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);
