@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import HomePage from "./components/HomePage";
 import LoginPage from "./components/LoginPage";
 import RecruitmentHome from "./components/Recruitment/RecruitmentHome";
 import DepartmentPage from "./components/Departments/DepartmentPage";
@@ -37,13 +36,11 @@ const App = () => {
       <BrowserRouter>
         <ToastContainer />
         <Routes>
-          <Route path="/home" element={<HomePage />}></Route>
           <Route path="/login" element={<LoginPage />}></Route>
 
           <Route path="/" element={<SideBar />}>
             <Route path="/departments" element={<DepartmentPage />}></Route>
             <Route path="/recruitment" element={<RecruitmentHome />}></Route>
-            {/* <Route path="/departments" element={<DepartmentPage />}></Route> */}
             <Route
               path="/application/:id"
               element={<ApplicationPage />}

@@ -1,4 +1,3 @@
-import Navbar from "../Navbar";
 import { useAppSelector } from "../../redux/hooks";
 import { selectDepartment } from "../../redux/slices/departmentSlice";
 import { useEffect } from "react";
@@ -6,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
 import { toast } from "react-toastify";
+
 const DepartmentEmployees = () => {
   const { department } = useAppSelector(selectDepartment);
   const { user } = useAppSelector(selectAuth);
