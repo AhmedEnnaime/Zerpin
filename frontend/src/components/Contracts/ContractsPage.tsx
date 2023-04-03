@@ -64,6 +64,8 @@ const ContractsPage = () => {
   useEffect(() => {
     if (!auth.token) {
       navigate("/login");
+    } else if (user?.role != "ADMIN") {
+      navigate("/");
     }
     getContracts();
   }, [rerender, open]);

@@ -65,7 +65,7 @@ class RecrutmentController extends BaseController
                                 'description' => [
                                     'text' => 'Center stage!'
                                 ],
-                                'media' => 'urn:li:digitalmediaAsset:D4D22AQFUVXgw8eMLSg',
+                                'media' => 'urn:li:digitalmediaAsset:D5622AQFpz4rGHligRA',
                                 'title' => [
                                     'text' => 'LinkedIn Talent Connect 2021'
                                 ]

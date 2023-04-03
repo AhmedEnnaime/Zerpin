@@ -5,10 +5,12 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Http\Resources\CandidateResource;
 use App\Http\Resources\RecrutmentResource;
+use App\Mail\ApplicationSent;
 use App\Models\Candidate;
 use App\Models\Recrutment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class CandidateController extends BaseController
@@ -34,6 +36,7 @@ class CandidateController extends BaseController
 
         ]);
 
+        $recruitment = Recrutment::find($request->recrutment_id);
         if ($validator->fails()) {
             return $this->sendError('Validation Error.', $validator->errors());
         }
@@ -53,6 +56,8 @@ class CandidateController extends BaseController
             "recrutment_id" => $request->recrutment_id,
             "recrutment_state" => "EVALUATION",
         ]);
+
+        Mail::to($candidate->email)->send(new ApplicationSent($recruitment));
 
         return $this->sendResponse(new CandidateResource($candidate), 'Candidate added successfully.', 201);
     }

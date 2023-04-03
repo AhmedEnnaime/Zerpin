@@ -244,7 +244,7 @@ const ContractCard = ({
                           type="email"
                           onChange={handleChange}
                           value={contract.user?.email}
-                          // disabled={!setContract ?? true}
+                          disabled={!setContract ?? true}
                           autoComplete="email"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
