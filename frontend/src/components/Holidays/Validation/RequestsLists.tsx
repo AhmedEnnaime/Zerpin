@@ -63,6 +63,10 @@ const RequestsLists = () => {
       });
   };
 
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
+  };
+
   useEffect(() => {
     getHolidaysRequest();
   }, [rerender]);
@@ -87,7 +91,7 @@ const RequestsLists = () => {
                       <div className="shrink-0">
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://flowbite.com/docs/images/people/profile-picture-4.jpg"
+                          src={getUserImage(holidayRequest.user?.img as File)}
                           alt="Lana image"
                         />
                       </div>

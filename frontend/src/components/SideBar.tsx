@@ -59,12 +59,11 @@ const SideBar = () => {
     navigate("/login");
   };
 
-  // const getUserImage = () => {
-  //   return `../../../backend/public/storage/image/${user?.img}`;
-  // };
+  const getUserImage = () => {
+    return `http://localhost/storage/${user?.img}`;
+  };
 
   const userNavigation = [
-    { name: "Your Profile", href: "#" },
     {
       name: "Sign out",
       onClick: () => {
@@ -260,7 +259,7 @@ const SideBar = () => {
                         <span className="sr-only">Open user menu</span>
                         <img
                           className="h-8 w-8 rounded-full"
-                          src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                          src={getUserImage()}
                           alt=""
                         />
                       </Menu.Button>
@@ -279,7 +278,6 @@ const SideBar = () => {
                           <Menu.Item key={item.name}>
                             {({ active }) => (
                               <a
-                                href={item.href}
                                 onClick={item.onClick}
                                 className={classNames(
                                   active ? "bg-gray-100 cursor-pointer" : "",
