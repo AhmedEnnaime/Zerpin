@@ -4,8 +4,14 @@ import IPayslip from "../../Interfaces/Payslip";
 import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
-import jsPDF from "jspdf";
 import IContract from "../../Interfaces/Contract";
+import jsPDF from "jspdf";
+
+declare module "jspdf" {
+  interface jsPDF {
+    autoTable: (config: object) => jsPDF;
+  }
+}
 
 const PayslipsPage = () => {
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
@@ -40,28 +46,41 @@ const PayslipsPage = () => {
 
     // Add contract data
     const contract: IContract = payslip.contract!;
+    const contractData = [
+      ["Contract Ref", contract.ref],
+      ["Employee", `${contract.user?.fname} ${contract.user?.lname}`],
+      ["Position", contract.position],
+      ["Monthly Base Salary", contract.base_salary],
+      ["Monthly Final Salary", contract.final_salary],
+      ["Annual Base Salary", contract.base_salary * 12],
+      ["Annual Final Salary", contract.final_salary * 12],
+    ];
     doc.setFontSize(14);
-    doc.text(`Contract Ref: ${contract.ref}`, 14, 70);
-    doc.text(
-      `Employee: ${contract.user?.fname} ${contract.user?.lname}`,
-      14,
-      78
-    );
-    doc.text(`Position: ${contract.position}`, 14, 86);
-    doc.text(`Monthly Base Salary: ${contract.base_salary}`, 14, 94);
-    doc.text(`Monthly Final Salary: ${contract.final_salary}`, 14, 102);
-    doc.text(`Annual Base Salary: ${contract.base_salary * 12}`, 14, 110);
-    doc.text(`Annual Final Salary: ${contract.final_salary * 12}`, 14, 118);
+    doc.text("Contract INformations", 14, 70);
+    doc.autoTable({
+      startY: 78,
+      head: [],
+      body: contractData,
+    });
 
     // Add rules data
     if (contract.rules) {
-      let y = 130;
-      doc.setFontSize(12);
-      doc.text("Rules", 14, y);
+      let y = (doc as any).autoTable.previous.finalY + 10;
+      const rulesData = [
+        [{ content: "Rules", colSpan: 2, styles: { halign: "center" } }, ""],
+      ];
       contract.rules.forEach((rule) => {
-        y += 8;
         const symbol = rule.type === "AUGMENTATION" ? "-" : "+";
-        doc.text(`${rule.name}: ${symbol}${rule.rate}`, 14, y);
+        rulesData.push([
+          `Monthly ${rule.name} Rising: ${symbol}${rule.rate}`,
+          `Annual ${rule.name} Rising: ${symbol}${rule.rate * 12}`,
+        ]);
+      });
+      doc.setFontSize(12);
+      doc.autoTable({
+        startY: y,
+        head: [],
+        body: rulesData,
       });
     }
 
@@ -73,7 +92,7 @@ const PayslipsPage = () => {
     if (!auth.token) {
       navigate("/login");
     } else if (user?.role != "ADMIN") {
-      navigate("/home");
+      navigate("/");
     }
     getPayslips();
   }, []);
