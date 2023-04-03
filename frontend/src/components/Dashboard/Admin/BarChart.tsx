@@ -123,6 +123,7 @@ const BarChart = () => {
   }, [contracts]);
   return (
     <Bar
+      className="w-full p-2"
       data={chartData}
       options={{
         plugins: {

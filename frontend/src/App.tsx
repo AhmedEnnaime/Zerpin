@@ -37,14 +37,12 @@ const App = () => {
         <ToastContainer />
         <Routes>
           <Route path="/login" element={<LoginPage />}></Route>
-
+          <Route path="/application/:id" element={<ApplicationPage />}></Route>
+          <Route path="/success" element={<SuccessPage />}></Route>
           <Route path="/" element={<SideBar />}>
             <Route path="/departments" element={<DepartmentPage />}></Route>
             <Route path="/recruitment" element={<RecruitmentHome />}></Route>
-            <Route
-              path="/application/:id"
-              element={<ApplicationPage />}
-            ></Route>
+
             <Route path="/" element={<Dashboard />}></Route>
             <Route path="/employees" element={<EmployeesPage />}></Route>
             <Route
@@ -54,7 +52,6 @@ const App = () => {
             <Route path="/contracts" element={<ContractsPage />}></Route>
             <Route path="/candidates" element={<CandidatesPage />}></Route>
             <Route path="/payslips" element={<PayslipsPage />}></Route>
-            <Route path="/success" element={<SuccessPage />}></Route>
             <Route path="/holidays" element={<HolidaysPage />}></Route>
           </Route>
         </Routes>

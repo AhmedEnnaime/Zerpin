@@ -34,11 +34,7 @@ const EmployeesPage = () => {
           users.map((user) => <EmployeeCard key={user.id} employee={user} />)
         ) : (
           <div className="flex justify-center">
-            <img
-              className="flex justify-center w-22 h-22"
-              src={not_found}
-              alt=""
-            />
+            <img className="w-22 h-22" src={not_found} alt="" />
           </div>
         )}
       </div>
