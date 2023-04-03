@@ -81,7 +81,8 @@ const SignContract = ({
     formData.append("position", inputs.position);
     formData.append("img", img as File);
     formData.append("debut_date", inputs.debut_date);
-    formData.append("final_date", inputs.final_date);
+    const finalDate = inputs.final_date ? (inputs.final_date as string) : null;
+    formData.append("final_date", finalDate ?? "");
 
     if (inputs.department_id !== null) {
       formData.append("department_id", inputs.department_id.toString());
@@ -122,6 +123,10 @@ const SignContract = ({
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
   };
 
   useEffect(() => {
@@ -176,7 +181,7 @@ const SignContract = ({
                     <div className="sm:col-span-6">
                       <div className="mt-1 flex items-center">
                         <img
-                          src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                          src={getUserImage(candidate.img as File)}
                           className="rounded-full w-12 h-12"
                           alt=""
                         />

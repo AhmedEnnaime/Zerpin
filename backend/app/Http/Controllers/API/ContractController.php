@@ -150,6 +150,7 @@ class ContractController extends BaseController
             'department_id' => 'required',
             'position' => 'required',
             'debut_date' => 'required|date',
+            'final_date' => 'nullable',
             'base_salary' => 'required',
         ]);
 
@@ -194,11 +195,13 @@ class ContractController extends BaseController
                     "department_id" => $request->department_id,
                 ]);
 
+                $final_date = $request->has('final_date') ? $request->final_date : null;
+
                 $contract->update([
                     'ref' => $reference,
                     'position' => $request->position,
                     'debut_date' => $request->debut_date,
-                    'final_date' => $request->final_date,
+                    'final_date' => $final_date,
                     'base_salary' => $request->base_salary,
                     'final_salary' => $final_salary - ($request->base_salary * $irRate),
                     
@@ -223,8 +226,10 @@ class ContractController extends BaseController
 
     public function destroy(Contract $contract)
     {
+        $user = User::find($contract->user_id);
         if (Auth::user()->role == "ADMIN") {
             $contract->delete();
+            $user->delete();
             return $this->sendResponse([], 'Contract deleted successfully.', 202);
         } else {
             return $this->sendResponse([], 'Not allowed.', 404);

@@ -12,6 +12,10 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
   const { user } = useAppSelector(selectAuth);
   const now = new Date();
 
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
+  };
+
   return (
     <div className="">
       <Card className="w-72 p-0">
@@ -44,7 +48,7 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
         >
           <img
             className="mb-3 h-24 w-24 rounded-full shadow-lg"
-            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+            src={getUserImage(employee.img as File)}
             alt="Bonnie image"
           />
           <h5 className="mb-1 text-xl font-medium text-gray-900 dark:text-white">

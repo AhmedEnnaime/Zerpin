@@ -1,11 +1,12 @@
 import { CandidateInfoProps } from "../../PropsTypes";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(" ");
-}
 const CandidateInfo = ({ open, setOpen, candidate }: CandidateInfoProps) => {
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
+  };
+
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog
@@ -38,7 +39,7 @@ const CandidateInfo = ({ open, setOpen, candidate }: CandidateInfoProps) => {
                             <div className="inline-flex overflow-hidden rounded-lg border-4 border-white">
                               <img
                                 className="h-24 w-24 flex-shrink-0 sm:h-40 sm:w-40 lg:h-48 lg:w-48"
-                                src="https://images.unsplash.com/photo-1501031170107-cfd33f0cbdcc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=256&h=256&q=80"
+                                src={getUserImage(candidate.img as File)}
                                 alt=""
                               />
                             </div>
@@ -56,12 +57,15 @@ const CandidateInfo = ({ open, setOpen, candidate }: CandidateInfoProps) => {
                             </p>
                           </div>
                           <div className="mt-5 flex flex-wrap space-y-3 sm:space-y-0 sm:space-x-3">
-                            <button
+                            <a
                               type="button"
+                              target="_blank"
+                              download={candidate.cv}
+                              href={getUserImage(candidate.cv as File)}
                               className="inline-flex w-full flex-shrink-0 items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:flex-1"
                             >
                               Upload Cv
-                            </button>
+                            </a>
                           </div>
                         </div>
                       </div>

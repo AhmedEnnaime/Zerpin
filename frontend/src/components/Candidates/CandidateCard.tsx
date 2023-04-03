@@ -28,6 +28,10 @@ const CandidateCard = ({ candidate, handleDragging }: CandidateCardProps) => {
       });
   };
 
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
+  };
+
   return (
     <div className="flex w-full cursor-pointer items-center dark:bg-gray-900 py-2 px-6 justify-center">
       <div>
@@ -40,7 +44,7 @@ const CandidateCard = ({ candidate, handleDragging }: CandidateCardProps) => {
           <div className="flex flex-col gap-y-8 pb-2">
             <div className="flex items-center gap-x-2">
               <img
-                src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                src={getUserImage(candidate.img as File)}
                 className="h-12 w-12 rounded-full"
                 alt=""
               />

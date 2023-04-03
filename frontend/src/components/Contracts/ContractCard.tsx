@@ -60,7 +60,6 @@ const ContractCard = ({
 
   const renewContract = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    console.log(contract);
     const formData = new FormData();
     formData.append("fname", inputs.user?.fname as string);
     formData.append("lname", inputs.user?.lname as string);
@@ -73,7 +72,11 @@ const ContractCard = ({
     formData.append("position", contract.position);
     formData.append("img", img as File);
     formData.append("debut_date", contract.debut_date);
-    formData.append("final_date", contract.final_date);
+
+    const finalDate = contract.final_date
+      ? (contract.final_date as string)
+      : null;
+    formData.append("final_date", finalDate ?? "");
 
     if (inputs.user?.department_id !== null) {
       formData.append(
@@ -112,6 +115,10 @@ const ContractCard = ({
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
   };
 
   useEffect(() => {
@@ -165,7 +172,7 @@ const ContractCard = ({
                     <div className="sm:col-span-6">
                       <div className="mt-1 flex items-center">
                         <img
-                          src="https://flowbite.com/docs/images/people/profile-picture-3.jpg"
+                          src={getUserImage(contract.user?.img as File)}
                           className="rounded-full w-12 h-12"
                           alt=""
                         />

@@ -11,6 +11,10 @@ const Card = ({ department }: DepartmentCardProps) => {
   const navigate = useNavigate();
   const { user } = useAppSelector(selectAuth);
 
+  const getUserImage = (img: File) => {
+    return `http://localhost/storage/${img}`;
+  };
+
   return (
     <>
       <div className="w-full py-10">
@@ -59,8 +63,8 @@ const Card = ({ department }: DepartmentCardProps) => {
                   <div className="mr-12 flex items-center mt-5">
                     <h2 className="text-gray-600 dark:text-gray-400 font-bold text-xl leading-6 mb-1">
                       <img
-                        className="w-full h-full overflow-hidden object-cover rounded-full"
-                        src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card8.jpg"
+                        className="w-12 h-12 overflow-hidden object-cover rounded-full"
+                        src={getUserImage(chef?.img as File)}
                         alt="avatar"
                       />
                     </h2>
@@ -94,8 +98,8 @@ const Card = ({ department }: DepartmentCardProps) => {
                           className="border-2 border-white dark:border-gray-700 shadow rounded-full w-10 h-10"
                         >
                           <img
-                            className="w-full h-full overflow-hidden object-cover rounded-full"
-                            src="https://dh-ui.s3.amazonaws.com/assets/webapp/layout/grid_cards/grid_card8.jpg"
+                            className="w-10 h-10 overflow-hidden object-cover rounded-full"
+                            src={getUserImage(user.img as File)}
                             alt="avatar"
                           />
                         </div>
