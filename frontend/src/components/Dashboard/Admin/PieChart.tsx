@@ -59,6 +59,7 @@ const PieChart = () => {
 
   return (
     <Pie
+      className="w-full h-full p-2"
       data={chartData}
       options={{
         plugins: {

@@ -201,9 +201,16 @@ class ContractController extends BaseController
                     'final_date' => $request->final_date,
                     'base_salary' => $request->base_salary,
                     'final_salary' => $final_salary - ($request->base_salary * $irRate),
+                    
                 ]);
+                if ($request->final_date >= date('Y-m-d')) {
+                   
+                    $contract->state = 'ONGOING';
+                    $contract->save();
+                }
 
                 $contract->rules()->sync($rules);
+               
 
                 return $this->sendResponse(new ContractResource($contract), 'Contract updated successfully.', 200);
             } else {

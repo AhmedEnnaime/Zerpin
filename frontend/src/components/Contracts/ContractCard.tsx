@@ -14,20 +14,21 @@ const ContractCard = ({
 }: ContractCardProps) => {
   const cancelButtonRef = useRef(null);
   const [departments, setDepartments] = useState<IDepartment[]>();
+  const [img, setImg] = useState<File | null>(null);
 
-  // const [inputs, setInputs] = useState<IContract>({
-  //   id: contract.id,
-  //   user_id: contract.user_id,
-  //   base_salary: contract.base_salary,
-  //   final_salary: contract.final_salary,
-  //   debut_date: contract.debut_date,
-  //   final_date: contract.final_date,
-  //   state: contract.state,
-  //   rules: contract.rules,
-  //   ref: contract.ref,
-  //   user: contract.user,
-  //   position: contract.position,
-  // });
+  const [inputs, setInputs] = useState<IContract>({
+    id: contract.id,
+    user_id: contract.user_id,
+    base_salary: contract.base_salary,
+    final_salary: contract.final_salary,
+    debut_date: contract.debut_date,
+    final_date: contract.final_date,
+    state: contract.state,
+    rules: contract.rules,
+    ref: contract.ref,
+    user: contract.user,
+    position: contract.position,
+  });
   const getDepartments = async () => [
     await API.get(`departments`)
       .then((res) => {
@@ -51,35 +52,66 @@ const ContractCard = ({
       : "";
   };
 
-  // const handleChange = (
-  //   e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  // ) => {
-  //   if (setContract) {
-  //     setContract((prevState) => ({
-  //       ...prevState,
-  //       user: {
-  //         ...prevState.user,
-  //         [e.target.name]: e.target.value !== undefined ? e.target.value : "",
-  //       },
-  //     }));
-  //   }
-  // };
+  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImg(e.target.files && e.target.files[0]);
+    }
+  };
 
   const renewContract = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
     console.log(contract);
+    const formData = new FormData();
+    formData.append("fname", inputs.user?.fname as string);
+    formData.append("lname", inputs.user?.lname as string);
+    formData.append("birthday", inputs.user?.birthday as string);
+    formData.append("cin", inputs.user?.cin as string);
+    formData.append("phone", inputs.user?.phone as string);
+    formData.append("email", inputs.user?.email as string);
+    formData.append("password", inputs.user?.password as string);
+    formData.append("role", inputs.user?.role as string);
+    formData.append("position", contract.position);
+    formData.append("img", img as File);
+    formData.append("debut_date", contract.debut_date);
+    formData.append("final_date", contract.final_date);
 
-    // await API.post(`renewContract/${contract.id}`, inputs)
-    //   .then((res) => {
-    //     console.log(res.data);
-    //     if (res.status === 200) {
-    // setOpen(false);
-    //       toast.success("Contract renewed successfully");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    if (inputs.user?.department_id !== null) {
+      formData.append(
+        "department_id",
+        inputs.user?.department_id.toString() as string
+      );
+    }
+
+    if (inputs.base_salary !== null) {
+      formData.append("base_salary", contract.base_salary.toString());
+    }
+
+    const checkedValues: any = [];
+
+    const checkboxes = document.querySelectorAll(
+      "input[type=checkbox][name=rule_id]"
+    );
+
+    checkboxes.forEach((checkbox) => {
+      const input = checkbox as HTMLInputElement;
+      if (input.checked) {
+        checkedValues.push(input.value);
+      }
+    });
+    for (let ch of checkedValues) {
+      formData.append("rule_id[]", ch);
+    }
+
+    await API.post(`renewContract/${contract.id}`, formData)
+      .then((res) => {
+        if (res.status === 200) {
+          setOpen(false);
+          toast.success("Contract renewed successfully");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -146,7 +178,7 @@ const ContractCard = ({
                             <input
                               type="file"
                               name="img"
-                              onChange={handleChange}
+                              onChange={handleImage}
                               id="photo"
                               className="ml-5 hidden bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             />
@@ -167,7 +199,7 @@ const ContractCard = ({
                         <input
                           type="text"
                           name="fname"
-                          value={contract.user?.fname}
+                          value={inputs.user?.fname}
                           onChange={handleChange}
                           disabled={!setContract ?? true}
                           id="first-name"
@@ -189,9 +221,9 @@ const ContractCard = ({
                           type="text"
                           name="lname"
                           id="last-name"
-                          value={contract.user?.lname}
+                          value={inputs.user?.lname}
                           onChange={handleChange}
-                          disabled={!setContract ?? true}
+                          // disabled={!setContract ?? true}
                           autoComplete="family-name"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -212,7 +244,7 @@ const ContractCard = ({
                           type="email"
                           onChange={handleChange}
                           value={contract.user?.email}
-                          disabled={!setContract ?? true}
+                          // disabled={!setContract ?? true}
                           autoComplete="email"
                           className="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md"
                         />
@@ -429,7 +461,7 @@ const ContractCard = ({
                           <div className="flex items-center h-5">
                             <input
                               id="transport"
-                              name="rule_id[]"
+                              name="rule_id"
                               onChange={handleChange}
                               value="2"
                               type="checkbox"
@@ -453,7 +485,7 @@ const ContractCard = ({
                           <div className="flex items-center h-5">
                             <input
                               id="panier"
-                              name="rule_id[]"
+                              name="rule_id"
                               onChange={handleChange}
                               defaultChecked={contract.rules?.some(
                                 (rule) => rule.id === 3
@@ -478,7 +510,7 @@ const ContractCard = ({
                           <div className="flex items-center h-5">
                             <input
                               id="amo"
-                              name="rule_id[]"
+                              name="rule_id"
                               onChange={handleChange}
                               defaultChecked={contract.rules?.some(
                                 (rule) => rule.id === 1

@@ -25,11 +25,11 @@ const Dashboard = () => {
         <div className="flex flex-col gap-y-8 pb-4">
           <PinnedSections />
           <div className="flex flex-col items-center mt-8 pb-4">
-            <div className="flex gap-x-8 px-4 justify-between w-full">
+            <div className="flex flex-col lg:flex-row gap-x-8 px-4 justify-between w-full">
               <div className="flex w-full p-2">
                 <Jobs />
               </div>
-              <div className="flex rounded items-center bg-white shadow w-1/3">
+              <div className="flex rounded items-center bg-white shadow w-full lg:w-1/3">
                 <PieChart />
               </div>
             </div>

@@ -11,15 +11,12 @@ const ApplicationPage = () => {
   const [cv, setCv] = useState<File | null>(null);
   const navigate = useNavigate();
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files && e.target.files[0]);
     if (e.target.files && e.target.files.length > 0) {
       setImg(e.target.files && e.target.files[0]);
     }
   };
 
   const handleCv = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.files && e.target.files[0]);
-
     if (e.target.files && e.target.files.length > 0) {
       setCv(e.target.files && e.target.files[0]);
     }
