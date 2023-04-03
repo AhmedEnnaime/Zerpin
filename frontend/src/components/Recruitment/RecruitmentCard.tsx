@@ -14,9 +14,9 @@ const RecruitmentCard = ({ recruitment }: RecruitmentCardProps) => {
   const deleteRecruitment = async (id: number) => {
     await API.delete(`recrutments/${id}`)
       .then((res) => {
-        console.log(res.data);
         if (res.status === 202) {
           toast.success("Recruitment deleted successfully");
+          navigate("/");
         }
       })
       .catch((err) => {
