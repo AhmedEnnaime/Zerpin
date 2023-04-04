@@ -7,60 +7,422 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-## About Laravel
+# Zerpin Api
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The backend part of Zerpin ERP uses laravel 10 for creating Api with sanctum in the authentication. The backend part is dockerized with the help of laravel sail.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## API Reference
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Get all users
 
-## Learning Laravel
+```http
+  GET /api/users
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+| Parameter       | Type      | Description                         |
+| :-------------- | :-------- | :---------------------------------- |
+| `id`            | `integer` | **Required**.Id of user             |
+| `fname`         | `string`  | **Required**. First name of user    |
+| `lname`         | `string`  | **Required**. Last name of user     |
+| `birthday`      | `string`  | **Required**. Birthday of user      |
+| `cin`           | `string`  | **Required**. Cin of user           |
+| `img`           | `string`  | **Required**. Image of user         |
+| `phone`         | `string`  | **Required**. Phone number of user  |
+| `role`          | `enum`    | **Required**. Role of user          |
+| `department_id` | `integer` | **Required**. Department id of user |
+| `email`         | `string`  | **Required**. Email of user         |
+| `password`      | `string`  | **Required**. Password of user      |
+| `contract`      | `object`  | Contract of user                    |
+| `department`    | `object`  | Department of user                  |
+| `holidays`      | `Array`   | Holidays taken by the user          |
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+#### Get all contracts
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```http
+  GET /api/contracts
+```
 
-## Laravel Sponsors
+| Parameter      | Type      | Description                                         |
+| :------------- | :-------- | :-------------------------------------------------- |
+| `ref`          | `string`  | **Required**. Reference of the contract             |
+| `position`     | `string`  | **Required**. Position of the user                  |
+| `debut_date`   | `date`    | **Required**. Debut date of contract                |
+| `final_date`   | `date`    | **Required**. Final date of contract                |
+| `base_salary`  | `double`  | **Required**. Base salary of contract               |
+| `final_salary` | `double`  | **Required**. Final salary of user                  |
+| `rules`        | `Array`   | **Required**. Rules applied to the contract of user |
+| `state`        | `enum`    | **Required**. State of contract                     |
+| `user_id`      | `integer` | **Required**. id of user                            |
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+#### Get one contract
 
-### Premium Partners
+```http
+  GET /api/contracts/{id}
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+| Parameter | Type      | Description                      |
+| :-------- | :-------- | :------------------------------- |
+| `id`      | `integer` | **Required**. Id of the contract |
 
-## Contributing
+#### Get all rules
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```http
+  GET /api/rules
+```
 
-## Code of Conduct
+| Parameter | Type      | Description                                                 |
+| :-------- | :-------- | :---------------------------------------------------------- |
+| `id`      | `integer` | **Required**. id of the rule                                |
+| `name`    | `string`  | **Required**. Name of the rule                              |
+| `type`    | `string`  | **Required**. Type of the rule                              |
+| `rate`    | `double`  | **Required**. Rate of deduction or augmentation of the rule |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### Get one rule
 
-## Security Vulnerabilities
+```http
+  GET /api/rules/{id}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Parameter | Type      | Description                  |
+| :-------- | :-------- | :--------------------------- |
+| `id`      | `integer` | **Required**. id of the rule |
 
-## License
+#### Create contract and user
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```http
+  POST /api/contracts
+```
+
+| Parameter       | Type      | Description                                          |
+| :-------------- | :-------- | :--------------------------------------------------- |
+| `fname`         | `string`  | **Required**. First name of user                     |
+| `lname`         | `string`  | **Required**. Last name of user                      |
+| `birthday`      | `string`  | **Required**. Birthday of user                       |
+| `cin`           | `string`  | **Required**. Cin of user                            |
+| `img`           | `string`  | **Required**. Image of user                          |
+| `phone`         | `string`  | **Required**. Phone number of user                   |
+| `role`          | `enum`    | **Required**. Role of user                           |
+| `department_id` | `integer` | **Required**. Department id of user                  |
+| `email`         | `string`  | **Required**. Email of user                          |
+| `position`      | `string`  | **Required**. Position of the user                   |
+| `debut_date`    | `date`    | **Required**. Debut date of contract                 |
+| `final_date`    | `date`    | **Required**. Final date of contract                 |
+| `base_salary`   | `double`  | **Required**. Base salary of contract                |
+| `rule_id[]`     | `integer` | **Required**. id of the rule applied on the contract |
+
+#### Renew contract
+
+```http
+  PUT /api/renewContract/{id}
+```
+
+| Parameter       | Type      | Description                                          |
+| :-------------- | :-------- | :--------------------------------------------------- |
+| `id`            | `integer` | **Required**. id of the contract                     |
+| `fname`         | `string`  | **Required**. First name of user                     |
+| `lname`         | `string`  | **Required**. Last name of user                      |
+| `birthday`      | `string`  | **Required**. Birthday of user                       |
+| `cin`           | `string`  | **Required**. Cin of user                            |
+| `img`           | `string`  | **Required**. Image of user                          |
+| `phone`         | `string`  | **Required**. Phone number of user                   |
+| `role`          | `enum`    | **Required**. Role of user                           |
+| `department_id` | `integer` | **Required**. Department id of user                  |
+| `email`         | `string`  | **Required**. Email of user                          |
+| `position`      | `string`  | **Required**. Position of the user                   |
+| `debut_date`    | `date`    | **Required**. Debut date of contract                 |
+| `final_date`    | `date`    | **Required**. Final date of contract                 |
+| `base_salary`   | `double`  | **Required**. Base salary of contract                |
+| `rule_id[]`     | `integer` | **Required**. id of the rule applied on the contract |
+
+#### Finish contract
+
+```http
+  DELETE /api/contracts/{id}
+```
+
+| Parameter | Type      | Description                      |
+| :-------- | :-------- | :------------------------------- |
+| `id`      | `integer` | **Required**. id of the contract |
+
+#### Get all departments
+
+```http
+  GET /api/departments
+```
+
+| Parameter     | Type      | Description                             |
+| :------------ | :-------- | :-------------------------------------- |
+| `id`          | `integer` | **Required**. id of department          |
+| `name`        | `string`  | **Required**. Name of dpartment         |
+| `description` | `string`  | **Required**. Description of department |
+| `users`       | `Array`   | **Required**. Users in department       |
+
+#### Get one department
+
+```http
+  GET /api/departments/{id}
+```
+
+| Parameter | Type      | Description                        |
+| :-------- | :-------- | :--------------------------------- |
+| `id`      | `integer` | **Required**. id of the department |
+
+#### Create department
+
+```http
+  POST /api/departments
+```
+
+| Parameter     | Type     | Description                             |
+| :------------ | :------- | :-------------------------------------- |
+| `name`        | `string` | **Required**. Name of dpartment         |
+| `description` | `string` | **Required**. Description of department |
+
+#### Create department
+
+```http
+  PUT /api/departments/{id}
+```
+
+| Parameter     | Type      | Description                             |
+| :------------ | :-------- | :-------------------------------------- |
+| `id`          | `integer` | **Required**. id of dpartment           |
+| `name`        | `string`  | **Required**. Name of dpartment         |
+| `description` | `string`  | **Required**. Description of department |
+
+#### Delete department
+
+```http
+  DELETE /api/departments/{id}
+```
+
+| Parameter | Type      | Description                        |
+| :-------- | :-------- | :--------------------------------- |
+| `id`      | `integer` | **Required**. id of the department |
+
+#### Get all recruitments
+
+```http
+  GET /api/recrutments
+```
+
+| Parameter     | Type      | Description                                            |
+| :------------ | :-------- | :----------------------------------------------------- |
+| `id`          | `integer` | **Required**. id of recruitment                        |
+| `title`       | `string`  | **Required**. title of recruitment                     |
+| `position`    | `string`  | **Required**. position of recruitment                  |
+| `number`      | `integer` | **Required**. number of persons needed for recruitment |
+| `description` | `string`  | **Required**. Description of recruitment               |
+| `candidates`  | `Array`   | candidates applied for recruitment                     |
+
+#### Get one recruitment
+
+```http
+  GET /api/recrutments/{id}
+```
+
+| Parameter | Type      | Description                     |
+| :-------- | :-------- | :------------------------------ |
+| `id`      | `integer` | **Required**. id of recruitment |
+
+#### Create recruitment
+
+```http
+  POST /api/recrutments
+```
+
+| Parameter     | Type      | Description                                            |
+| :------------ | :-------- | :----------------------------------------------------- |
+| `title`       | `string`  | **Required**. title of recruitment                     |
+| `position`    | `string`  | **Required**. position of recruitment                  |
+| `number`      | `integer` | **Required**. number of persons needed for recruitment |
+| `description` | `string`  | **Required**. Description of recruitment               |
+
+#### Delete recruitment
+
+```http
+  DELETE /api/recrutments/{id}
+```
+
+| Parameter | Type      | Description                     |
+| :-------- | :-------- | :------------------------------ |
+| `id`      | `integer` | **Required**. id of recruitment |
+
+#### Get all holidays
+
+```http
+  GET /api/holidays
+```
+
+| Parameter    | Type      | Description                                    |
+| :----------- | :-------- | :--------------------------------------------- |
+| `id`         | `integer` | **Required**. id of holiday                    |
+| `debut_date` | `date`    | **Required**. Debut date of holiday            |
+| `final_date` | `string`  | **Required**. final date of holiday            |
+| `user_id`    | `integer` | **Required**. id of user who requested holiday |
+| `state`      | `enum`    | **Required**. State of holiday                 |
+| `user`       | `object`  | user of holiday                                |
+
+#### Get one holiday
+
+```http
+  GET /api/holidays/{id}
+```
+
+| Parameter | Type      | Description                 |
+| :-------- | :-------- | :-------------------------- |
+| `id`      | `integer` | **Required**. id of holiday |
+
+#### Request holiday
+
+```http
+  POST /api/holidays
+```
+
+| Parameter    | Type     | Description                         |
+| :----------- | :------- | :---------------------------------- |
+| `debut_date` | `date`   | **Required**. Debut date of holiday |
+| `final_date` | `string` | **Required**. final date of holiday |
+
+#### Validate holiday
+
+```http
+  POST /api/validateHoliday/{id}
+```
+
+| Parameter | Type      | Description                           |
+| :-------- | :-------- | :------------------------------------ |
+| `id`      | `integer` | **Required**. id of holiday requested |
+
+#### Reject holiday
+
+```http
+  POST /api/rejectHoliday/{id}
+```
+
+| Parameter | Type      | Description                           |
+| :-------- | :-------- | :------------------------------------ |
+| `id`      | `integer` | **Required**. id of holiday requested |
+
+#### Delete holiday
+
+```http
+  DELETE /api/holidays/{id}
+```
+
+| Parameter | Type      | Description                           |
+| :-------- | :-------- | :------------------------------------ |
+| `id`      | `integer` | **Required**. id of holiday requested |
+
+#### Get all payslips
+
+```http
+  GET /api/payslips
+```
+
+| Parameter     | Type      | Description                        |
+| :------------ | :-------- | :--------------------------------- |
+| `id`          | `integer` | **Required**. id of payslip        |
+| `ref`         | `string`  | **Required**. Reference of payslip |
+| `contract_id` | `integer` | **Required**. id of contract       |
+| `contract`    | `object`  | contract of payslip                |
+
+#### Create payslip
+
+```http
+  POST /api/payslips
+```
+
+| Parameter     | Type      | Description                  |
+| :------------ | :-------- | :--------------------------- |
+| `contract_id` | `integer` | **Required**. id of contract |
+
+#### Delete payslip
+
+```http
+  DELETE /api/payslips/{id}
+```
+
+| Parameter | Type      | Description                 |
+| :-------- | :-------- | :-------------------------- |
+| `id`      | `integer` | **Required**. id of payslip |
+
+#### Get all candidates
+
+```http
+  GET /api/candidates
+```
+
+| Parameter          | Type      | Description                                              |
+| :----------------- | :-------- | :------------------------------------------------------- |
+| `id`               | `integer` | **Required**. id of candidate                            |
+| `fname`            | `string`  | **Required**. First name of candidate                    |
+| `lname`            | `string`  | **Required**. Last name of candidate                     |
+| `birthday`         | `string`  | **Required**. Birthday of candidate                      |
+| `cin`              | `string`  | **Required**. Cin of candidate                           |
+| `img`              | `string`  | **Required**. Image of candidate                         |
+| `phone`            | `string`  | **Required**. Phone number of candidate                  |
+| `email`            | `string`  | **Required**. Email of candidate                         |
+| `cv`               | `string`  | **Required**. Cv of candidate                            |
+| `recrutment_id`    | `integer` | **Required**.id of recruitment the candidate applied for |
+| `recrutment_state` | `enum`    | **Required**.state of recruitment of the candidate       |
+| `recrutment`       | `object`  | info of recruitment that the candidate applied           |
+
+#### Get One candidate
+
+```http
+  GET /api/candidates/{id}
+```
+
+| Parameter          | Type      | Description                                              |
+| :----------------- | :-------- | :------------------------------------------------------- |
+| `id`               | `integer` | **Required**. id of candidate                            |
+| `fname`            | `string`  | **Required**. First name of candidate                    |
+| `lname`            | `string`  | **Required**. Last name of candidate                     |
+| `birthday`         | `string`  | **Required**. Birthday of candidate                      |
+| `cin`              | `string`  | **Required**. Cin of candidate                           |
+| `img`              | `string`  | **Required**. Image of candidate                         |
+| `phone`            | `string`  | **Required**. Phone number of candidate                  |
+| `email`            | `string`  | **Required**. Email of candidate                         |
+| `cv`               | `string`  | **Required**. Cv of candidate                            |
+| `recrutment_id`    | `integer` | **Required**.id of recruitment the candidate applied for |
+| `recrutment_state` | `enum`    | **Required**.state of recruitment of the candidate       |
+| `recrutment`       | `object`  | info of recruitment that the candidate applied           |
+
+#### Apply for recruitment
+
+```http
+  POST /api/candidates
+```
+
+| Parameter       | Type      | Description                                              |
+| :-------------- | :-------- | :------------------------------------------------------- |
+| `fname`         | `string`  | **Required**. First name of candidate                    |
+| `lname`         | `string`  | **Required**. Last name of candidate                     |
+| `birthday`      | `string`  | **Required**. Birthday of candidate                      |
+| `cin`           | `string`  | **Required**. Cin of candidate                           |
+| `img`           | `string`  | **Required**. Image of candidate                         |
+| `phone`         | `string`  | **Required**. Phone number of candidate                  |
+| `email`         | `string`  | **Required**. Email of candidate                         |
+| `cv`            | `string`  | **Required**. Cv of candidate                            |
+| `recrutment_id` | `integer` | **Required**.id of recruitment the candidate applied for |
+
+#### Reject candidate
+
+```http
+  DELETE /api/candidates/{id}
+```
+
+| Parameter | Type      | Description                   |
+| :-------- | :-------- | :---------------------------- |
+| `id`      | `integer` | **Required**. id of candidate |
+
+#### Update state recruitment
+
+```http
+  POST /api/updateState/{id}
+```
+
+| Parameter | Type      | Description                   |
+| :-------- | :-------- | :---------------------------- |
+| `id`      | `integer` | **Required**. id of candidate |
