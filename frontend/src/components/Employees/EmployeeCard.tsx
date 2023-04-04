@@ -21,19 +21,21 @@ const EmployeeCard = ({ employee }: EmployeeCardProps) => {
       <Card className="w-72 p-0">
         <div className="flex justify-end">
           {employee.holidays && employee.holidays.length > 0 ? (
-            employee.holidays.map((holiday) => {
-              const holidayStart = new Date(holiday.debut_date);
-              const holidayEnd = new Date(holiday.final_date);
-              if (
-                now >= holidayStart &&
-                now <= holidayEnd &&
-                holiday.state == "VALIDATED"
-              ) {
-                return <Badge key={holiday.id} status="In Holiday" />;
-              } else {
-                return <Badge key={holiday.id} status="Working" />;
-              }
-            })
+            <>
+              {employee.holidays.every((holiday) => {
+                const holidayStart = new Date(holiday.debut_date);
+                const holidayEnd = new Date(holiday.final_date);
+                return (
+                  now < holidayStart ||
+                  now > holidayEnd ||
+                  holiday.state !== "VALIDATED"
+                );
+              }) ? (
+                <Badge status="Working" />
+              ) : (
+                <Badge status="In Holiday" />
+              )}
+            </>
           ) : (
             <Badge status="Working" />
           )}
