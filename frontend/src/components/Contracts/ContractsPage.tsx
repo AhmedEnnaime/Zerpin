@@ -7,6 +7,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
 import ContractCard from "./ContractCard";
+import not_found from "../../assets/3024051-removebg-preview.png";
 
 const ContractsPage = () => {
   const auth = JSON.parse(sessionStorage.getItem("user") || "{}");
@@ -215,7 +216,15 @@ const ContractsPage = () => {
                       ))
                     ) : (
                       <tr>
-                        <td>No contract available</td>
+                        <td>
+                          <div className="flex justify-center">
+                            <img
+                              className="flex justify-center w-22 h-22"
+                              src={not_found}
+                              alt=""
+                            />
+                          </div>
+                        </td>
                       </tr>
                     )}
                   </tbody>

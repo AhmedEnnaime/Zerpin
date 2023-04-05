@@ -85,7 +85,7 @@ class ContractController extends BaseController
         if (Auth::user()->role == "ADMIN") {
 
             $image_path = $request->file('img')->store('image', 'public');
-            $img = explode('/', $image_path)[1];
+           
             $password = $request->fname . $request->lname . "0";
             $user = User::create([
                 "fname" => $request->fname,
@@ -95,7 +95,7 @@ class ContractController extends BaseController
                 "phone" => $request->phone,
                 "email" => $request->email,
                 "password" => bcrypt($password),
-                "img" => $img,
+                "img" => $image_path,
                 "role" => $request->role,
                 "department_id" => $request->department_id,
             ]);
