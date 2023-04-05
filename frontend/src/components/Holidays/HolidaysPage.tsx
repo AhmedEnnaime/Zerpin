@@ -20,7 +20,7 @@ const HolidaysPage = () => {
   return (
     <>
       {user?.role == "ADMIN" ? (
-        <div className="flex mt-10 flex-col gap-y-4 items-center">
+        <div className="flex mt-10 flex-col gap-y-4 items-center pb-4">
           <div className="px-6">
             <HolidaysList />
           </div>
@@ -29,7 +29,7 @@ const HolidaysPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-between mt-12">
+        <div className="flex justify-between mt-12 pb-4">
           <div className="w-3/5 px-6">
             <RequestHoliday />
           </div>
