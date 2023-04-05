@@ -1,4 +1,3 @@
-import Navbar from "../Navbar";
 import RecruitmentModal from "./RecruitmentModal";
 import { useEffect, useState } from "react";
 import RecruitmentCard from "./RecruitmentCard";
@@ -6,6 +5,7 @@ import { useAppSelector } from "../../redux/hooks";
 import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
 import IRecruitment from "../../Interfaces/Recruitment";
+import { Button } from "flowbite-react";
 
 const RecruitmentHome = () => {
   const [open, setOpen] = useState(false);
@@ -32,19 +32,17 @@ const RecruitmentHome = () => {
         <h1 className="text-2xl">{recruitments?.length} Active Jobs</h1>
         <div className="flex justify-end px-12">
           {user?.role == "ADMIN" ? (
-            <button
+            <Button
               onClick={() => {
                 setOpen(true);
               }}
-              type="button"
-              className="inline-flex gap-x-2 items-center px-4 py-2 border-2 border-green-600 border-transparent rounded-md cursor-pointer shadow-sm bg-transparent hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-offset-2"
             >
               <i
-                className="fa-sharp fa-solid fa-plus text-sm text-black"
+                className="fa-sharp p-1 fa-solid fa-plus text-sm text-white"
                 aria-hidden="true"
               ></i>
               Add Job
-            </button>
+            </Button>
           ) : (
             ""
           )}

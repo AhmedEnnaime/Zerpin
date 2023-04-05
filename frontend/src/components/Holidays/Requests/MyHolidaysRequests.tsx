@@ -33,6 +33,7 @@ const MyHolidaysRequests = () => {
       .then((res) => {
         if (res.status === 202) {
           toast.success("Holiday canceled successfully");
+          setRerender(true);
         }
       })
       .catch((err) => {

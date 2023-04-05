@@ -100,7 +100,7 @@ const NextHoliday = () => {
 
         {user?.holidays && user.holidays.length > 0 ? (
           user.holidays.map((holiday) => (
-            <Timeline>
+            <Timeline key={holiday.id}>
               <Timeline.Item key={holiday.id}>
                 <Timeline.Point
                   className={`${

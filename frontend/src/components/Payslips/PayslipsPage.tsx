@@ -6,6 +6,7 @@ import { selectAuth } from "../../redux/slices/authSlice";
 import API from "../../utils/API";
 import IContract from "../../Interfaces/Contract";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 
 declare module "jspdf" {
   interface jsPDF {
@@ -28,6 +29,25 @@ const PayslipsPage = () => {
         console.log(err);
       });
   };
+
+  function calculateIR(baseSalary: number): number {
+    switch (true) {
+      case baseSalary >= 0 && baseSalary <= 2500:
+        return 1;
+      case baseSalary >= 2501 && baseSalary <= 4166:
+        return 0.1;
+      case baseSalary >= 4167 && baseSalary <= 5000:
+        return 0.2;
+      case baseSalary >= 5001 && baseSalary <= 6666:
+        return 0.3;
+      case baseSalary >= 6667 && baseSalary <= 15000:
+        return 0.34;
+      case baseSalary > 15000:
+        return 0.38;
+      default:
+        return 0;
+    }
+  }
 
   const generatePdf = async (payslip: IPayslip) => {
     const doc = new jsPDF();
@@ -54,6 +74,14 @@ const PayslipsPage = () => {
       ["Monthly Final Salary", contract.final_salary],
       ["Annual Base Salary", contract.base_salary * 12],
       ["Annual Final Salary", contract.final_salary * 12],
+      [
+        "Monthly IR deduction",
+        "- " + calculateIR(contract.base_salary) * contract.base_salary,
+      ],
+      [
+        "Annual IR deduction",
+        "- " + calculateIR(contract.base_salary) * contract.base_salary * 12,
+      ],
     ];
     doc.setFontSize(14);
     doc.text("Contract INformations", 14, 70);
