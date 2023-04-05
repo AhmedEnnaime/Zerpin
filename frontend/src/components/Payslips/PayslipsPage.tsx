@@ -7,6 +7,7 @@ import API from "../../utils/API";
 import IContract from "../../Interfaces/Contract";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
+import not_found from "../../assets/3024051-removebg-preview.png";
 
 declare module "jspdf" {
   interface jsPDF {
@@ -52,19 +53,15 @@ const PayslipsPage = () => {
   const generatePdf = async (payslip: IPayslip) => {
     const doc = new jsPDF();
 
-    // Set font styles
     doc.setFont("Helvetica", "normal");
 
-    // Add a title to the payslip
     doc.setFontSize(22);
     doc.text("Payslip", 14, 22);
 
-    // Add payslip data
     doc.setFontSize(16);
     doc.text(`Payslip Reference: ${payslip.ref}`, 14, 40);
     doc.text(`Date: ${payslip.created_at?.split("T")[0]}`, 14, 50);
 
-    // Add contract data
     const contract: IContract = payslip.contract!;
     const contractData = [
       ["Contract Ref", contract.ref],
@@ -91,17 +88,19 @@ const PayslipsPage = () => {
       body: contractData,
     });
 
-    // Add rules data
     if (contract.rules) {
       let y = (doc as any).autoTable.previous.finalY + 10;
       const rulesData = [
         [{ content: "Rules", colSpan: 2, styles: { halign: "center" } }, ""],
       ];
       contract.rules.forEach((rule) => {
-        const symbol = rule.type === "AUGMENTATION" ? "-" : "+";
+        const expression =
+          rule.rule_type === "DISCOUNT" ? "Deduction" : "Rising/Réhaussement";
+        const price =
+          rule.name === "AMO" ? rule.rate * contract.base_salary : rule.rate;
         rulesData.push([
-          `Monthly ${rule.name} Rising: ${symbol}${rule.rate}`,
-          `Annual ${rule.name} Rising: ${symbol}${rule.rate * 12}`,
+          `Monthly ${rule.name} ${expression}: ${price}`,
+          `Annual ${rule.name} ${expression}: ${price * 12}`,
         ]);
       });
       doc.setFontSize(12);
@@ -112,7 +111,6 @@ const PayslipsPage = () => {
       });
     }
 
-    // Save and download the PDF
     doc.save(`${payslip.contract?.user?.lname}'s Payslip.pdf`);
   };
 
@@ -214,7 +212,13 @@ const PayslipsPage = () => {
                     ) : (
                       <tr>
                         <td>
-                          <h1>No payslip available</h1>
+                          <div className="flex justify-center">
+                            <img
+                              className="flex justify-center w-22 h-22"
+                              src={not_found}
+                              alt=""
+                            />
+                          </div>
                         </td>
                       </tr>
                     )}
