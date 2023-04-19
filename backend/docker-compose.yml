@@ -59,34 +59,12 @@ services:
         depends_on:
             - laravel.test
         environment:
-            API_URL: http://localhost/api 
+            API_URL: http://localhost/api
         volumes:
             - ../frontend:/app/frontend
             - /app/frontend/node_modules
-        # command: npm run dev
         networks:
             - sail
-
-    # pg_timetable:
-    #     image: cybertecpostgresql/pg_timetable
-    #     container_name: pg_timetable
-    #     restart: always
-    #     ports:
-    #         - 8080:8080
-    #     environment:
-    #         - PG_TIMETABLE_DBHOST=pgsql
-    #         - PG_TIMETABLE_DBNAME=${DB_DATABASE}
-    #         - PG_TIMETABLE_DBUSER=${DB_USERNAME}
-    #         - PG_TIMETABLE_DBPASSWORD=${DB_PASSWORD}
-    #         - PG_TIMETABLE_DEBUG=True
-    #         - PG_TIMETABLE_WORKERS=2
-    #         - PG_TIMETABLE_NOTIFICATION_CHANNEL=pg_timetable
-    #     depends_on:
-    #         - pgsql
-    #     networks:
-    #         - sail
-
-   
 networks:
     sail:
         driver: bridge

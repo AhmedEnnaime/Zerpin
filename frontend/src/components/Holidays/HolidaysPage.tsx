@@ -29,11 +29,11 @@ const HolidaysPage = () => {
           </div>
         </div>
       ) : (
-        <div className="flex justify-between mt-12 pb-4">
-          <div className="w-3/5 px-6">
+        <div className="flex flex-col lg:flex-row justify-between mt-12 pb-4">
+          <div className="lg:w-3/5 w-full px-6">
             <RequestHoliday />
           </div>
-          <div className="flex flex-col items-center gap-y-6">
+          <div className="flex flex-col lg:items-center gap-y-6">
             {user?.role == "CHEF" ? (
               <>
                 <MyHolidaysRequests />
